@@ -1,0 +1,128 @@
+.login{
+display: flex;
+justify-content: center;
+align-items: center;
+width: 100%;
+min-height: 100vh;
+opacity: 0.8;
+background-image: url(../../assets/wood-1404326_1280.jpg);
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
+
+}
+
+.login-container-custom{
+  width: 60%;
+  margin: 0 auto;
+  text-align: center;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.campos{
+  width: 40%;
+  border: 1px solid var(--bordes-cartas);
+  border-radius: 10px;
+  padding: 10px 0;
+}
+.campos input{
+  width: 80%;
+  padding: 8px;
+  background-color: white;
+  border: none;
+  border-bottom: 1.5px solid #EBEBEB;
+}
+
+.campos input:focus{
+  outline: none;
+}
+
+.campos input::placeholder{
+  color: #d2cccc;
+}
+.campos label{
+  display: block;
+  font-size: 14px;
+  color: #999;
+  font-weight: 450;
+  transition: all 0.3s ease;
+  cursor: pointer;
+line-height: 2;
+  
+}
+.custom-button{
+  width: 70%;
+  padding: 8px;
+  border-radius: 10px;
+  background-color: var(--amarillo);
+  color: white;
+  font-weight: 450;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.btn-admin button{
+  margin-top: 20px;
+  width: 80%;
+  border: none;
+  background-color: white;
+  color: #333;
+}
+
+.btn-admin button:hover{
+  color: var(--color-encabezado);
+  border-bottom: 1.2px solid #333;
+  transition: all 0.8s ease;
+  background-color: white;
+  cursor: pointer;
+}
+
+  .login-titulo{
+    font-family: "Arial", sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    color: #333; /* Color de texto negro */
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+.bienvenida{
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.bienvenida p{
+  font-size: 18px;
+  font-weight: 450;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 1.5;
+
+}
+.bienvenida button{
+  width: 50%;
+  padding: 5px;
+  border-radius: 10px;
+  border: 1.5px solid var(--amarillo);
+  background-color: white;
+  color: var(--amarillo);
+}
+
+.bienvenida button:hover{
+  background-color: var(--amarillo);
+  color: white;
+  border: 1.5px solid var(--amarillo);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;}

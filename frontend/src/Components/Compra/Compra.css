@@ -1,0 +1,83 @@
+.pago-tarjeta{
+    position: absolute;
+    background-color:#eeeded;
+    width: 60%;
+    padding: 5px;
+    border-radius: 10px;
+    margin: 0 auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    min-height: 400px;
+    color: rgb(39, 38, 38);
+
+}
+
+.pago-tarjeta .datos{
+    width: 80%;
+    padding: 10px;
+    border: none;
+    border: 1px solid rgba(60, 59, 59, 0.466);
+    text-align: center;
+    font-size: clamp(0.5rem, 1.5vw, 0.7rem);
+    margin: 20px;
+
+    transition: all 0.3s ease;
+    outline: none;
+    color: rgb(39, 38, 38);
+    font-size: clamp(0.5rem, 1.5vw, 0.7rem);
+    letter-spacing: 1px;
+    line-height: 1.5;
+    text-align: center;
+}
+.pago-tarjeta .direccion{
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pago-tarjeta .direccion input, select{
+    width: 40%;
+    padding: 10px;
+    border: none;
+    border: 1px solid rgba(60, 59, 59, 0.466);
+    text-align: center;
+    font-size: clamp(0.5rem, 1.5vw, 0.7rem);
+    margin: 20px;
+}
+.pago-tarjeta .pago{
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.tarjeta{
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid rgba(60, 59, 59, 0.466);
+
+}
+.expiracion,
+.cvc{
+    width: 10%;
+    padding: 10px;
+    border: 1px solid rgba(60, 59, 59, 0.466);
+    text-align: center;
+    font-size: clamp(0.5rem, 1.5vw, 0.7rem);
+    margin: 20px;
+}
+.pago-tarjeta button{
+    padding: 10px;
+    border: none;
+    border: 1px solid rgba(60, 59, 59, 0.466);
+    text-align: center;
+    font-size: clamp(0.5rem, 1.5vw, 0.7rem);
+}

@@ -1,0 +1,159 @@
+.container-perfil{
+  width: 80%;
+  margin: 0 auto;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 0px;
+  margin-top: 20px;
+  border-radius: 20px 20px  10px 10px;
+  margin-bottom: 50px;
+  padding-bottom: 20px;
+
+}
+.profile-info{
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+.profile-info div{
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #EBEBEB;
+  padding-bottom: 10px;
+}
+.info{
+  color: #5f5e5e;
+}
+.cabecera-perfil{
+  background-color: #EBEBEB;
+  border-radius: 20px 20px 0 0;
+  min-height: 130px;
+}
+.cabecera-saludo{
+  background: linear-gradient(to bottom, #001530, #003366, #001530);
+  /* Esto crea un gradiente lineal que se repite */
+  background-size: 400% 400%;
+  /* Hacemos el gradiente más grande para que pueda animarse */
+  animation: gradientAnimation 10s ease infinite;
+  /* Animamos el gradiente */  width: 80%;
+  min-height: 80px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+  margin: 30px auto;
+  border-radius: 40px 40px 0 0;
+  text-align: center;
+}
+.cabecera-saludo button{
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 1.5em;
+
+}
+.icon-edit, 
+.icon-exit{
+  color: #EBEBEB;
+}
+
+.icon-edit:hover{
+  color: #0056b3;
+  transition: all 0.3s ease;
+
+}
+
+
+.icon-exit:hover{
+  color: #e51a4c;
+  transition: all 0.3s ease;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.btn-acciones{
+  width: 50%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.btn2-edt{
+  background-color: #0056b3;
+  padding: 5px 10px;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 300;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  margin-top: 10px;
+
+}
+.btn2-exit{
+  background-color: #e51a4c;
+  padding: 5px 10px;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 300;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.btn2-edt:hover
+{
+  background-color: white;
+  color: #0056b3;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-weight: 400;
+}
+
+.btn2-exit:hover{
+  background-color: red;
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-weight: 400;
+}
+.loading{
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: spin 2s linear infinite, pulse 1.5s infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

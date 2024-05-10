@@ -1,0 +1,75 @@
+/* Estilos para el Footer */
+.footer {
+    background-color: #000E20;
+    color: #fff;
+    text-align: center;
+    
+}
+
+
+
+.contact{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    padding: 5px;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #32373D;
+}
+.contact .contact-content{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+.icon-contact{
+    font-size: 2em;
+    
+}
+.contact-content div {
+padding: 10px;
+text-align: justify;
+}
+p{
+    color: #999999;
+    
+}
+.informacion{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    padding: 5px;
+}
+.informacion p{
+    text-align: justify;
+
+}
+.informacio-2{
+    display: flex;
+    flex-direction: column;
+    line-height: 5dvh;
+    
+}
+.redes{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.redes-content{
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 10%;
+}
+.desarrollo{
+    width: 80%;
+    text-align: end;
+}

@@ -1,0 +1,166 @@
+
+.detalle .encabezado{
+  font-size: 1.5em;
+}
+.detalle-container{
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  margin: 0 auto;
+  margin-bottom: 30px;
+}.detalle-info{
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 20px;
+}
+.estrellas{
+  color: var(--amarillo);
+  font-size: 2em;
+}
+.cantidad{
+  border: 1px solid #EBEBEB;
+  padding: 10px;
+  max-width: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+ 
+}
+
+.cantidad button{
+  border: none;
+  background-color: transparent;
+  font-size: 1.5em;
+  color: var(--amarillo);
+}
+.cantidad input{
+  border: none;
+  background-color: transparent;
+  text-align: center;
+  font-size: 1em;
+}
+
+.btns{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid #EBEBEB;
+  border-radius: 10px;
+}
+
+.btn-comprar{
+  background-color: var(--amarillo);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+
+}
+.btn-carrito{
+  background-color: white;
+  color: var(--amarillo);
+  border: 2px solid var(--amarillo);
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+
+}
+.btn-carrito:hover{
+  background-color: var(--amarillo);
+  color: white;
+  border: 2px solid var(--amarillo);
+  transition: all 0.2s ease;
+}
+
+.btn-comprar:hover{
+  background-color: white;
+  color: var(--amarillo);
+  border: 2px solid var(--amarillo);
+}
+.image-container {
+    position: relative;
+    overflow: hidden;
+    width: 50%;
+    border-right: 1px solid #EBEBEB;
+
+  }
+  
+  .image-container img {
+    transition: transform 1s ease-in-out;
+    width: 90%;
+    margin: 0 auto;
+    cursor: crosshair;
+  }
+  
+  .image-container img.zoom-in {
+    transform: scale(5); /* Puedes ajustar el valor para el nivel de zoom deseado */
+    cursor: zoom-in;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s ease-in-out;
+    
+  }
+  
+  .zoom-window {
+    position: absolute;
+    width: 200px; /* Ancho de la ventana de zoom */
+    height: 200px; /* Altura de la ventana de zoom */
+    pointer-events: none; /* Evita que la ventana de zoom interfiera con los eventos del ratón */
+    display: none; /* Oculta la ventana de zoom por defecto */
+  }
+  
+  .image-container:hover .zoom-window {
+    display: block; /* Muestra la ventana de zoom cuando el cursor está sobre la imagen */
+  }
+.detalle-container table {
+  width: 80%;
+  margin: 10px auto;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 20px;
+  border: 1px solid #EBEBEB;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.detalle-container th, td {
+  text-align: left;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-width: 1px 0;
+}
+
+.detalle-container tr:nth-child(even){background-color: #f2f2f2}
+
+.product-card{
+  text-decoration: none;
+}
+
+.agregar-animacion {
+  animation-name: fadeOut;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  opacity: 1;
+}
+.detalle .encabezado{
+  width: 80%;
+  background-color: white;
+  padding: 10px 0;
+  margin: 20px auto 0;
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

@@ -1,0 +1,19 @@
+.container-products{
+  width: 80%;
+  margin: 20px auto;
+  background-color: #ffff;
+}
+.product-cards2{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+/* Estilos para pantallas más pequeñas */
+@media only screen and (max-width: 768px) {
+.container-products{
+  width: 100%;
+  font-size: clamp(8px, 1vw, 18px);
+}
+}
