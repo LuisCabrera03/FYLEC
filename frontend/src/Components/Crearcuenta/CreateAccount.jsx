@@ -13,8 +13,6 @@ function CreateAccount() {
   const [fechaNacimiento, setFechaNacimiento] = useState(null);
   const [departamento, setDepartamento] = useState('');
   const [municipio, setMunicipio] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const [correoEnUso, setCorreoEnUso] = useState(false);
   const history = useHistory();
 
@@ -38,7 +36,6 @@ function CreateAccount() {
           showConfirmButton: false,
           timer: 2000
         }).then(() => {
-          setSuccessMessage('');
           history.push('/login');
         });
       } else if (response.status === 400) {
@@ -51,7 +48,6 @@ function CreateAccount() {
             text: '¡El correo electrónico ya está en uso!',
           });
         } else {
-          setErrorMessage(responseData.error);
           Swal.fire({
             icon: 'error',
             title: 'Error',
@@ -59,7 +55,6 @@ function CreateAccount() {
           });
         }
       } else {
-        setErrorMessage('Error interno del servidor. Por favor, inténtelo de nuevo más tarde.');
         Swal.fire({
           icon: 'error',
           title: 'Error',
@@ -67,15 +62,13 @@ function CreateAccount() {
         });
       }
     } catch (error) {
-      setErrorMessage('Error al enviar los datos: ' + error.message);
       Swal.fire({
         icon: 'error',
         title: 'Error',
         text: 'Error al enviar los datos: ' + error.message,
       });
     }
-  };
-
+  }
   const departamentos = [
     'Amazonas', 'Antioquia', 'Arauca', 'Atlántico', 'Bolívar', 'Boyacá', 'Caldas', 'Caquetá', 'Casanare', 'Cauca',
     'Cesar', 'Chocó', 'Córdoba', 'Cundinamarca', 'Guainía', 'Guaviare', 'Huila', 'La Guajira', 'Magdalena', 'Meta',
@@ -137,7 +130,6 @@ function CreateAccount() {
                   placeholder="Elige una contraseña segura"
                   {...register('contraseña', { required: true })}
                 />
-
                 {errors.contraseña && <span  className='alerts'><FontAwesomeIcon icon={faCircleExclamation}className='alert' /> Este campo es requerido</span>}
               </div>
               <div className='input-contraseña'>
@@ -191,7 +183,6 @@ function CreateAccount() {
               </div>
             </fieldset>
           </div>
-
           <div>
             <fieldset className='input-nombre'>
               <label>Indica tu género</label>
@@ -232,28 +223,15 @@ function CreateAccount() {
                 <input
                   type="text"
                   placeholder="Ejemplo: Calle 123"
-                  {...register('direccion')}
+                  {...register('direccion', { required: true })}
                 />
-
+                {errors.direccion && <span  className='alerts'><FontAwesomeIcon icon={faCircleExclamation} className='alert' /> Este campo es requerido</span>}
               </div>
             </fieldset>
           </div>
 
           <button type="submit" className="custom-button">Crear cuenta</button>
         </form>
-
-        {successMessage && (
-          <div className="mensaje-exito">
-            {successMessage}
-          </div>
-        )}
-
-        {errorMessage && (
-          <div className="mensaje-error">
-            {errorMessage}
-          </div>
-        )}
-
       </div>
     </div>
   );
