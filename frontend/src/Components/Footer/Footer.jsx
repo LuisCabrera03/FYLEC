@@ -57,7 +57,6 @@ function Footer() {
                 </div>
                 <div>
                     <p>Novedades</p>
-                    <p>hola menor</p>
                 </div>
             </div>
             <div className='redes'>
