@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './Login.css';
 
 const Login = () => {
   const history = useHistory();
   const [formData, setFormData] = useState({ email: '', contraseña: '' });
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false); // Nuevo estado para indicar carga
+  const [loading, setLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -22,15 +24,15 @@ const Login = () => {
   
           if (response.ok) {
             setIsLoggedIn(true);
-          } else if (response.status === 401) { // Manejo específico para token no autorizado
+          } else if (response.status === 401) {
             setIsLoggedIn(false);
-            localStorage.removeItem('token'); // Eliminar el token inválido
+            localStorage.removeItem('token');
           } else {
             setIsLoggedIn(false);
           }
         } catch (error) {
           console.error('Error al verificar token:', error);
-          setIsLoggedIn(false); // Manejo de errores al verificar el token
+          setIsLoggedIn(false);
         }
       } else {
         setIsLoggedIn(false);
@@ -39,7 +41,7 @@ const Login = () => {
   
     checkLoggedIn();
   }, []);
-  
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -48,7 +50,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Indicar carga al iniciar sesión
+    setLoading(true);
     try {
       const response = await fetch('http://127.0.0.1:5000/api/login', {
         method: 'POST',
@@ -65,14 +67,16 @@ const Login = () => {
         setIsLoggedIn(true);
         history.push('/');
       } else {
-        const errorMessage = await response.text();
-        setError(errorMessage);
+        const errorMessage = await response.json();
+        setError(errorMessage.error);
+        toast.error(errorMessage.error);
       }
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
       setError('Error al iniciar sesión. Por favor, inténtalo de nuevo.');
+      toast.error('Error al iniciar sesión. Por favor, inténtalo de nuevo.');
     } finally {
-      setLoading(false); // Detener indicador de carga
+      setLoading(false);
     }
   };
 
@@ -86,12 +90,10 @@ const Login = () => {
     history.push('/crearcuenta');
   };
 
-  const handleForgotPassword = () => {
-    history.push('/forgotpassword');
-  };
 
   return (
     <div className='login'>
+      <ToastContainer />
       <div className="login-container-custom">
         <div className="campos">
           <h2 className='login-titulo'>Iniciar Sesión</h2>
