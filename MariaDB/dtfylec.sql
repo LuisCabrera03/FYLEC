@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-05-2024 a las 00:23:44
+-- Tiempo de generación: 14-05-2024 a las 19:17:47
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `dtfylec`
 --
+CREATE DATABASE IF NOT EXISTS `dtfylec` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `dtfylec`;
 
 -- --------------------------------------------------------
 
@@ -41,9 +43,9 @@ CREATE TABLE `administrador` (
 --
 
 INSERT INTO `administrador` (`id`, `nombre`, `email`, `contraseña`, `fecha_ingreso`, `rol`) VALUES
-(1, 'Adminl', 'admin@gmail.com', '123', '2024-05-05', 1),
-(5, '12324', 'administrador@gmail.com', '87654321', '2024-05-06', 2),
-(6, 'camilo', 'adm111in@gmail.com', '12345678', '2024-05-06', 2);
+(1, 'Jhilder Jesus', 'admin@gmail.com', '123', '2024-05-05', 1),
+(9, 'Juan Camilo', 'durodelestomago@gmail.com', '123456', '2024-05-10', 2),
+(11, 'patito', 'patito@gmail.com', '123456', '2024-05-10', 1);
 
 -- --------------------------------------------------------
 
@@ -184,17 +186,17 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `correo`, `contraseña`, `fecha_nacimiento`, `tipo_documento`, `numero_documento`, `sexo`, `departamento`, `municipio`, `direccion`) VALUES
-(13, 'LuiCabrera Sarria ', 'Administrador@gmail.com', '$2b$12$/H8jwUrx./l.j8Kc96qoYOe6Opi8aBc4oFMhdupTXAKixM/zYLEfS', '2003-07-03', 'ti', '1004250794', 'Masculino', 'Amazonas', 'Tarapacá', 'calle 4b Sur #5-11'),
-(54, 'Luis Alfredo', 'administddrador@gmail.com', '$2b$12$.mW677cecyaISFa/wTFZm.o4S3OrdhN1drczB7RoxoUrQSy/zu52a', '2024-03-31', 'pasaporte', '1004250794', 'Femenino', 'Amazonas', 'Puerto Nariño', 'calle 2'),
-(56, 'Luis Alfredo', 'administador@gmail.com', '$2b$12$iRRLprPsJMMFTvs55fl7MusZpNBkRKTytIj32ZcsZADWDMlTMiQb6', '2024-04-28', 'ti', '1004250794', 'Femenino', 'Amazonas', 'Puerto Nariño', 'calle 2'),
-(57, 'Luis Alfredo', 'cabrerasarrialuis@gmail.com', '$2b$12$ES6u9Ao0R43hD.u8JYJhLex8fkEBHZXRLGyEkELqCojLJaU4VmWXa', '2024-04-28', 'ti', '1004250794', 'Femenino', 'Amazonas', 'Puerto Nariño', 'calle 2'),
-(58, 'Luis Alfredo', 'a22dministrador@gmail.com', '$2b$12$k/HNGtahiSHksjzfSfCOZ.Ond5djH3P7aimbw6DPZ2rI/whYXgjme', '2024-04-29', 'carnet', '1004250794', 'Otro', 'Amazonas', 'Leticia', 'calle 2'),
-(59, 'Luis Alfredo', 'a22d22ministrador@gmail.com', '$2b$12$.s7JcSLmYD3.sR2QWb2yhusxtEhoKNv5SCbyZgtbyTgvHV4QQEtXG', '2024-04-29', 'carnet', '1004250794', 'Otro', 'Amazonas', 'Leticia', 'calle 2'),
-(60, 'Luis Alfredo', 'a22d22ministrador@gmail.com', '$2b$12$djNyc00.u5bHfqBcJMZmn.TGZGgZdQ61qmy6y9nbGfro9Maz9pzo.', '2024-04-29', 'carnet', '1004250794', 'Otro', 'Amazonas', 'Leticia', 'calle 2'),
-(61, 'Luis Alfredo', 'a22d22ministrador@gmail.com', '$2b$12$r.1uV9qBwE7.xaKjMarl6.6gZC2tT3F.WgwOPPz9723JGnQ295hJa', '2024-04-29', 'carnet', '1004250794', 'Otro', 'Amazonas', 'Leticia', 'calle 2'),
-(63, 'Luis Alfredo', 'adm444inistrador@gmail.com', '$2b$12$9afDjE9hccxz22MmRVYXN.EbfCSViWZJI.w6tpJpFxNobeTuTFi/q', '2024-04-29', 'ti', '1004250794', 'Femenino', 'Amazonas', 'Puerto Nariño', 'calle 2'),
-(64, 'Luis Alfredo', 'administra1dor@gmail.com', '$2b$12$Y622Sq06yvh1sKZZDO8xQOoSlRGq2zChaC9HNIlLuiKg1Wtnpt/8K', '2024-04-30', 'cedula', '1004250794', 'Masculino', 'Amazonas', 'Leticia', 'calle 2'),
-(65, 'Luis Alfredo', 'adminwwistrador@gmail.com', '$2b$12$OgCj9asFodklOoXyXiX1R.seTcVv6CwpiTiuwZwD7sU0ce57KNM1q', '2024-04-29', 'cedula', '1004250794', 'Masculino', 'Antioquia', 'Medellín', 'calle 2');
+(13, 'Carlos Eduardo Quilindo', 'Administrador@gmail.com', '$2b$12$/H8jwUrx./l.j8Kc96qoYOe6Opi8aBc4oFMhdupTXAKixM/zYLEfS', '2003-07-03', 'CC', '1004250794', 'Masculino', 'Amazonas', 'Tarapacá', 'calle 4b Sur #5-11'),
+(54, 'Jesus Alonso Gutierres', 'administddrador@gmail.com', '$2b$12$.mW677cecyaISFa/wTFZm.o4S3OrdhN1drczB7RoxoUrQSy/zu52a', '2024-03-31', 'CE', '2114528764', 'Femenino', 'Amazonas', 'Puerto Nariño', 'calle 2'),
+(56, 'Luis Alfredo', 'administador@gmail.com', '$2b$12$iRRLprPsJMMFTvs55fl7MusZpNBkRKTytIj32ZcsZADWDMlTMiQb6', '2024-04-28', 'TI', '1004250794', 'Femenino', 'Amazonas', 'Puerto Nariño', 'calle 2'),
+(57, 'Luis Alfredo', 'cabrerasarrialuis@gmail.com', '$2b$12$ES6u9Ao0R43hD.u8JYJhLex8fkEBHZXRLGyEkELqCojLJaU4VmWXa', '2024-04-28', 'CE', '1004250794', 'Femenino', 'Amazonas', 'Puerto Nariño', 'calle 2'),
+(58, 'Yereon Eduardo Peñacue', 'a22dministrador@gmail.com', '$2b$12$k/HNGtahiSHksjzfSfCOZ.Ond5djH3P7aimbw6DPZ2rI/whYXgjme', '2024-04-29', 'CC', '1004250794', 'Otro', 'Amazonas', 'Leticia', 'calle 2'),
+(59, 'Luis Alfredo', 'a22d22ministrador@gmail.com', '$2b$12$.s7JcSLmYD3.sR2QWb2yhusxtEhoKNv5SCbyZgtbyTgvHV4QQEtXG', '2024-04-29', 'CC', '1004250794', 'Otro', 'Amazonas', 'Leticia', 'calle 2'),
+(60, 'Luis Alfredo', 'a22d22ministrador@gmail.com', '$2b$12$djNyc00.u5bHfqBcJMZmn.TGZGgZdQ61qmy6y9nbGfro9Maz9pzo.', '2024-04-29', 'CC', '1004250794', 'Otro', 'Amazonas', 'Leticia', 'calle 2'),
+(61, 'Luis Alfredo', 'a22d22ministrador@gmail.com', '$2b$12$r.1uV9qBwE7.xaKjMarl6.6gZC2tT3F.WgwOPPz9723JGnQ295hJa', '2024-04-29', 'CC', '1004250794', 'Otro', 'Amazonas', 'Leticia', 'calle 2'),
+(63, 'Martha Lucia  Cardona', 'adm444inistrador@gmail.com', '$2b$12$9afDjE9hccxz22MmRVYXN.EbfCSViWZJI.w6tpJpFxNobeTuTFi/q', '2024-04-29', 'TI', '1004250794', 'Femenino', 'Amazonas', 'Puerto Nariño', 'calle 2'),
+(64, 'Maria Alejandra Cabrera', 'administra1dor@gmail.com', '$2b$12$Y622Sq06yvh1sKZZDO8xQOoSlRGq2zChaC9HNIlLuiKg1Wtnpt/8K', '2024-04-30', 'CE', '1004250794', 'Masculino', 'Amazonas', 'Leticia', 'calle 2'),
+(65, 'Juan Camilo Cuetochambo', 'adminwwistrador@gmail.com', '$2b$12$OgCj9asFodklOoXyXiX1R.seTcVv6CwpiTiuwZwD7sU0ce57KNM1q', '2024-04-29', 'CC', '1004250794', 'Masculino', 'Antioquia', 'Medellín', 'calle 2');
 
 --
 -- Índices para tablas volcadas
@@ -243,7 +245,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `administrador`
 --
 ALTER TABLE `administrador`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `carritocompras`

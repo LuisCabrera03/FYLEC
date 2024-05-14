@@ -68,7 +68,7 @@ const Roles = () => {
             });
         }
     };
-    
+
     const editarAdministrador = async (id) => {
         try {
             const response = await axios.put(`http://localhost:5000/api/administradores/${id}`, {
@@ -108,7 +108,7 @@ const Roles = () => {
                     },
                     {
                         label: 'No',
-                        onClick: () => {}
+                        onClick: () => { }
                     }
                 ]
             });
@@ -220,18 +220,31 @@ const Roles = () => {
                 </button>
             </div>
             <div className="product-list">
-                <h1 className=''>Administradores</h1>
-                <form onSubmit={submitHandler}>
-                    <input type="text" placeholder="Nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} />
-                    <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                    <input type="password" placeholder="Contraseña" value={contraseña} onChange={(e) => setContraseña(e.target.value)} />
-                    <select value={rol} onChange={(e) => setRol(parseInt(e.target.value))} className='select-rol'>
-                        <option value={1}>Administrador</option>
-                        <option value={2}>Proveedor</option>
-                    </select>
-                    <button className="update-btn" type="submit">{editandoId === null ? 'Agregar' : 'Editar'}</button>
-                </form>
-
+                <div className="product-form">
+                    <h1 className="header-sliderbar-h1">Administradores</h1>
+                    <form onSubmit={submitHandler}>
+                        <div className="form-group">
+                            <label htmlFor="nombre">Nombre:</label>
+                            <input type="text" id="nombre" placeholder="Nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="email">Email:</label>
+                            <input type="email" id="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="contraseña">Contraseña:</label>
+                            <input type="password" id="contraseña" placeholder="Contraseña" value={contraseña} onChange={(e) => setContraseña(e.target.value)} />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="rol">Rol:</label>
+                            <select id="rol" value={rol} onChange={(e) => setRol(parseInt(e.target.value))} className="select-rol">
+                                <option value={1}>Administrador</option>
+                                <option value={2}>Proveedor</option>
+                            </select>
+                        </div>
+                        <button className="update-btn" type="submit">{editandoId === null ? 'Agregar' : 'Editar'}</button>
+                    </form>
+                </div>
             </div>
             <div className="table-container">
                 <div className="product-list">
