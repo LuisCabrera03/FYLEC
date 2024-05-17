@@ -18,6 +18,10 @@ import {
     faUsers,
     faUserShield
 } from "@fortawesome/free-solid-svg-icons";
+import { UsersRound, ShoppingBasket, DollarSign, } from 'lucide-react';
+
+// Código del componente...
+
 import { registerLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
 import axios from "axios";
@@ -33,12 +37,12 @@ const Admin = () => {
     const [cantidadProductos, setCantidadProductos] = useState(0);
     const [cantidadProductosComprados, setCantidadProductosComprados] = useState(0);
     const [notificaciones, setNotificaciones] = useState([]);
-    const [usuarioMasCompras, setUsuarioMasCompras] = useState("");
-    const [cantidadProductosUsuarioMasCompras, setCantidadProductosUsuarioMasCompras] = useState(0);
     const [mostrarCRUD, setMostrarCRUD] = useState(false); // Estado para controlar la visibilidad del CRUD
     const [mostrarInicioState, setMostrarInicio] = useState(false); // Estado para controlar si se muestra la página de inicio
     const [mostrarBotonesProductos, setMostrarBotonesProductos] = useState(false); // Estado para controlar la visibilidad de los botones "Agregar" y "Administrar"
     const [botonSeleccionado, setBotonSeleccionado] = useState('Dashboard'); // Estado para almacenar el nombre del botón seleccionado
+    const [topCompradores, setTopCompradores] = useState([]);
+
 
     useEffect(() => {
         const adminToken = localStorage.getItem('adminToken');
@@ -63,28 +67,28 @@ const Admin = () => {
                 history.push('/login');
                 return;
             }
-    
+
             const response = await axios.get('http://localhost:5000/api/rol-admin', {
                 headers: {
                     'Authorization': `Bearer ${adminToken}`
                 }
             });
-    
+
             // Leer el valor del rol de la respuesta
             const rol = response.data.rol;
-    
+
             // Almacenar el rol en el almacenamiento local
             localStorage.setItem('adminRole', rol);
-    
+
             // Manejar el rol de acuerdo a tus necesidades
             setIsAdmin(rol === 'Administrador');
-    
+
         } catch (error) {
             console.error('Error al obtener el rol del administrador:', error);
             // Manejar el error adecuadamente (por ejemplo, redirigir a una página de error)
         }
     };
-    
+
     // Función para redirigir al componente de roles si el administrador tiene el rol requerido
     const gestionarRoles = () => {
         if (isAdmin) {
@@ -97,13 +101,13 @@ const Admin = () => {
                 buttons: [
                     {
                         label: 'OK',
-                        onClick: () => {}
+                        onClick: () => { }
                     }
                 ]
             });
         }
     };
-   useEffect(() => {
+    useEffect(() => {
         obtenerCantidadUsuarios();
         obtenerCantidadProductos();
         obtenerDatosCompras();
@@ -122,7 +126,7 @@ const Admin = () => {
     };
 
     const navegarACrud = () => {
-        history.push("/ver"); 
+        history.push("/ver");
     };
 
     const mostrarAgregarProducto = () => {
@@ -168,7 +172,6 @@ const Admin = () => {
             setCantidadProductosComprados(compras.length);
             setNotificaciones(ultimasCompras);
 
-            // Obtener el usuario que más ha realizado compras y la cantidad de productos que ha comprado
             const usuariosCompras = {};
             compras.forEach(compra => {
                 const usuario = compra.nombre;
@@ -178,14 +181,18 @@ const Admin = () => {
                     usuariosCompras[usuario] = Object.keys(compra.producto).length;
                 }
             });
-            const usuarioMasCompras = Object.keys(usuariosCompras).reduce((a, b) => usuariosCompras[a] > usuariosCompras[b] ? a : b);
-            const cantidadProductosUsuarioMasCompras = usuariosCompras[usuarioMasCompras];
-            setUsuarioMasCompras(usuarioMasCompras);
-            setCantidadProductosUsuarioMasCompras(cantidadProductosUsuarioMasCompras);
+
+            const topUsuarios = Object.keys(usuariosCompras)
+                .map(usuario => ({ nombre: usuario, compras: usuariosCompras[usuario] }))
+                .sort((a, b) => b.compras - a.compras)
+                .slice(0, 3);
+
+            setTopCompradores(topUsuarios);
         } catch (error) {
             console.error('Error al obtener los datos de compras:', error);
         }
     };
+
 
     const formatoTiempoTranscurrido = (fecha) => {
         const segundosTranscurridos = Math.floor((new Date() - new Date(fecha)) / 1000);
@@ -212,7 +219,7 @@ const Admin = () => {
                     label: 'Sí',
                     onClick: () => {
                         localStorage.removeItem('adminToken');
-                        localStorage.removeItem('adminRole'); // Eliminar el rol del almacenamiento local al cerrar sesión
+                        localStorage.removeItem('adminRole'); 
                         history.push('/login');
                     }
                 },
@@ -239,27 +246,30 @@ const Admin = () => {
                 {sidebarVisible && (
                     <div className="sidebar-1">
                         <h2>Bienvenido</h2>
-                        <button className={botonSeleccionado === 'Dashboard' ? 'selected' : ''} onClick={() => {mostrarInicioFunc(); handleButtonClick('Dashboard');}}>
-                            <FontAwesomeIcon icon={faGaugeHigh} style={{color: "#ffff",}} /> Dasboard
+                        <button className={botonSeleccionado === 'Dashboard' ? 'selected' : ''} onClick={() => { mostrarInicioFunc(); handleButtonClick('Dashboard'); }}>
+                            <FontAwesomeIcon icon={faGaugeHigh} style={{ color: "#ffff", }} /> Dasboard
                         </button>
-                        <button className={botonSeleccionado === 'Productos' ? 'selected' : ''} onClick={() => {toggleMostrarBotonesProductos(); handleButtonClick('Productos');}}>
-                            <FontAwesomeIcon icon={faSquarePlus} style={{color: "#ffffff",}} /> Productos
+                        <button className={botonSeleccionado === 'Productos' ? 'selected' : ''} onClick={() => { toggleMostrarBotonesProductos(); handleButtonClick('Productos'); }}>
+                            <FontAwesomeIcon icon={faSquarePlus} style={{ color: "#ffffff", }} /> Productos
                         </button>
                         {mostrarBotonesProductos && (
                             <div>
-                                <button className={botonSeleccionado === 'AgregarProducto' ? 'selected' : ''} onClick={() => {mostrarAgregarProducto(); handleButtonClick('AgregarProducto');}}>
-                                    <FontAwesomeIcon icon={faSquarePlus} style={{color: "#ffffff",}} /> Agregar un Producto
+                                <button className={botonSeleccionado === 'AgregarProducto' ? 'selected' : ''} onClick={() => { mostrarAgregarProducto(); handleButtonClick('AgregarProducto'); }}>
+                                    <FontAwesomeIcon icon={faSquarePlus} style={{ color: "#ffffff", }} /> Agregar un Producto
                                 </button>
-                                <button className={botonSeleccionado === 'AdministrarProductos' ? 'selected' : ''} onClick={() => {navegarACrud(); handleButtonClick('AdministrarProductos');}}>
-                                    <FontAwesomeIcon icon={faCartFlatbed} style={{color: "#ffffff",}} /> Administrar Productos
+                                <button className={botonSeleccionado === 'AdministrarProductos' ? 'selected' : ''} onClick={() => { navegarACrud(); handleButtonClick('AdministrarProductos'); }}>
+                                    <FontAwesomeIcon icon={faCartFlatbed} style={{ color: "#ffffff", }} /> Administrar Productos
                                 </button>
                             </div>
                         )}
-                        <button className={botonSeleccionado === 'Usuarios' ? 'selected' : ''} onClick={() => {history.push('/usuarios'); handleButtonClick('Usuarios');}}>
-                            <FontAwesomeIcon icon={faUsers} style={{color: "#ffffff",}} /> Usuarios
+                        <button className={botonSeleccionado === 'Usuarios' ? 'selected' : ''} onClick={() => { history.push('/usuarios'); handleButtonClick('Usuarios'); }}>
+                            <FontAwesomeIcon icon={faUsers} style={{ color: "#ffffff", }} /> Usuarios
+                        </button>
+                        <button className={botonSeleccionado === 'Usuarios' ? 'selected' : ''} onClick={() => { history.push('/ventas'); handleButtonClick('Usuarios'); }}>
+                            <FontAwesomeIcon icon={faUsers} style={{ color: "#ffffff", }} /> Ventas
                         </button>
                         <button className={botonSeleccionado === 'GestionRoles' ? 'selected' : ''} onClick={gestionarRoles}>
-                            <FontAwesomeIcon icon={faUserShield} style={{color: "#ffffff",}} /> Gestionar Roles
+                            <FontAwesomeIcon icon={faUserShield} style={{ color: "#ffffff", }} /> Gestionar Roles
                         </button>
                     </div>
                 )}
@@ -267,18 +277,24 @@ const Admin = () => {
                     {!mostrarCRUD && !mostrarInicioState && (
                         <div>
                             <div className="usuarios-info">
-                                <p className="estadistica"><FontAwesomeIcon icon={faUserGroup} />
+                                <p className="estadistica"><UsersRound />
                                     + {cantidadUsuarios}<small className="user">{cantidadUsuarios} Personas Hacen Parte de FYLEC</small></p>
-                                <p className="estadistica"><FontAwesomeIcon icon={faBoxesStacked} /> {cantidadProductos} <small>Tienes {cantidadProductos} Productos</small></p>
-                                <p className="estadistica"><FontAwesomeIcon icon={faSackDollar} />{cantidadProductosComprados} <small>Has Vendido {cantidadProductosComprados} Productos </small></p>
+                                <p className="estadistica"><ShoppingBasket /> {cantidadProductos} <small>Tienes {cantidadProductos} Productos</small></p>
+                                <p className="estadistica"><DollarSign />{cantidadProductosComprados} <small>Has Vendido {cantidadProductosComprados} Productos </small></p>
                             </div>
-                            <div className="tarjetas"><h2>Top Compras</h2>
-                                <p><FontAwesomeIcon icon={faTrophy} style={{ color: "#74C0FC", }}/> {cantidadProductosUsuarioMasCompras}</p>
-                                <p> {usuarioMasCompras}</p>
+                            <div className="tarjetas">
+                                <h2>Top Compras</h2>
+                                {topCompradores.map((comprador, index) => (
+                                    <p key={index}>
+                                        <FontAwesomeIcon icon={faTrophy} style={{ color: index === 0 ? "#FFD700" : index === 1 ? "#C0C0C0" : "#CD7F32" }} />
+                                        {comprador.nombre} - {comprador.compras} productos
+                                    </p>
+                                ))}
                             </div>
+
                         </div>
                     )}
-                    {mostrarCRUD && <CRUD />} 
+                    {mostrarCRUD && <CRUD />}
                     {mostrarInicioState && (
                         <div>
                             <div className="usuarios-info">
@@ -287,10 +303,7 @@ const Admin = () => {
                                 <p className="estadistica"><FontAwesomeIcon icon={faBoxesStacked} /> {cantidadProductos} <small>Tienes {cantidadProductos} Productos</small></p>
                                 <p className="estadistica"><FontAwesomeIcon icon={faSackDollar} />{cantidadProductosComprados} <small>Has Vendido {cantidadProductosComprados} Productos </small></p>
                             </div>
-                            <div className="tarjetas"><h2>Top Compras</h2>
-                                <p><FontAwesomeIcon icon={faTrophy} /> {cantidadProductosUsuarioMasCompras}</p>
-                                <p> {usuarioMasCompras}</p>
-                            </div>
+
                         </div>
                     )}
                 </div>

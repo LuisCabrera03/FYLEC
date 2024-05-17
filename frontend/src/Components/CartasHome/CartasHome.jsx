@@ -211,7 +211,6 @@ const CartasHome = () => {
                         <button onClick={mostrarSiguienteProductos}><FontAwesomeIcon icon={faGreaterThan} size="1x" className="icons3" /></button>
                     </div>
                     <div className="list-container">
-
                         {productosAleatorios.map(producto => (
                             <CSSTransition key={producto.id} timeout={500} classNames="fade" onClick={() => redirectToDetail(producto.id)}>
                                 <div className="producto">

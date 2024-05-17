@@ -752,7 +752,6 @@ def actualizar_cantidad_item_carrito(item_id):
 
 
     #compra de productoos -----------------------------------------------------------------------------------
-    # Ruta para completar una compra y reducir la cantidad de productos en la base de datos
 @app.route('/api/completar-compra', methods=['POST'])
 @jwt_required()  # Asegura que el usuario esté autenticado
 def completar_compra():

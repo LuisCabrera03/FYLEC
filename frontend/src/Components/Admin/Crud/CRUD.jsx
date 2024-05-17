@@ -219,7 +219,7 @@ const Crud = () => {
     setDescuento(cleanedDescuento);
   };
 
-  return (
+  return (  
     <div className="admin">
       <ToastContainer />
 

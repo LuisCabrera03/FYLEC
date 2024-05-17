@@ -107,7 +107,8 @@ body {
     width: 200px;
     text-align: center;
     gap: 20px;
-    border-bottom: 3px solid #ccc8c8;
+    border: 3px solid #ccc8c8;
+    border-radius: 8px;
     font-weight: 300;
 }
 .usuarios-info small{
@@ -143,6 +144,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 50px;
+    text-align: center;
 }
 
 .tarjetas h2{
@@ -452,7 +454,7 @@ option {
 
 /* Ajustes para la separación de los botones de editar y eliminar */
 .edit-btn {
-    margin-right: 5px; /* Ajusta el margen entre los botones según sea necesario */
+    margin-right: 5px; 
 }
 
 /* Estilos para ver.jsx */
