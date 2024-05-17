@@ -201,6 +201,24 @@ const Crud = () => {
     setPrecio(precioFormateado);
   };
 
+  const handleDescuentoChange = (e) => {
+    const inputDescuento = e.target.value;
+    // Eliminar caracteres que no sean dígitos o puntos decimales
+    const cleanedDescuento = inputDescuento.replace(/[^\d.]/g, "");
+    // Convertir a número para verificar el máximo
+    const numericDescuento = parseFloat(cleanedDescuento);
+
+    const maxDescuento = 100; // Establecer el valor máximo permitido para el descuento
+    if (numericDescuento > maxDescuento) {
+      // Si el valor numérico excede el máximo, establecer el estado con el valor máximo permitido
+      setDescuento(maxDescuento.toString());
+      return; // Detener la ejecución para no procesar más el valor excedido
+    }
+
+    // Actualizar el estado del descuento
+    setDescuento(cleanedDescuento);
+  };
+
   return (
     <div className="admin">
       <ToastContainer />
@@ -284,10 +302,10 @@ const Crud = () => {
           </div>
           <span>Descuento del Producto %</span>
           <input
-            type="number"
+            type="text"
             placeholder="Descuento (%)"
             value={descuento}
-            onChange={(e) => setDescuento(e.target.value)}
+            onChange={handleDescuentoChange}
           />
           <span>URL de la Imagen del Producto</span>
           <input
