@@ -93,7 +93,6 @@ body {
   padding: 50px 0;
   margin-bottom: 50px;
 }
-<<<<<<< HEAD
 .usuarios-info p{
     display: flex;
     flex-direction: column;
@@ -107,7 +106,7 @@ body {
     border: 3px solid #ccc8c8;
     border-radius: 8px;
     font-weight: 300;
-=======
+}
 .usuarios-info p {
   display: flex;
   flex-direction: column;
@@ -120,7 +119,6 @@ body {
   gap: 20px;
   border-bottom: 3px solid #ccc8c8;
   font-weight: 300;
->>>>>>> bc6c0a2fb45e2124ec9fbf10888f13f3da178594
 }
 .usuarios-info small {
   font-size: 0.3em;
@@ -145,7 +143,6 @@ body {
   padding: 10px;
   width: 20%;
 }
-<<<<<<< HEAD
 .tarjetas{
     width: 300px;
     height: 250px;
@@ -155,7 +152,7 @@ body {
     flex-direction: column;
     gap: 50px;
     text-align: center;
-=======
+}
 .tarjetas {
   width: 300px;
   height: 250px;
@@ -164,7 +161,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 50px;
->>>>>>> bc6c0a2fb45e2124ec9fbf10888f13f3da178594
 }
 
 .tarjetas h2 {
@@ -470,11 +466,8 @@ option {
 
 /* Ajustes para la separación de los botones de editar y eliminar */
 .edit-btn {
-<<<<<<< HEAD
     margin-right: 5px; 
-=======
   margin-right: 5px; /* Ajusta el margen entre los botones según sea necesario */
->>>>>>> bc6c0a2fb45e2124ec9fbf10888f13f3da178594
 }
 
 /* Estilos para ver.jsx */
