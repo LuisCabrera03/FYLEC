@@ -505,3 +505,118 @@ option {
   background-color: #f9f9f9;
   margin-bottom: 10px;
 }
+.progress-bar-custom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.progress-step-custom {
+  display: flex;
+  flex-direction: column; /* Cambia la dirección del contenido a columna */
+  align-items: center;
+  position: relative;
+}
+
+.icon-custom {
+  background-color: #ccc;
+  border-radius: 50%;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.label-custom {
+  margin-bottom: 8px; /* Ajusta el margen para que esté separado del icono */
+  text-align: center;
+  font-size: 12px;
+}
+
+.divider-custom {
+  width: 50px;
+  height: 2px;
+  background-color: #ccc;
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 5px);
+  z-index: -1;
+}
+
+.progress-step-custom.active .icon-custom {
+  background-color: inherit; /* Se usa el color dinámico del estado */
+}
+
+.progress-step-custom.active .divider-custom {
+  background-color: inherit; /* Se usa el color dinámico del estado */
+}
+
+.carrito-container {
+  padding: 20px;
+}
+
+.encabezado {
+  margin-bottom: 20px;
+}
+
+.lista-carrito {
+  display: flex;
+  flex-direction: column;
+}
+
+.carro-vacio {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.llave {
+  font-size: 40px;
+  color: red;
+}
+
+.producto {
+  margin-top: 10px;
+}
+
+.btn-iniciar-sesion {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.item-carrito {
+  display: flex;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.detalle-item {
+  display: flex;
+  width: 100%;
+}
+
+.carrito-img img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.nombre {
+  flex: 1;
+}
+
+.carrito-info {
+  flex: 1;
+}
