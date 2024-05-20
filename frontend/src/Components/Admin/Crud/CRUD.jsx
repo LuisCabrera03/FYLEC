@@ -31,6 +31,7 @@ const Crud = () => {
     "Seguridad y protección",
     "Materiales de Construcción",
   ];
+
   const opcionesSubcategoria = {
     "Herramientas Manuales": [
       "Destornilladores",
@@ -111,10 +112,14 @@ const Crud = () => {
   };
 
   useEffect(() => {
-    const adminToken = localStorage.getItem("adminToken");
-    if (!adminToken) {
-      history.push("/login");
-    }
+    const verificarAutenticacion = () => {
+      const adminToken = localStorage.getItem("adminToken");
+      if (!adminToken) {
+        history.push("/login");
+      }
+    };
+
+    verificarAutenticacion();
   }, [history]);
 
   const agregarProducto = async () => {
@@ -131,25 +136,38 @@ const Crud = () => {
       toast.error("Por favor, complete todos los campos correctamente.");
       return;
     }
-    try {
-      const precioDecimal = parseFloat(
-        precio.replace(".", "").replace(",", ".")
-      );
-      const precioRedondeado = Math.round(precioDecimal * 100) / 100;
-      const precioFormateado = precioRedondeado.toLocaleString("es-CO", {
-        minimumFractionDigits: 2,
-      });
 
+    // Convertir cantidad y descuento a números enteros
+    const cantidadNumerica = parseInt(cantidad, 10);
+    const descuentoNumerico = parseInt(descuento, 10);
+
+    if (
+      isNaN(cantidadNumerica) ||
+      cantidadNumerica <= 0 ||
+      isNaN(descuentoNumerico) ||
+      descuentoNumerico < 0
+    ) {
+      toast.error(
+        "Por favor, ingrese valores numéricos válidos y positivos para cantidad y descuento."
+      );
+      return;
+    }
+
+    try {
+      // Convertir el precio a entero eliminando comas
+      const precioEntero = parseInt(precio.replace(/,/g, ""), 10);
+
+      // Enviar los datos al servidor
       await axios.post("http://localhost:5000/api/agregar-producto", {
         codigo,
         nombre,
         marca,
         descripcion,
-        cantidad,
+        cantidad: cantidadNumerica, // Usar el valor numérico
         categoria,
         subcategoria,
-        precio: precioFormateado,
-        descuento,
+        precio: precioEntero,
+        descuento: descuentoNumerico, // Usar el valor numérico
         imgUrl,
       });
       limpiarCampos();
@@ -174,52 +192,38 @@ const Crud = () => {
   };
 
   const handlePrecioChange = (e) => {
-    const inputPrecio = e.target.value;
-    // Eliminar caracteres que no sean dígitos o puntos decimales
-    const cleanedPrecio = inputPrecio.replace(/[^\d.]/g, "");
-    // Convertir a número para verificar el máximo
-    const numericPrecio = parseFloat(
-      cleanedPrecio.replace(/\./g, "").replace(",", ".")
-    );
+    const inputPrecio = e.target.value.replace(/[^\d]/g, "");
+    const numericPrecio = parseInt(inputPrecio, 10);
 
     const maxPrecio = 10000000; // Establecer el valor máximo permitido
     if (numericPrecio > maxPrecio) {
-      // Si el valor numérico excede el máximo, establecer el estado con el valor máximo permitido
-      // Convertir el máximo permitido a formato de string para el input
-      const maxPrecioFormateado = maxPrecio
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-      setPrecio(maxPrecioFormateado);
-      return; // Detener la ejecución para no procesar más el valor excedido
+      setPrecio(formatPrice(maxPrecio.toString()));
+      return;
     }
 
-    // Obtener el precio formateado si no excede el máximo
-    const precioFormateado = cleanedPrecio
-      .replace(/\./g, "") // Eliminar puntos existentes
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // Agregar puntos de separación de miles
-    // Actualizar el estado del precio
-    setPrecio(precioFormateado);
+    setPrecio(formatPrice(inputPrecio));
+  };
+
+  const formatPrice = (price) => {
+    // Formatear el precio utilizando comas como separadores de miles
+    return price.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
   const handleDescuentoChange = (e) => {
     const inputDescuento = e.target.value;
-    // Eliminar caracteres que no sean dígitos o puntos decimales
-    const cleanedDescuento = inputDescuento.replace(/[^\d.]/g, "");
-    // Convertir a número para verificar el máximo
-    const numericDescuento = parseFloat(cleanedDescuento);
+    const cleanedDescuento = inputDescuento.replace(/[^\d]/g, "");
+    const numericDescuento = parseInt(cleanedDescuento, 10);
 
     const maxDescuento = 100; // Establecer el valor máximo permitido para el descuento
     if (numericDescuento > maxDescuento) {
-      // Si el valor numérico excede el máximo, establecer el estado con el valor máximo permitido
       setDescuento(maxDescuento.toString());
-      return; // Detener la ejecución para no procesar más el valor excedido
+      return;
     }
 
-    // Actualizar el estado del descuento
     setDescuento(cleanedDescuento);
   };
 
-  return (  
+  return (
     <div className="admin">
       <ToastContainer />
 
@@ -295,17 +299,18 @@ const Crud = () => {
           <div>
             <input
               type="text"
-              placeholder="Precio"
+              placeholder="Precio $COP"
               value={precio}
               onChange={handlePrecioChange}
             />
           </div>
           <span>Descuento del Producto %</span>
           <input
-            type="text"
+            type="number"
             placeholder="Descuento (%)"
             value={descuento}
             onChange={handleDescuentoChange}
+            className="input-padding"
           />
           <span>URL de la Imagen del Producto</span>
           <input
