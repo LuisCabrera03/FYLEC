@@ -1,8 +1,10 @@
 import datetime
 from flask_sqlalchemy import SQLAlchemy
 
+# Crear una instancia de SQLAlchemy
 db = SQLAlchemy()
 
+# Definir el modelo de la tabla 'usuarios'
 class Usuario(db.Model):
     __tablename__ = 'usuarios'
     id = db.Column(db.Integer, primary_key=True)
@@ -17,6 +19,7 @@ class Usuario(db.Model):
     municipio = db.Column(db.String(100))
     direccion = db.Column(db.String(255))
 
+    # Método para serializar el objeto Usuario en un diccionario
     def serialize(self):
         return {
             'id': self.id,
@@ -31,11 +34,13 @@ class Usuario(db.Model):
             'direccion': self.direccion
         }
 
+    # Método para actualizar los atributos del objeto Usuario
     def actualizar(self, datos):
         for key, value in datos.items():
             setattr(self, key, value)
         db.session.commit()
 
+# Definir el modelo de la tabla 'administradores'
 class Administrador(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(255), nullable=False)
@@ -44,9 +49,11 @@ class Administrador(db.Model):
     fecha_ingreso = db.Column(db.String(10), default=datetime.date.today, nullable=False)
     rol = db.Column(db.Integer, default=1, nullable=False)
 
+    # Representación en cadena del objeto Administrador
     def __repr__(self):
         return f"<Administrador {self.nombre}>"
 
+# Definir el modelo de la tabla 'productos'
 class Producto(db.Model):
     __tablename__ = 'productos'
     id = db.Column(db.Integer, primary_key=True)
@@ -61,6 +68,7 @@ class Producto(db.Model):
     descuento = db.Column(db.Float)
     imgUrl = db.Column(db.String(255))
 
+    # Método para serializar el objeto Producto en un diccionario
     def serialize(self):
         return {
             'id': self.id,
@@ -76,6 +84,7 @@ class Producto(db.Model):
             'imgUrl': self.imgUrl
         }
 
+# Definir el modelo de la tabla 'factura'
 class Factura(db.Model):
     __tablename__ = 'factura'
     id = db.Column(db.Integer, primary_key=True)
@@ -91,6 +100,7 @@ class Factura(db.Model):
     fecha_factura = db.Column(db.Date, nullable=False, default=datetime.date.today)
     estado = db.Column(db.String(255), nullable=False, default='esperando')
 
+    # Método para serializar el objeto Factura en un diccionario
     def serialize(self):
         return {
             'id': self.id,
@@ -107,6 +117,7 @@ class Factura(db.Model):
             'estado': self.estado
         }
 
+# Definir el modelo de la tabla 'carritocompras'
 class CarritoCompras(db.Model):
     __tablename__ = 'carritocompras'
     id = db.Column(db.Integer, primary_key=True)
@@ -114,6 +125,7 @@ class CarritoCompras(db.Model):
     producto_id = db.Column(db.Integer, nullable=False)
     cantidad = db.Column(db.Integer, nullable=False)
 
+    # Método para serializar el objeto CarritoCompras en un diccionario
     def serialize(self):
         return {
             'id': self.id,
