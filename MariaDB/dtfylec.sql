@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-05-2024 a las 19:17:47
+-- Tiempo de generación: 22-05-2024 a las 19:58:06
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -77,29 +77,32 @@ CREATE TABLE `factura` (
   `departamento` text CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `municipio` text CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `tarjeta` varchar(255) NOT NULL,
-  `fecha_factura` date NOT NULL DEFAULT curdate()
+  `fecha_factura` date NOT NULL DEFAULT curdate(),
+  `estado` varchar(255) NOT NULL DEFAULT 'esperando'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `factura`
 --
 
-INSERT INTO `factura` (`id`, `usuario_id`, `producto_id`, `cantidad`, `nombre`, `correo`, `direccion`, `departamento`, `municipio`, `tarjeta`, `fecha_factura`) VALUES
-(1, 13, 41, 10, 'Pepe Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '3434', '2024-04-19'),
-(2, 13, 41, 10, 'Pepe Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '876543234', '2024-04-19'),
-(3, 13, 56, 11, 'Pepe Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '65432', '2024-04-19'),
-(4, 13, 42, 10, 'Pepe Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '765456765434', '2024-04-23'),
-(5, 13, 42, 1, 'Pepe Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '765456', '2024-04-23'),
-(6, 13, 42, 10, 'Pepe Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '876545678', '2024-04-23'),
-(7, 13, 42, 1, 'Pepe Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '212121', '2024-04-23'),
-(8, 13, 53, 10, 'Pepe Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '434344', '2024-04-23'),
-(9, 13, 57, 4, 'Pepe Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '1212', '2024-04-23'),
-(10, 13, 55, 8, 'Luis Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '1234569876543', '2024-04-29'),
-(11, 13, 27, 1, 'Luis Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '123456789', '2024-05-01'),
-(12, 13, 28, 1, 'Luis Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', 'wwww', '2024-05-01'),
-(13, 13, 54, 1, 'Luis Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '234567890', '2024-05-03'),
-(14, 13, 62, 5, 'Luis Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '12345678', '2024-05-04'),
-(15, 13, 62, 1, 'Luis Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '234564', '2024-05-04');
+INSERT INTO `factura` (`id`, `usuario_id`, `producto_id`, `cantidad`, `nombre`, `correo`, `direccion`, `departamento`, `municipio`, `tarjeta`, `fecha_factura`, `estado`) VALUES
+(1, 13, 41, 10, 'Pepe Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '3434', '2024-04-19', 'entregado'),
+(2, 13, 41, 10, 'Pepe Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '876543234', '2024-04-19', 'recibido'),
+(3, 13, 56, 11, 'Pepe Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '65432', '2024-04-19', 'esperando'),
+(4, 13, 42, 10, 'Pepe Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '765456765434', '2024-04-23', 'esperando'),
+(5, 13, 42, 1, 'Pepe Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '765456', '2024-04-23', 'esperando'),
+(6, 13, 42, 10, 'Pepe Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '876545678', '2024-04-23', 'esperando'),
+(7, 13, 42, 1, 'Pepe Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '212121', '2024-04-23', 'esperando'),
+(8, 13, 53, 10, 'Pepe Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '434344', '2024-04-23', 'esperando'),
+(9, 13, 57, 4, 'Pepe Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '1212', '2024-04-23', 'esperando'),
+(10, 13, 55, 8, 'Luis Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '1234569876543', '2024-04-29', 'esperando'),
+(11, 13, 27, 1, 'Luis Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '123456789', '2024-05-01', 'esperando'),
+(12, 13, 28, 1, 'Luis Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', 'wwww', '2024-05-01', 'esperando'),
+(13, 13, 54, 1, 'Luis Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '234567890', '2024-05-03', 'esperando'),
+(14, 13, 62, 5, 'Luis Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '12345678', '2024-05-04', 'esperando'),
+(15, 13, 62, 1, 'Luis Alfredo Cabrera Sarria ', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '234564', '2024-05-04', 'esperando'),
+(16, 13, 54, 1, 'Carlos Eduardo Quilindo', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '434343434', '2024-05-20', 'enviando'),
+(17, 13, 27, 1, 'Carlos Eduardo Quilindo', 'Administrador@gmail.com', 'calle 4b Sur #5-11', 'Amazonas', 'Tarapacá', '1212121212', '2024-05-21', 'esperando');
 
 -- --------------------------------------------------------
 
@@ -126,7 +129,7 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `codigo`, `nombre`, `marca`, `descripcion`, `cantidad`, `categoria`, `subcategoria`, `imgUrl`, `precio`, `descuento`) VALUES
-(27, '1', 'Juego de brocas de destornillador de 1/4 pulgadas', 'Malca ñao', 'Juego de brocas de destornillador de 1/4 pulgadas, Kit de herramientas de Llave de trinquete para reparación automática, 46 piezas', 10, 'Herramientas Manuales', 'Destornilladores', 'https://s.alicdn.com/@sc04/kf/Hcae4888fbe404337875e604d9f5bc344C.jpg', 33.000, 0.00),
+(27, '1', 'Juego de brocas de destornillador de 1/4 pulgadas', 'Malca ñao', 'Juego de brocas de destornillador de 1/4 pulgadas, Kit de herramientas de Llave de trinquete para reparación automática, 46 piezas', 9, 'Herramientas Manuales', 'Destornilladores', 'https://s.alicdn.com/@sc04/kf/Hcae4888fbe404337875e604d9f5bc344C.jpg', 33.000, 0.00),
 (28, '12', 'Juego de Herramientas de llave de tubo, trinquete reversible, combinación de 16 Uds.', 'Ningbo Dongrun Imp & Exp Co., Ltd.', 'Garantía	1 month\nMaterial	De acero al carbono', 4, 'Herramientas Manuales', 'Llaves (fijas, ajustables, de tubo)', 'https://s.alicdn.com/@sc04/kf/He2de61db49b64a599ad92f14f88444c9X.jpg', 22.000, 0.00),
 (30, '1', 'Martillo con mango de fibra, superficie de succión, martillo con cabeza cuadrada', 'Hefei Chegongshe Hardware Technology', 'Material del mango	Fibra de vidrio, Plástico\nUso	Multifuncional martillo', 27, 'Herramientas Manuales', 'Martillos (de carpintero, de bola, de goma)', 'https://s.alicdn.com/@sc04/kf/H4dab9f9ac4b54474baa045b4253650a4P.jpg', 16000.000, 0.00),
 (31, '1', 'sierra de mano para acampar en madera', 'Changxing Yuao Import And Export Co., Ltd', 'TODO tipo de herramientas de trabajo pesado, hoja Extra larga de 45cm, sierra de mano para acampar en madera', 43, 'Herramientas Manuales', 'Sierras (para madera, para metal)', 'https://s.alicdn.com/@sc04/kf/HTB1C9agaEvrK1RjSszfq6xJNVXag.jpg', 12500.000, 0.00),
@@ -151,7 +154,7 @@ INSERT INTO `productos` (`id`, `codigo`, `nombre`, `marca`, `descripcion`, `cant
 (50, '4', 'Cinta adhesiva resistente a altas temperaturas', 'Dongguan Yihong New Material Co., Ltd.', 'Cinta adhesiva resistente a altas temperaturas 3mm proveedor Jumbo Precio Autobody Cinta automotriz', 25, 'Pintura y acabados', 'Cintas de enmascarar', 'https://s.alicdn.com/@sc04/kf/H026a2321a9ac4be493e155696f8b9aa4l.jpg', 7000.000, 0.00),
 (51, '3', 'CLAVOS HELICOIDALES', 'Anhui Amigo Imp. & Exp. Co., Ltd.', 'CLAVOS HELICOIDALES para palés, fabricante 2, 1/4 \'\'x.099\'\'', 960, 'Ferretería general', 'Tornillería y fijaciones (tornillos, tuercas, arandelas, clavos)', 'https://s.alicdn.com/@sc04/kf/HTB1pOXJcER1BeNjy0Fmq6z0wVXaL.jpg', 3000.000, 0.00),
 (53, '65432', 'Cemento ', 'Argos', 'cemento pa cementar', 876533, 'Materiales de Construcción', 'Materiales de Albañilería', 'https://www.argos.com.pa/wp-content/uploads/2020/12/PRODUCTOS_CEMENTO-GRIS-USO-GENERAL_1.jpg', 30000.000, 0.00),
-(54, '3233r', 'Destornilladores multiusos con mango de PP aislado', ' Straight Head', 'Destornilladores multiusos con mango de PP aislado, destornillador de mano, accesorios resistentes al desgaste, herramientas de mantenimiento del hogar', 873, 'Herramientas Manuales', 'Destornilladores', 'https://s.alicdn.com/@sc04/kf/H0ea649199fe44b4c821cdf4d2a32734ei.jpg', 10.000, 5.00),
+(54, '3233r', 'Destornilladores multiusos con mango de PP aislado', ' Straight Head', 'Destornilladores multiusos con mango de PP aislado, destornillador de mano, accesorios resistentes al desgaste, herramientas de mantenimiento del hogar', 872, 'Herramientas Manuales', 'Destornilladores', 'https://s.alicdn.com/@sc04/kf/H0ea649199fe44b4c821cdf4d2a32734ei.jpg', 10.000, 5.00),
 (55, '45567', 'Luminum', 'Luminum', 'Luminum-luminaria flexible, accesorio de iluminación ajustable', 0, 'Herramientas Manuales', 'Llaves (fijas, ajustables, de tubo)', 'https://s.alicdn.com/@sc04/kf/H30b34ba0d74044278626ff6d1b24ae88A.jpg', 16600.000, 2.00),
 (56, '2323f4', 'Tornillo de compresión sin cabeza', 'Shuangyang', 'Tornillo de compresión sin cabeza, herramienta de fijación quirúrgica, caja de instrumentos, 2,4, 2,7', 478, 'Ferretería general', 'Tornillería y fijaciones (tornillos, tuercas, arandelas, clavos)', 'https://s.alicdn.com/@sc04/kf/HTB1foc1X6DuK1RjSszdq6xGLpXaP.jpg', 300.000, 0.00),
 (57, '2rree4', 'Tornillos hexagonales de acero inoxidable', 'WANLUO', 'Tornillos hexagonales de acero inoxidable, estándar personalizado, para muebles, autoperforación', 340, 'Ferretería general', 'Tornillería y fijaciones (tornillos, tuercas, arandelas, clavos)', 'https://s.alicdn.com/@sc04/kf/Hd8b2c62782164493bef75a1f78434e63E.jpg', 300.000, 0.00),
@@ -159,7 +162,8 @@ INSERT INTO `productos` (`id`, `codigo`, `nombre`, `marca`, `descripcion`, `cant
 (59, '222ee2', 'Tornillo de madera avellanado de acero inoxidable', 'WANLUO', 'Phillips-tornillo de madera avellanado de acero inoxidable, rosca autorroscante A2,', 654, 'Ferretería general', 'Tornillería y fijaciones (tornillos, tuercas, arandelas, clavos)', 'https://s.alicdn.com/@sc04/kf/Hc212fc5bd5b544ac88eb67aa31e44cfff.jpg', 350.000, 0.00),
 (60, '323345f', 'Alicates', 'Mogen', 'Aislado Terminal Manual de herramientas de crimpado de alambre eléctrico alicates', 29, 'Herramientas Manuales', 'Alicates (de corte, de punta, de presión)', 'https://s.alicdn.com/@sc04/kf/Hb1153f4206f14d0884b44c2dd34da6539.jpg', 20001.000, 4.00),
 (61, '3ee33', 'Minialicates de Corte Lateral', 'OEM', 'Minialicates de Corte Lateral, cortador Diagonal PT936', 23, 'Herramientas Manuales', 'Alicates (de corte, de punta, de presión)', 'https://s.alicdn.com/@sc04/kf/H6d79783b86a64a8f96fc181b175a2c61P.jpg', 5000.000, 0.00),
-(62, '233', 'Alicates de combinación de corte multifuncional', 'TOLSEN', 'TOLSEN 10000 Herramientas de mano Alicates de combinación de corte multifuncional', 47, 'Herramientas Manuales', 'Alicates (de corte, de punta, de presión)', 'https://s.alicdn.com/@sc04/kf/HTB1fLvJKQvoK1RjSZFDq6xY3pXae.jpg', 60.000, 0.00);
+(62, '233', 'Alicates de combinación de corte multifuncional', 'TOLSEN', 'TOLSEN 10000 Herramientas de mano Alicates de combinación de corte multifuncional', 47, 'Herramientas Manuales', 'Alicates (de corte, de punta, de presión)', 'https://s.alicdn.com/@sc04/kf/HTB1fLvJKQvoK1RjSZFDq6xY3pXae.jpg', 60.000, 0.00),
+(67, '2121', 'dfd', 'ddd', 'dfdf', 211, 'Herramientas eléctricas', 'Sierras caladoras', 'https://s.alicdn.com/@sc04/kf/Hcdab7d7f77bf4e94a190a8588e2a7680H.jpg', 12.000, 0.00);
 
 -- --------------------------------------------------------
 
@@ -186,7 +190,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `correo`, `contraseña`, `fecha_nacimiento`, `tipo_documento`, `numero_documento`, `sexo`, `departamento`, `municipio`, `direccion`) VALUES
-(13, 'Carlos Eduardo Quilindo', 'Administrador@gmail.com', '$2b$12$/H8jwUrx./l.j8Kc96qoYOe6Opi8aBc4oFMhdupTXAKixM/zYLEfS', '2003-07-03', 'CC', '1004250794', 'Masculino', 'Amazonas', 'Tarapacá', 'calle 4b Sur #5-11'),
+(13, 'Carlos Eduardo ', 'Administrador@gmail.com', '$2b$12$/H8jwUrx./l.j8Kc96qoYOe6Opi8aBc4oFMhdupTXAKixM/zYLEfS', '2003-07-03', 'CC', '1004250794', 'Masculino', 'Amazonas', 'Tarapacá', 'calle 4b Sur #5-11'),
 (54, 'Jesus Alonso Gutierres', 'administddrador@gmail.com', '$2b$12$.mW677cecyaISFa/wTFZm.o4S3OrdhN1drczB7RoxoUrQSy/zu52a', '2024-03-31', 'CE', '2114528764', 'Femenino', 'Amazonas', 'Puerto Nariño', 'calle 2'),
 (56, 'Luis Alfredo', 'administador@gmail.com', '$2b$12$iRRLprPsJMMFTvs55fl7MusZpNBkRKTytIj32ZcsZADWDMlTMiQb6', '2024-04-28', 'TI', '1004250794', 'Femenino', 'Amazonas', 'Puerto Nariño', 'calle 2'),
 (57, 'Luis Alfredo', 'cabrerasarrialuis@gmail.com', '$2b$12$ES6u9Ao0R43hD.u8JYJhLex8fkEBHZXRLGyEkELqCojLJaU4VmWXa', '2024-04-28', 'CE', '1004250794', 'Femenino', 'Amazonas', 'Puerto Nariño', 'calle 2'),
@@ -196,7 +200,9 @@ INSERT INTO `usuarios` (`id`, `nombre`, `correo`, `contraseña`, `fecha_nacimien
 (61, 'Luis Alfredo', 'a22d22ministrador@gmail.com', '$2b$12$r.1uV9qBwE7.xaKjMarl6.6gZC2tT3F.WgwOPPz9723JGnQ295hJa', '2024-04-29', 'CC', '1004250794', 'Otro', 'Amazonas', 'Leticia', 'calle 2'),
 (63, 'Martha Lucia  Cardona', 'adm444inistrador@gmail.com', '$2b$12$9afDjE9hccxz22MmRVYXN.EbfCSViWZJI.w6tpJpFxNobeTuTFi/q', '2024-04-29', 'TI', '1004250794', 'Femenino', 'Amazonas', 'Puerto Nariño', 'calle 2'),
 (64, 'Maria Alejandra Cabrera', 'administra1dor@gmail.com', '$2b$12$Y622Sq06yvh1sKZZDO8xQOoSlRGq2zChaC9HNIlLuiKg1Wtnpt/8K', '2024-04-30', 'CE', '1004250794', 'Masculino', 'Amazonas', 'Leticia', 'calle 2'),
-(65, 'Juan Camilo Cuetochambo', 'adminwwistrador@gmail.com', '$2b$12$OgCj9asFodklOoXyXiX1R.seTcVv6CwpiTiuwZwD7sU0ce57KNM1q', '2024-04-29', 'CC', '1004250794', 'Masculino', 'Antioquia', 'Medellín', 'calle 2');
+(65, 'Juan Camilo Cuetochambo', 'adminwwistrador@gmail.com', '$2b$12$OgCj9asFodklOoXyXiX1R.seTcVv6CwpiTiuwZwD7sU0ce57KNM1q', '2024-04-29', 'CC', '1004250794', 'Masculino', 'Antioquia', 'Medellín', 'calle 2'),
+(67, 'Luis Alfredo', 'durodelestomago@gmail.com', '$2b$12$Ibawn/wisbh009.jfhAiluDhDiT8opQceD8k9GP74hDUHx4f0Ya2e', '2024-04-28', 'TI', '1004250794', 'Masculino', 'Amazonas', 'Leticia', 'calle 2'),
+(68, 'Luis Alfredo', 'durodelestmago@gmail.com', '$2b$12$g5bHupgrqG5qpg6xnpLkxu7iPVrkjA0LpqQVuXgd8bbV2l2Ok7yMW', '2024-04-29', 'CC', '1004250794', 'Femenino', 'Amazonas', 'Leticia', 'calle 2');
 
 --
 -- Índices para tablas volcadas
@@ -251,25 +257,25 @@ ALTER TABLE `administrador`
 -- AUTO_INCREMENT de la tabla `carritocompras`
 --
 ALTER TABLE `carritocompras`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT de la tabla `factura`
 --
 ALTER TABLE `factura`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- Restricciones para tablas volcadas
