@@ -18,6 +18,7 @@ import Footer from './Components/Footer/Footer';
 import Ver from './Components/Admin/Ver/Ver';
 import Usuarios from './Components/Admin/Usuarios/Usuarios';
 import Roles from './Components/Admin/Roles/Roles';
+import Error404 from "./components/error/Error404"
 
 
 const HeaderWithRoutes = () => (
@@ -51,6 +52,7 @@ function App() {
         <Route path="/Roles" component={Roles} />
         <Route path="/ForgotPassword" component={ForgotPassword} />
         <Route component={HeaderWithRoutes} />
+        <Error404 />
       </Switch>
     </Router>
   );
