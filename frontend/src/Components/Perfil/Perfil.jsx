@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import  { useState, useEffect, useCallback, useRef } from 'react';
 import './Perfil.css';
 import { useHistory } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';

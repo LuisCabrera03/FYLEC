@@ -22,7 +22,7 @@ function Compra(props) {
     const [cvv, setCvv] = useState('');
     const [metodoCompra, setMetodoCompra] = useState('');
     const [usuario, setUsuario] = useState(null);
-    const [departamentos, setDepartamentos] = useState([
+    const [departamentos] = useState([
         'Amazonas', 'Antioquia', 'Arauca', 'Atlántico', 'Bolívar', 'Boyacá', 'Caldas', 'Caquetá', 'Casanare', 'Cauca',
         'Cesar', 'Chocó', 'Córdoba', 'Cundinamarca', 'Guainía', 'Guaviare', 'Huila', 'La Guajira', 'Magdalena', 'Meta',
         'Nariño', 'Norte de Santander', 'Putumayo', 'Quindío', 'Risaralda', 'San Andrés y Providencia', 'Santander',

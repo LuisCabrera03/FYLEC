@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom'; // Importamos Link desde react-router-dom
+import { Link, useHistory } from 'react-router-dom'; // Importamos Link y useHistory desde react-router-dom
 import './CarritoCompras.css';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,6 +18,7 @@ function CarritoCompras() {
     const [total, setTotal] = useState(0);
     const [loading, setLoading] = useState(true);
     const [loggedIn, setLoggedIn] = useState(false);
+    const history = useHistory(); // Inicializamos useHistory
 
     useEffect(() => {
         const obtenerCarrito = async () => {
@@ -80,12 +81,10 @@ function CarritoCompras() {
         }
     };
 
-    // Modificamos handlePagar para enviar información a la página de compra
     const handlePagar = () => {
         if (carrito.length > 0) {
-            // Redirigir al usuario a la página de compra con la información del producto y la cantidad
             const items = carrito.map(item => `${item.producto.id}-${item.cantidad}`).join('&');
-            window.location.href = `/compra?items=${items}`;
+            history.push(`/compra?items=${items}`);
         }
     };
 
@@ -211,7 +210,7 @@ function CarritoCompras() {
                                 <div className='acciones'>
                                     <button onClick={confirmarVaciarCarrito} className='btn-vaciar'>Vaciar Carrito</button>
                                     <p>Total: ${total.toFixed(2)}</p>
-                                    <Link to="/compra" className='btn-pagar' onClick={handlePagar}>Pagar</Link>
+                                    <button onClick={handlePagar} className='btn-pagar'>Pagar</button>
                                 </div>
                             </div>
                         )}

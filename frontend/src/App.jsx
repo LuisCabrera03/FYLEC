@@ -18,9 +18,6 @@ import Footer from './Components/Footer/Footer';
 import Ver from './Components/Admin/Ver/Ver';
 import Usuarios from './Components/Admin/Usuarios/Usuarios';
 import Roles from './Components/Admin/Roles/Roles';
-import Error404 from "./components/error/Error404"
-
-
 const HeaderWithRoutes = () => (
   <>
     <Header />
@@ -33,6 +30,7 @@ const HeaderWithRoutes = () => (
       <Route path="/categorias" component={Categorias} />
       <Route path="/compra/:productId/:cantidad" component={Compra} />
       <Route path="/Factura" component={Factura} />
+
     </Switch>
     <Footer />
   </>
@@ -50,9 +48,9 @@ function App() {
         <Route path="/Ver" component={Ver} />
         <Route path="/Usuarios" component={Usuarios} />
         <Route path="/Roles" component={Roles} />
+        <Route path="/ventas" component={Ventas} />
         <Route path="/ForgotPassword" component={ForgotPassword} />
         <Route component={HeaderWithRoutes} />
-        <Error404 />
       </Switch>
     </Router>
   );

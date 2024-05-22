@@ -2,9 +2,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
-
-import "./Detalle.css";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faGreaterThan,
@@ -15,6 +12,8 @@ import {
     faCheckCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { BarLoader } from "react-spinners";
+
+import "./Detalle.css";
 
 function Detalle({ match }) {
     const [producto, setProducto] = useState(null);
@@ -37,14 +36,13 @@ function Detalle({ match }) {
         const obtenerUsuarioId = async () => {
             try {
                 const token = localStorage.getItem("token");
-                console.log("Token de acceso:", token);
-                const response = await axios.get("http://localhost:5000/api/profile", {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                setUsuarioId(response.data.usuario.id);
-                setSesionIniciada(true);
+                if (token) {
+                    const response = await axios.get("http://localhost:5000/api/profile", {
+                        headers: { Authorization: `Bearer ${token}` },
+                    });
+                    setUsuarioId(response.data.usuario.id);
+                    setSesionIniciada(true);
+                }
             } catch (error) {
                 console.error("Error al obtener el ID del usuario:", error);
                 setSesionIniciada(false);
@@ -56,11 +54,9 @@ function Detalle({ match }) {
 
     useEffect(() => {
         const obtenerProducto = async () => {
+            setLoading(true);
             try {
-                const response = await axios.get(
-                    `http://localhost:5000/api/productos/${match.params.id}`
-                );
-                console.log("Datos del producto:", response.data.producto);
+                const response = await axios.get(`http://localhost:5000/api/productos/${match.params.id}`);
                 setProducto(response.data.producto);
 
                 if (response.data.producto && response.data.producto.subcategoria) {
@@ -70,32 +66,25 @@ function Detalle({ match }) {
                 const calificacionAleatoria = Math.floor(Math.random() * 3) + 3;
                 setCalificacion(calificacionAleatoria);
 
-                // Verificar si las existencias están agotadas
                 if (response.data.producto.cantidad === 0) {
                     setExistenciasAgotadas(true);
                 }
 
-                // Verificar si el producto está en el carrito
                 const token = localStorage.getItem("token");
                 if (token) {
                     const responseCarrito = await axios.get("http://localhost:5000/api/carrito", {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
+                        headers: { Authorization: `Bearer ${token}` },
                     });
                     const productosEnCarrito = responseCarrito.data.carrito.map(item => item.producto.id);
                     setEnCarrito(productosEnCarrito.includes(response.data.producto.id));
                 }
 
-                // Simulación de carga de productos durante 2 segundos
-                setTimeout(() => {
-                    setLoading(false);
-                }, 1100);
-
-                // Scroll al inicio de la página cuando se carga un nuevo producto
+                setLoading(false);
                 window.scrollTo(0, 0);
             } catch (error) {
                 console.error("Error al cargar el producto:", error);
+                setLoading(false);
+                setMensajeError("Error al cargar el producto. Por favor, inténtalo de nuevo.");
             }
         };
 
@@ -104,12 +93,8 @@ function Detalle({ match }) {
 
     const obtenerProductosRelacionados = async (subcategoria) => {
         try {
-            const response = await axios.get(
-                `http://localhost:5000/api/productos?subcategoria=${subcategoria}`
-            );
-            const productosFiltrados = response.data.productos.filter(
-                (p) => p.id !== parseInt(match.params.id)
-            );
+            const response = await axios.get(`http://localhost:5000/api/productos?subcategoria=${subcategoria}`);
+            const productosFiltrados = response.data.productos.filter(p => p.id !== parseInt(match.params.id));
             setProductosRelacionados(productosFiltrados);
         } catch (error) {
             console.error("Error al obtener productos relacionados:", error);
@@ -118,16 +103,14 @@ function Detalle({ match }) {
 
     const handleCantidadChange = (event) => {
         let newCantidad = parseInt(event.target.value);
-        newCantidad = newCantidad >= 1 ? newCantidad : 1;
-        newCantidad =
-            newCantidad <= producto.cantidad ? newCantidad : producto.cantidad;
+        newCantidad = Math.max(1, Math.min(newCantidad, producto.cantidad));
         setCantidad(newCantidad);
         setMensajeError("");
     };
 
     const aumentarCantidad = () => {
         if (cantidad < producto.cantidad) {
-            setCantidad((prevCantidad) => prevCantidad + 1);
+            setCantidad(cantidad + 1);
             setMensajeError("");
         } else {
             setMensajeError("No puedes superar el máximo de existencias");
@@ -135,9 +118,7 @@ function Detalle({ match }) {
     };
 
     const disminuirCantidad = () => {
-        setCantidad((prevCantidad) =>
-            prevCantidad > 1 ? prevCantidad - 1 : prevCantidad
-        );
+        setCantidad(cantidad > 1 ? cantidad - 1 : cantidad);
         setMensajeError("");
     };
 
@@ -146,56 +127,36 @@ function Detalle({ match }) {
             setMensajeError("Debes iniciar sesión para comprar este producto.");
             return;
         }
-        // Redirigir al componente Compra con la información del producto y la cantidad seleccionada
         history.push(`/compra/${producto.id}/${cantidad}`);
     };
 
     const handleAgregarAlCarrito = async () => {
         if (!sesionIniciada) {
-            setMensajeError(
-                "Debes iniciar sesión para agregar este producto al carrito."
-            );
+            setMensajeError("Debes iniciar sesión para agregar este producto al carrito.");
             return;
         }
         if (cantidad > producto.cantidad) {
-            setMensajeError(
-                "No puedes seleccionar más productos de los disponibles."
-            );
+            setMensajeError("No puedes seleccionar más productos de los disponibles.");
             return;
         }
         try {
-            const data = {
-                usuario_id: usuarioId,
-                producto_id: producto.id,
-                cantidad: cantidad,
-            };
-            const response = await axios.post(
-                "http://localhost:5000/api/agregar-al-carrito",
-                data
-            );
-            console.log(response.data.message);
-            // Actualizar el estado existenciasAgotadas si se selecciona un nuevo producto de "Quizás te pueda interesar"
-            setExistenciasAgotadas(false);
-
-            // Mostrar la animación
-            setMostrarAnimacion(true);
-
-            // Ocultar la animación después de 2 segundos
-            setTimeout(() => {
-                setMostrarAnimacion(false);
-            }, 2000);
+            const data = { usuario_id: usuarioId, producto_id: producto.id, cantidad };
+            await axios.post("http://localhost:5000/api/agregar-al-carrito", data);
+            setEnCarrito(true);
+            mostrarAnimacionTemporal();
         } catch (error) {
             console.error("Error al agregar al carrito:", error);
         }
     };
 
-    const handleMouseEnter = () => {
-        setZoom(true);
+    const mostrarAnimacionTemporal = () => {
+        setMostrarAnimacion(true);
+        setTimeout(() => setMostrarAnimacion(false), 2000);
     };
 
-    const handleMouseLeave = () => {
-        setZoom(false);
-    };
+    const handleMouseEnter = () => setZoom(true);
+
+    const handleMouseLeave = () => setZoom(false);
 
     const handleMouseMove = (event) => {
         const { left, top, width, height } = event.target.getBoundingClientRect();
@@ -204,48 +165,48 @@ function Detalle({ match }) {
         setPosicionZoom({ x, y });
     };
 
-    const handleStarClick = (rating) => {
-        setCalificacion(rating);
-    };
+    const handleStarClick = (rating) => setCalificacion(rating);
 
     const renderStar = (index) => {
         if (index <= calificacion) {
-            return (
-                <FontAwesomeIcon icon={faStar} onClick={() => handleStarClick(index)} />
-            );
+            return <FontAwesomeIcon icon={faStar} onClick={() => handleStarClick(index)} />;
         } else if (index - 0.5 === calificacion) {
-            return (
-                <FontAwesomeIcon
-                    icon={faStarHalfAlt}
-                    onClick={() => handleStarClick(index)}
-                />
-            );
+            return <FontAwesomeIcon icon={faStarHalfAlt} onClick={() => handleStarClick(index)} />;
         } else {
-            return (
-                <FontAwesomeIcon
-                    icon={faStar}
-                    opacity="0.5"
-                    onClick={() => handleStarClick(index)}
-                />
-            );
+            return <FontAwesomeIcon icon={faStar} opacity="0.5" onClick={() => handleStarClick(index)} />;
         }
     };
 
-    const handleProductoRelacionadoClick = (productoSeleccionado) => {
-        // Almacenar el producto que estabas viendo antes de seleccionar uno de los productos relacionados
-        const productoAnterior = producto;
+    const handleProductoRelacionadoClick = async (productoSeleccionado) => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`http://localhost:5000/api/productos/${productoSeleccionado.id}`);
+            setProducto(response.data.producto);
+            setCantidad(1);
 
-        // Configurar el nuevo producto seleccionado
-        setProducto(productoSeleccionado);
-        setCantidad(1);
-        setExistenciasAgotadas(productoSeleccionado.cantidad === 0);
-        setMensajeError('');
-        window.scrollTo(0, 0); // Desplazarse al inicio de la página
+            if (response.data.producto.cantidad === 0) {
+                setExistenciasAgotadas(true);
+            } else {
+                setExistenciasAgotadas(false);
+            }
 
-        // Filtrar los productos relacionados para excluir el producto seleccionado
-        const nuevosProductosRelacionados = productosRelacionados.filter(p => p.id !== productoSeleccionado.id);
-        // Agregar el producto que estabas viendo antes de seleccionar uno de los productos relacionados
-        setProductosRelacionados([productoAnterior, ...nuevosProductosRelacionados]);
+            const token = localStorage.getItem("token");
+            if (token) {
+                const responseCarrito = await axios.get("http://localhost:5000/api/carrito", {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                const productosEnCarrito = responseCarrito.data.carrito.map(item => item.producto.id);
+                setEnCarrito(productosEnCarrito.includes(response.data.producto.id));
+            }
+
+            obtenerProductosRelacionados(response.data.producto.subcategoria);
+            setLoading(false);
+            window.scrollTo(0, 0);
+        } catch (error) {
+            console.error("Error al cargar el producto:", error);
+            setLoading(false);
+            setMensajeError("Error al cargar el producto relacionado. Por favor, inténtalo de nuevo.");
+        }
     };
 
     return (
@@ -282,8 +243,7 @@ function Detalle({ match }) {
                                 alt={producto.nombre}
                                 style={{
                                     transform: `scale(${zoom ? 2 : 1})`,
-                                    transformOrigin: `${posicionZoom.x * 100}% ${posicionZoom.y * 100
-                                        }%`,
+                                    transformOrigin: `${posicionZoom.x * 100}% ${posicionZoom.y * 100}%`,
                                 }}
                             />
                             {zoom && (
@@ -347,16 +307,14 @@ function Detalle({ match }) {
                             ) : (
                                 <div className="btns">
                                     <button
-                                        className={`btn-comprar ${producto.cantidad === 0 ? "disabled" : ""
-                                            }`}
+                                        className={`btn-comprar ${producto.cantidad === 0 ? "disabled" : ""}`}
                                         onClick={handleComprar}
                                         disabled={producto.cantidad === 0}
                                     >
                                         Comprar
                                     </button>
                                     <button
-                                        className={`btn-carrito ${producto.cantidad === 0 ? "disabled" : ""
-                                            }`}
+                                        className={`btn-carrito ${producto.cantidad === 0 ? "disabled" : ""}`}
                                         onClick={handleAgregarAlCarrito}
                                         disabled={producto.cantidad === 0}
                                     >
@@ -414,7 +372,6 @@ function Detalle({ match }) {
                     ))}
                 </div>
             </div>
-
         </div>
     );
 }

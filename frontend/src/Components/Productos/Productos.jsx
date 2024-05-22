@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import axios from 'axios';
-import './Productos.css'
-import { useHistory } from 'react-router-dom';
-
+import './Productos.css';
 
 function Productos() {
     const location = useLocation();
@@ -155,9 +153,7 @@ function Productos() {
                     </div>
                 )}
             </div>
-
         </div>
-        
     );
 }
 

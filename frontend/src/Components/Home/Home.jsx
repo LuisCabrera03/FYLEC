@@ -1,7 +1,6 @@
 import { Component } from "react";
 import "./Home.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Categorias from "../Categorias/Categorias";
 import {
   faTruck,
   faComments,
@@ -18,7 +17,7 @@ import {
   faToolbox,
 } from "@fortawesome/free-solid-svg-icons";
 
-// Importa el componente CartasHome
+import Categorias from "../Categorias/Categorias";
 import CartasHome from "../CartasHome/CartasHome";
 
 export class Home extends Component {
@@ -33,103 +32,59 @@ export class Home extends Component {
         <div className="container">
           <h3>Saluda</h3>
           <h2>
-            LA MEJOR <br></br>FERRETERÍA
+            LA MEJOR <br /> FERRETERÍA
           </h2>
         </div>
         <div className="servicios">
-          <div>
-            <FontAwesomeIcon icon={faTruck} size="2x" className="icons" />
-            <h4>SERVICIO DE ENTREGA</h4>
-            <p>Quédate en casa, nosotros te llevamos lo que necesitas 24/7</p>
-          </div>
-          <div>
-            <FontAwesomeIcon icon={faComments} size="2x" className="icons" />
-            <h4>ASESOR EN LÍNEA</h4>
-            <p>¿Alguna duda? Estamos encantados de atenderte.</p>
-          </div>
-          <div>
-            <FontAwesomeIcon icon={faShieldAlt} size="2x" className="icons" />
-            <h4>COMPRA SEGURA</h4>
-            <p>Todas nuestras compras son ultra seguras.</p>
-          </div>
-          <div>
-            <FontAwesomeIcon icon={faBoxOpen} size="2x" className="icons" />
-            <h4>GRAN PORTAFOLIO</h4>
-            <p>Tenemos todo lo que necesitas.</p>
-          </div>
+          {this.renderService(faTruck, "SERVICIO DE ENTREGA", "Quédate en casa, nosotros te llevamos lo que necesitas 24/7")}
+          {this.renderService(faComments, "ASESOR EN LÍNEA", "¿Alguna duda? Estamos encantados de atenderte.")}
+          {this.renderService(faShieldAlt, "COMPRA SEGURA", "Todas nuestras compras son ultra seguras.")}
+          {this.renderService(faBoxOpen, "GRAN PORTAFOLIO", "Tenemos todo lo que necesitas.")}
         </div>
         <div className="categorias-icon">
-          <div>
-            <FontAwesomeIcon
-              icon={faUserGraduate}
-              size="1x"
-              className="icons2"
-            />
-            <p>Agrónomo</p>
-          </div>
-          <div>
-            <FontAwesomeIcon icon={faSeedling} size="1x" className="icons2" />
-            <p>Agricultor</p>
-          </div>
-          <div>
-            <FontAwesomeIcon icon={faHardHat} size="1x" className="icons2" />
-            <p>Minero</p>
-          </div>
-          <div>
-            <FontAwesomeIcon icon={faHammer} size="1x" className="icons2" />
-            <p>Soldador</p>
-          </div>
-          <div>
-            <FontAwesomeIcon icon={faTools} size="1x" className="icons2" />
-            <p>Pulidor</p>
-          </div>
-          <div>
-            <FontAwesomeIcon icon={faUserShield} size="1x" className="icons2" />
-            <p>Operativo</p>
-          </div>
-          <div>
-            <FontAwesomeIcon icon={faToolbox} size="1x" className="icons2" />
-            <p>Carpintero</p>
-          </div>
-          <div>
-            <FontAwesomeIcon icon={faUserSecret} size="1x" className="icons2" />
-            <p>Albañil</p>
-          </div>
-          <div>
-            <FontAwesomeIcon icon={faUserTie} size="1x" className="icons2" />
-            <p>Obrero</p>
-          </div>
-          <div>
-            <FontAwesomeIcon icon={faTools} size="1x" className="icons2" />
-            <p>Jardinero</p>
-          </div>
+          {this.renderCategory(faUserGraduate, "Agrónomo")}
+          {this.renderCategory(faSeedling, "Agricultor")}
+          {this.renderCategory(faHardHat, "Minero")}
+          {this.renderCategory(faHammer, "Soldador")}
+          {this.renderCategory(faTools, "Pulidor")}
+          {this.renderCategory(faUserShield, "Operativo")}
+          {this.renderCategory(faToolbox, "Carpintero")}
+          {this.renderCategory(faUserSecret, "Albañil")}
+          {this.renderCategory(faUserTie, "Obrero")}
+          {this.renderCategory(faTools, "Jardinero")}
         </div>
         <div className="container2">
           <h2>40%</h2>
           <h3>
-            SIERRAS <br></br>ELÉCTRICAS
+            SIERRAS <br /> ELÉCTRICAS
           </h3>
         </div>
-        
-        {/* Container 3 */}
         <div className="container3">
-          {/* Renderiza el componente CartasHome sin botones de selección */}
           <CartasHome />
         </div>
-
-        {/* <div className="container5">
-          <div className="martillo"><h2>15%</h2> <h3>MARTILLOS</h3></div>
-          <div className="tornillo"><h2>35%</h2><h3>TORNILLOS</h3></div>
-          <div className="linterna"><h2>25%</h2><h3>LINTERNAS</h3></div>
-        </div> */}
-
-        {/* 05/04/2024 */}
         <div className="container6">
-        <Categorias />
-        
+          <Categorias />
         </div>
-
       </>
+    );
+  }
+
+  renderService(icon, title, description) {
+    return (
+      <div>
+        <FontAwesomeIcon icon={icon} size="2x" className="icons" />
+        <h4>{title}</h4>
+        <p>{description}</p>
+      </div>
+    );
+  }
+
+  renderCategory(icon, label) {
+    return (
+      <div>
+        <FontAwesomeIcon icon={icon} size="1x" className="icons2" />
+        <p>{label}</p>
+      </div>
     );
   }
 }

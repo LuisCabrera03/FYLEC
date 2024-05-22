@@ -1,0 +1,106 @@
+/* Ventas.css */
+
+.ventas {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.ventas h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+}
+
+.ventas-table-container {
+    overflow-x: auto;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #fafafa;
+}
+
+.ventas-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.ventas-table th,
+.ventas-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.ventas-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    color: #333;
+}
+
+.ventas-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.ventas-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.ventas-table td {
+    vertical-align: middle;
+}
+
+.ventas-table td select {
+    padding: 6px 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.ventas-table td select:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+@media (max-width: 1200px) {
+    .ventas-table th, .ventas-table td {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 992px) {
+    .ventas-table th, .ventas-table td {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .ventas h2 {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .ventas-table th, .ventas-table td {
+        padding: 6px;
+        font-size: 12px;
+    }
+
+    .ventas h2 {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 576px) {
+    .ventas-table th, .ventas-table td {
+        padding: 4px;
+        font-size: 10px;
+    }
+
+    .ventas h2 {
+        font-size: 16px;
+    }
+}
