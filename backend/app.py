@@ -3,7 +3,7 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from config import Config
 from models import db, Usuario, Administrador, Producto, Factura, CarritoCompras
-from routes import api
+from api import api
 
 app = Flask(__name__)
 app.config.from_object(Config)
