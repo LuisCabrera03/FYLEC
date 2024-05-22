@@ -1,4 +1,4 @@
-import 'react';
+import   'react';
 import Logo from '../../assets/logoFYLEC.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -43,8 +43,8 @@ function Footer() {
                 <div>
                     <img src={Logo} alt='logo' />
                     <p>Somos una ferretería online encantados de</p>
-                    <p> atenderte y brindarte la mejor experiencia.</p>
-                    <p> Preguntas por nuestros descuentos.</p>
+                    <p>atenderte y brindarte la mejor experiencia.</p>
+                    <p>Preguntas por nuestros descuentos.</p>
                 </div>
                 <div className='informacio-2'>
                     <b>ENCUENTRA RÁPIDO</b>

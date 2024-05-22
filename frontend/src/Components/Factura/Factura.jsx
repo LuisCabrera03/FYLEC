@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faScrewdriverWrench, faSearch } from "@fortawesome/free-solid-svg-icons";
 import ProgressBar from './ProgressBar';
 import './Factura.css';
+
 function Factura() {
     const [facturas, setFacturas] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -12,7 +13,7 @@ function Factura() {
     const [filter, setFilter] = useState('todos');
 
     useEffect(() => {
-        const obtenerFacturas = async () => {
+        const fetchFacturas = async () => {
             try {
                 const token = localStorage.getItem('token');
                 if (!token) {
@@ -23,8 +24,8 @@ function Factura() {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                const facturasOrdenadas = response.data.facturas.sort((a, b) => b.id - a.id); // Ordenar de más reciente a más antiguo
-                setFacturas(facturasOrdenadas);
+                const sortedFacturas = response.data.facturas.sort((a, b) => b.id - a.id); // Ordenar de más reciente a más antiguo
+                setFacturas(sortedFacturas);
                 setLoggedIn(true);
             } catch (error) {
                 console.error('Error al obtener las facturas:', error);
@@ -36,7 +37,7 @@ function Factura() {
             }
         };
 
-        obtenerFacturas();
+        fetchFacturas();
     }, []);
 
     const handleSearch = (e) => {
@@ -56,24 +57,21 @@ function Factura() {
     return (
         <div className='carrito-container'>
             <h1 className='encabezado'>Tus Compras</h1>
-            <div className="factura-seacrh">
-
-                    <select value={filter} onChange={handleFilterChange} 
-                        className='filtro-paginacion'>
-                        <option value="todos">Todos</option>
-                        <option value="esperando">Esperando</option>
-                        <option value="enviando">Enviando</option>
-                        <option value="recibido">Recibido</option>
-                        <option value="entregado">Entregado</option>
-                    </select>
-                    <input
-                        type="text"
-                        placeholder="Buscar..."
-                        value={searchTerm}
-                        onChange={handleSearch}
-                    />
-                    <FontAwesomeIcon icon={faSearch} className="search-icon" />
-
+            <div className="factura-search">
+                <select value={filter} onChange={handleFilterChange} className='filtro-paginacion'>
+                    <option value="todos">Todos</option>
+                    <option value="esperando">Esperando</option>
+                    <option value="enviando">Enviando</option>
+                    <option value="recibido">Recibido</option>
+                    <option value="entregado">Entregado</option>
+                </select>
+                <input
+                    type="text"
+                    placeholder="Buscar..."
+                    value={searchTerm}
+                    onChange={handleSearch}
+                />
+                <FontAwesomeIcon icon={faSearch} className="search-icon" />
             </div>
             {loading ? (
                 <p>Cargando facturas...</p>
@@ -81,9 +79,7 @@ function Factura() {
                 <div className='lista-carrito'>
                     {filteredFacturas.length === 0 ? (
                         <div className="carro-vacio">
-                            <span>
-                                <FontAwesomeIcon icon={faScrewdriverWrench} className='llave' />
-                            </span>
+                            <FontAwesomeIcon icon={faScrewdriverWrench} className='llave' />
                             <p className='producto'>
                                 ¡Ups! Parece que aún no has realizado ninguna compra, pero no te preocupes, ¡tenemos muchas opciones esperándote!
                                 Explora nuestro catálogo y descubre todo lo que necesitas para tus proyectos.
@@ -108,7 +104,6 @@ function Factura() {
                                         <p>Cantidad: {factura.cantidad}</p>
                                         <p>Precio Pagado: ${factura.producto.precio * factura.cantidad}</p>
                                         <ProgressBar currentState={factura.estado} /> 
-                                    
                                     </div>
                                     <div className="carrito-info">
                                         <p>Nombre: {factura.nombre}</p>

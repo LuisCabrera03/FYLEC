@@ -1,4 +1,4 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -90,7 +90,6 @@ const Login = () => {
     history.push('/crearcuenta');
   };
 
-
   return (
     <div className='login'>
       <ToastContainer />
@@ -127,7 +126,6 @@ const Login = () => {
           )}
         </div>
         <div className="bienvenida">
-
           <div className="btn-crear">
             <p>¡Únete y construye con nosotros!</p>
             <button onClick={handleCreateAccount} >Crear Cuenta</button>
