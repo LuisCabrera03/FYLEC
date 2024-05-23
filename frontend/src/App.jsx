@@ -18,6 +18,7 @@ import Footer from './Components/Footer/Footer';
 import Ver from './Components/Admin/Ver/Ver';
 import Usuarios from './Components/Admin/Usuarios/Usuarios';
 import Roles from './Components/Admin/Roles/Roles';
+import Ventas from './Components/Admin/Ventas/Ventas';
 const HeaderWithRoutes = () => (
   <>
     <Header />
