@@ -45,11 +45,6 @@ function Header() {
     const fetchProfileData = async () => {
         try {
             const token = localStorage.getItem('token');
-            if (!token) {
-                setUserLoggedIn(false);
-                return;
-            }
-
             const response = await fetch('http://localhost:5000/api/profile', {
                 method: 'GET',
                 headers: {
@@ -59,24 +54,19 @@ function Header() {
             });
 
             if (!response.ok) {
-                throw new Error(response.statusText);
+                throw new Error('Error al obtener el perfil');
             }
 
             const responseData = await response.json();
 
             if (!responseData || !responseData.usuario) {
-                throw new Error('Datos de perfil no válidos');
+                throw new Error('Error al obtener el perfil: Datos de perfil no válidos');
             }
 
             setUserName(responseData.usuario.nombre);
             setUserLoggedIn(true);
         } catch (error) {
-            if (error.message.includes('401') || error.message.includes('422')) {
-                // Suprimir errores de autenticación específicos
-                console.log('Usuario no autenticado o token inválido');
-            } else {
-                console.error('Error al obtener el perfil:', error.message);
-            }
+            console.error('Error al obtener el perfil:', error.message);
             setUserLoggedIn(false);
         }
     };
@@ -126,7 +116,7 @@ function Header() {
     };
 
     const handleSearchSubmit = (event) => {
-        if (event.key === 'Enter' || event.type === 'click') {
+        if (event.key === 'Enter') {
             setPreviousSearches(prevSearches => [...prevSearches, searchTerm]);
             history.push(`/productos?search=${searchTerm}`);
         }

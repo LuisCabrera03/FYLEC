@@ -1,6 +1,5 @@
-# api/usuario.py
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import create_access_token, create_refresh_token, set_access_cookies, set_refresh_cookies, jwt_required, get_jwt_identity, unset_jwt_cookies
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from email_validator import validate_email, EmailNotValidError
 from flask_bcrypt import generate_password_hash, check_password_hash
 from datetime import datetime as dt, timedelta
@@ -77,12 +76,8 @@ def login():
     usuario = Usuario.query.filter_by(correo=correo).first()
 
     if usuario and check_password_hash(usuario.contraseña, contraseña):
-        access_token = create_access_token(identity=usuario.id)
-        refresh_token = create_refresh_token(identity=usuario.id)
-        response = jsonify({'login': True})
-        set_access_cookies(response, access_token)
-        set_refresh_cookies(response, refresh_token)
-        return response, 200
+        token_de_sesion = create_access_token(identity=usuario.id)
+        return jsonify({'token': token_de_sesion, 'userId': usuario.id}), 200
     else:
         return jsonify({'error': 'Credenciales incorrectas'}), 401
 
@@ -98,21 +93,6 @@ def get_profile():
             return jsonify({'error': 'Usuario no encontrado'}), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
-@usuario_bp.route('/api/token/refresh', methods=['POST'])
-@jwt_required(refresh=True)
-def refresh_token():
-    usuario_id = get_jwt_identity()
-    access_token = create_access_token(identity=usuario_id)
-    response = jsonify({'refresh': True})
-    set_access_cookies(response, access_token)
-    return response, 200
-
-@usuario_bp.route('/api/logout', methods=['POST'])
-def logout():
-    response = jsonify({'logout': True})
-    unset_jwt_cookies(response)
-    return response, 200
 
 @usuario_bp.route('/api/actualizar-perfil', methods=['PUT'])
 @jwt_required()
