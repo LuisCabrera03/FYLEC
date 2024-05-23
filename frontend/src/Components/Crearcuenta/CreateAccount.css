@@ -1,4 +1,5 @@
-.login-container-custom2{
+/* Contenedor principal del formulario de creación de cuenta */
+.login-container-custom2 {
     max-width: 80%;
     min-width: 40%;
     margin: 5% auto;
@@ -11,58 +12,66 @@
     justify-content: center;
     align-items: center;
 }
-.login-container-custom2 fieldset{
-    width:90%;
+
+/* Fieldset del formulario */
+.login-container-custom2 fieldset {
+    width: 90%;
     margin: 0 auto;
     padding: 20px;
-}
-.login-container-custom2 fieldset {
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-bottom: 20px;
 }
-.input-nombre{
+
+/* Contenedor de los inputs */
+.input-nombre {
     display: flex;
     justify-content: space-around;
     align-items: center;
     color: var(--color-titulo);
-    font-size: clamp(8px,1.8vw, 15px);
-
+    font-size: clamp(8px, 1.8vw, 15px);
 }
-.input-nombre input{
+
+/* Estilo de los inputs */
+.input-nombre input {
     width: 60%;
     padding: 10px;
     border: none;
     border-bottom: 1.5px solid var(--bordes-cartas);
     text-align: center;
-    font-size: clamp(5px,1.5vw, 15px);
+    font-size: clamp(5px, 1.5vw, 15px);
 }
-.input-contraseña{
+
+/* Contenedor para las contraseñas */
+.input-contraseña {
     width: 50%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     color: var(--color-titulo);
-    font-size: clamp(8px,1.8vw, 15px);
-
+    font-size: clamp(8px, 1.8vw, 15px);
 }
 
-.input-contraseña input{
+/* Estilo de los inputs de contraseña */
+.input-contraseña input {
     width: 80%;
     padding: 10px;
     border: none;
     border-bottom: 1.5px solid var(--bordes-cartas);
     text-align: center;
-    
 }
-.select{
+
+/* Estilo de los selectores */
+.select {
     border: none;
     padding: 10px;
     font-size: 16px;
-    border-bottom:1.5px solid var(--bordes-cartas);
+    border-bottom: 1.5px solid var(--bordes-cartas);
     background-color: white;
 }
+
+/* Estilo del DatePicker */
 .datepicker {
     font-family: Arial, sans-serif;
     font-size: 16px;
@@ -71,23 +80,26 @@
     border-radius: 4px;
     outline: none;
     transition: border-color 0.2s ease;
-  }
-  
-  .datepicker:focus {
+}
+
+.datepicker:focus {
     border-color: var(--bordes-cartas);
-  }
-  
-  .datepicker::placeholder {
+}
+
+.datepicker::placeholder {
     color: #999;
-  }
-  
-  .datepicker__input-container {
+}
+
+.datepicker__input-container {
     display: inline-block;
-  }
-  
-.alerts{
+}
+
+/* Estilo de los mensajes de alerta */
+.alerts {
     color: #e51a4c;
 }
-.alert{
-    color:  red;
+
+/* Estilo del icono de alerta */
+.alert {
+    color: red;
 }

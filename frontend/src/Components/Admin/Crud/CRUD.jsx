@@ -214,7 +214,7 @@ const Crud = () => {
     const cleanedDescuento = inputDescuento.replace(/[^\d]/g, "");
     const numericDescuento = parseInt(cleanedDescuento, 10);
 
-    const maxDescuento = 100; // Establecer el valor máximo permitido para el descuento
+    const maxDescuento = 100; 
     if (numericDescuento > maxDescuento) {
       setDescuento(maxDescuento.toString());
       return;

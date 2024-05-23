@@ -1,6 +1,7 @@
-.pago-tarjeta{
+/* Contenedor principal del formulario de pago con tarjeta */
+.pago-tarjeta {
     position: absolute;
-    background-color:#eeeded;
+    background-color: #eeeded;
     width: 60%;
     padding: 5px;
     border-radius: 10px;
@@ -11,10 +12,10 @@
     text-align: center;
     min-height: 400px;
     color: rgb(39, 38, 38);
-
 }
 
-.pago-tarjeta .datos{
+/* Estilos para los campos de datos */
+.pago-tarjeta .datos {
     width: 80%;
     padding: 10px;
     border: none;
@@ -22,16 +23,15 @@
     text-align: center;
     font-size: clamp(0.5rem, 1.5vw, 0.7rem);
     margin: 20px;
-
     transition: all 0.3s ease;
     outline: none;
     color: rgb(39, 38, 38);
-    font-size: clamp(0.5rem, 1.5vw, 0.7rem);
     letter-spacing: 1px;
     line-height: 1.5;
-    text-align: center;
 }
-.pago-tarjeta .direccion{
+
+/* Contenedor para la dirección */
+.pago-tarjeta .direccion {
     width: 80%;
     margin: 0 auto;
     display: flex;
@@ -39,7 +39,9 @@
     align-items: center;
 }
 
-.pago-tarjeta .direccion input, select{
+/* Estilos para los campos de dirección y selección */
+.pago-tarjeta .direccion input,
+.pago-tarjeta .direccion select {
     width: 40%;
     padding: 10px;
     border: none;
@@ -48,14 +50,18 @@
     font-size: clamp(0.5rem, 1.5vw, 0.7rem);
     margin: 20px;
 }
-.pago-tarjeta .pago{
+
+/* Contenedor para los campos de pago */
+.pago-tarjeta .pago {
     width: 80%;
     margin: 0 auto;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.tarjeta{
+
+/* Estilo para el campo de número de tarjeta */
+.tarjeta {
     width: 50%;
     margin: 0 auto;
     display: flex;
@@ -63,10 +69,11 @@
     align-items: center;
     padding: 10px;
     border: 1px solid rgba(60, 59, 59, 0.466);
-
 }
+
+/* Estilos para los campos de expiración y CVV */
 .expiracion,
-.cvc{
+.cvc {
     width: 10%;
     padding: 10px;
     border: 1px solid rgba(60, 59, 59, 0.466);
@@ -74,7 +81,9 @@
     font-size: clamp(0.5rem, 1.5vw, 0.7rem);
     margin: 20px;
 }
-.pago-tarjeta button{
+
+/* Estilo para el botón de confirmar compra */
+.pago-tarjeta button {
     padding: 10px;
     border: none;
     border: 1px solid rgba(60, 59, 59, 0.466);

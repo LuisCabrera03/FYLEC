@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
 import './Login.css';
 
 const Login = () => {
@@ -13,7 +14,7 @@ const Login = () => {
 
   useEffect(() => {
     const checkLoggedIn = async () => {
-      const token = localStorage.getItem('token');
+      const token = Cookies.get('token');
       if (token) {
         try {
           const response = await fetch('http://127.0.0.1:5000/api/verifyToken', {
@@ -26,7 +27,7 @@ const Login = () => {
             setIsLoggedIn(true);
           } else if (response.status === 401) {
             setIsLoggedIn(false);
-            localStorage.removeItem('token');
+            Cookies.remove('token');
           } else {
             setIsLoggedIn(false);
           }
@@ -62,8 +63,8 @@ const Login = () => {
 
       if (response.ok) {
         const { token, userId } = await response.json();
-        localStorage.setItem('token', token);
-        localStorage.setItem('userId', userId);
+        Cookies.set('token', token, { secure: true, sameSite: 'Strict' });
+        Cookies.set('userId', userId, { secure: true, sameSite: 'Strict' });
         setIsLoggedIn(true);
         history.push('/');
       } else {
@@ -81,8 +82,8 @@ const Login = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
+    Cookies.remove('token');
+    Cookies.remove('userId');
     setIsLoggedIn(false);
   };
 
