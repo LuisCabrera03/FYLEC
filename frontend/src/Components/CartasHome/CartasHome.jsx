@@ -96,23 +96,17 @@ const CartasHome = () => {
     };
 
     useEffect(() => {
-        console.log("Ejecutando useEffect");
-
         const obtenerProductoEnOferta = async () => {
             try {
-                console.log("Obteniendo producto en oferta");
                 const ofertaGuardada = localStorage.getItem('ofertaRelampago');
-                console.log("Oferta guardada:", ofertaGuardada);
                 if (ofertaGuardada) {
                     const oferta = JSON.parse(ofertaGuardada);
                     // Actualizar el tiempo de inicio de la oferta relámpago si existe una oferta guardada
                     const tiempoInicio = Math.floor(Date.now() / 1000);
                     localStorage.setItem('tiempoInicio', tiempoInicio.toString());
-                    console.log("Tiempo de inicio actualizado:", tiempoInicio);
 
                     setOfertaRelampago(oferta);
                 } else {
-                    console.log("Obteniendo nueva oferta de la API");
                     const response = await axios.get('http://localhost:5000/api/oferta-relampago');
                     const nuevaOferta = response.data.oferta;
                     setOfertaRelampago(nuevaOferta);
@@ -120,7 +114,6 @@ const CartasHome = () => {
                     // Establecer el tiempo de inicio cuando se guarda una nueva oferta en el almacenamiento local
                     const tiempoInicio = Math.floor(Date.now() / 1000);
                     localStorage.setItem('tiempoInicio', tiempoInicio.toString());
-                    console.log("Nueva oferta guardada:", nuevaOferta);
                 }
             } catch (error) {
                 console.error('Error al obtener la oferta relámpago:', error);
@@ -128,41 +121,30 @@ const CartasHome = () => {
         };
 
         const tiempoInicioGuardado = localStorage.getItem('tiempoInicio');
-        console.log("Tiempo de inicio guardado:", tiempoInicioGuardado);
         let timeoutId;
 
         const actualizarTiempoRestante = () => {
-            console.log("Actualizando tiempo restante");
             const tiempoInicio = parseInt(tiempoInicioGuardado, 10);
-            console.log("Tiempo de inicio:", tiempoInicio);
             const tiempoActual = Math.floor(Date.now() / 1000);
-            console.log("Tiempo actual:", tiempoActual);
             const tiempoTranscurrido = tiempoActual - tiempoInicio;
-            console.log("Tiempo transcurrido:", tiempoTranscurrido);
             const tiempoRestanteCalculado = Math.max(10 * 60 - tiempoTranscurrido, 0);
-            console.log("Tiempo restante calculado:", tiempoRestanteCalculado);
             setTiempoRestante(tiempoRestanteCalculado);
 
             if (tiempoRestanteCalculado === 0) {
-                console.log("Tiempo restante llegó a cero, obteniendo nueva oferta");
                 obtenerProductoEnOferta(); // Obtener un nuevo producto en oferta al llegar a cero
                 localStorage.setItem('tiempoInicio', Math.floor(Date.now() / 1000).toString()); // Reiniciar contador
             }
 
             const tiempoSiguienteSegundo = (tiempoInicio + tiempoTranscurrido + 1) * 1000;
-            console.log("Tiempo hasta siguiente segundo:", tiempoSiguienteSegundo);
             const tiempoHastaSiguienteSegundo = tiempoSiguienteSegundo - Date.now();
-            console.log("Tiempo hasta siguiente segundo calculado:", tiempoHastaSiguienteSegundo);
             timeoutId = setTimeout(actualizarTiempoRestante, tiempoHastaSiguienteSegundo);
         };
 
         obtenerProductoEnOferta();
 
         if (!tiempoInicioGuardado) {
-            console.log("Tiempo de inicio no está definido, estableciendo tiempo de inicio");
             localStorage.setItem('tiempoInicio', Math.floor(Date.now() / 1000).toString()); // Establecer tiempo de inicio si no está definido
         } else {
-            console.log("Tiempo de inicio definido, actualizando tiempo restante");
             actualizarTiempoRestante();
         }
 

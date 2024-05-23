@@ -44,7 +44,7 @@ function Detalle({ match }) {
                     setSesionIniciada(true);
                 }
             } catch (error) {
-                console.error("Error al obtener el ID del usuario:", error);
+                // No mostrar error si la autenticación falla
                 setSesionIniciada(false);
             }
         };
@@ -70,13 +70,15 @@ function Detalle({ match }) {
                     setExistenciasAgotadas(true);
                 }
 
-                const token = localStorage.getItem("token");
-                if (token) {
-                    const responseCarrito = await axios.get("http://localhost:5000/api/carrito", {
-                        headers: { Authorization: `Bearer ${token}` },
-                    });
-                    const productosEnCarrito = responseCarrito.data.carrito.map(item => item.producto.id);
-                    setEnCarrito(productosEnCarrito.includes(response.data.producto.id));
+                if (sesionIniciada) {
+                    const token = localStorage.getItem("token");
+                    if (token) {
+                        const responseCarrito = await axios.get("http://localhost:5000/api/carrito", {
+                            headers: { Authorization: `Bearer ${token}` },
+                        });
+                        const productosEnCarrito = responseCarrito.data.carrito.map(item => item.producto.id);
+                        setEnCarrito(productosEnCarrito.includes(response.data.producto.id));
+                    }
                 }
 
                 setLoading(false);
@@ -89,7 +91,7 @@ function Detalle({ match }) {
         };
 
         obtenerProducto();
-    }, [match.params.id]);
+    }, [match.params.id, sesionIniciada]);
 
     const obtenerProductosRelacionados = async (subcategoria) => {
         try {
@@ -190,13 +192,15 @@ function Detalle({ match }) {
                 setExistenciasAgotadas(false);
             }
 
-            const token = localStorage.getItem("token");
-            if (token) {
-                const responseCarrito = await axios.get("http://localhost:5000/api/carrito", {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-                const productosEnCarrito = responseCarrito.data.carrito.map(item => item.producto.id);
-                setEnCarrito(productosEnCarrito.includes(response.data.producto.id));
+            if (sesionIniciada) {
+                const token = localStorage.getItem("token");
+                if (token) {
+                    const responseCarrito = await axios.get("http://localhost:5000/api/carrito", {
+                        headers: { Authorization: `Bearer ${token}` },
+                    });
+                    const productosEnCarrito = responseCarrito.data.carrito.map(item => item.producto.id);
+                    setEnCarrito(productosEnCarrito.includes(response.data.producto.id));
+                }
             }
 
             obtenerProductosRelacionados(response.data.producto.subcategoria);

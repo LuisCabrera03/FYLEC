@@ -1,4 +1,4 @@
-import   'react';
+import  'react';
 import Logo from '../../assets/logoFYLEC.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -10,7 +10,7 @@ import {
     faFacebookSquare,
     faInstagram,
     faTwitter
-} from '@fortawesome/free-brands-svg-icons'; // Se cambió a free-brands-svg-icons
+} from '@fortawesome/free-brands-svg-icons';
 import './Footer.css';
 
 function Footer() {
@@ -42,8 +42,7 @@ function Footer() {
             <div className='informacion'>
                 <div>
                     <img src={Logo} alt='logo' />
-                    <p>Somos una ferretería online encantados de</p>
-                    <p>atenderte y brindarte la mejor experiencia.</p>
+                    <p>Somos una ferretería online encantados de atenderte y brindarte la mejor experiencia.</p>
                     <p>Preguntas por nuestros descuentos.</p>
                 </div>
                 <div className='informacio-2'>

@@ -3,7 +3,6 @@ import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faScrewdriverWrench, faSearch } from "@fortawesome/free-solid-svg-icons";
 import ProgressBar from './ProgressBar';
-import './Factura.css';
 
 function Factura() {
     const [facturas, setFacturas] = useState([]);

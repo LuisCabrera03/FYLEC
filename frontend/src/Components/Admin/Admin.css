@@ -4,6 +4,7 @@ body {
   font-family: Arial, sans-serif;
 }
 
+/* Estilos del encabezado */
 .header {
   width: 100%;
   padding: 15px 25px;
@@ -14,25 +15,34 @@ body {
   background-color: #ffd777;
   box-sizing: border-box;
 }
+
+/* Botón de cerrar sesión en el encabezado */
 .logout-btn {
   background-color: #74c0fc;
   border: 1px solid #007bff;
   border-radius: 8px;
   color: white;
   padding: 8px;
+  cursor: pointer;
 }
+
 .logout-btn:hover {
   background-color: #007bff;
   border: 1px solid #74c0fc;
 }
+
 .logout-btn:active {
   background-color: #007bff;
   border: 1px solid #74c0fc;
 }
+
+/* Contenedor principal del dashboard */
 .content-dash {
   display: flex;
   justify-content: space-between;
 }
+
+/* Estilos de la barra lateral */
 .sidebar-1 {
   background-color: #424a5d;
   width: 14%;
@@ -43,12 +53,14 @@ body {
   gap: 20px;
   transition: all 1s ease-in-out;
 }
+
 .sidebar-1 h2 {
   text-align: center;
   color: white;
   font-weight: 500;
 }
-/* Estilo para los botones del menú cuando no están seleccionados */
+
+/* Botones del menú de la barra lateral */
 .sidebar-1 button {
   background: none;
   color: #ccc8c8;
@@ -60,7 +72,6 @@ body {
 .sidebar-1 button:hover {
   background-color: #007bff;
 }
-/* Estilo para resaltar el botón seleccionado */
 
 .sidebar-1 button.selected {
   color: #ffffff;
@@ -68,22 +79,27 @@ body {
   background-color: #74c0fc;
 }
 
+/* Contenedor del encabezado de la barra lateral */
 .header-sliderbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+
 .header-sliderbar h1 {
   padding: 0 20px;
   color: white;
   font-weight: bold;
-  font-style: normal;
   font-size: clamp(0.2rem, 5vw, 1.2rem);
 }
+
+/* Contenedor de información principal */
 .container-info {
   min-width: 60%;
   max-width: 80%;
 }
+
+/* Estilos para la sección de información de usuarios */
 .usuarios-info {
   width: 100%;
   margin: 0 auto;
@@ -93,20 +109,7 @@ body {
   padding: 50px 0;
   margin-bottom: 50px;
 }
-.usuarios-info p{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.5em;
-    height: 200px;
-    width: 200px;
-    text-align: center;
-    gap: 20px;
-    border: 3px solid #ccc8c8;
-    border-radius: 8px;
-    font-weight: 300;
-}
+
 .usuarios-info p {
   display: flex;
   flex-direction: column;
@@ -117,19 +120,22 @@ body {
   width: 200px;
   text-align: center;
   gap: 20px;
-  border-bottom: 3px solid #ccc8c8;
+  border: 3px solid #ccc8c8;
+  border-radius: 8px;
   font-weight: 300;
 }
+
 .usuarios-info small {
   font-size: 0.3em;
   color: #ff011a;
   display: none;
 }
 
-.usuarios-info :hover small {
+.usuarios-info:hover small {
   display: grid;
   transition: all 0.3s ease;
 }
+
 .estadistica:hover {
   background-color: white;
   border: 3px solid #ccc8c8;
@@ -137,41 +143,15 @@ body {
   cursor: pointer;
   height: 210px;
 }
+
+/* Estilos de la sección de notificaciones */
 .notification {
   min-height: 800px;
   background-color: white;
   padding: 10px;
   width: 20%;
 }
-.tarjetas{
-    width: 300px;
-    height: 250px;
-    background-color: #FFFFFF;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 50px;
-    text-align: center;
-}
-.tarjetas {
-  width: 300px;
-  height: 250px;
-  background-color: #ffffff;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
-}
 
-.tarjetas h2 {
-  text-align: center;
-  font-size: clamp(1rem, 5vw, 1.5rem);
-  background-color: #ff865c;
-  color: white;
-  padding: 10px;
-  font-weight: 400;
-  font-style: normal;
-}
 .notification h2 {
   text-align: center;
   font-size: clamp(1rem, 5vw, 1.5rem);
@@ -179,14 +159,15 @@ body {
   color: white;
   padding: 20px;
   font-weight: 430;
-  font-style: normal;
 }
+
 .notification .time {
   font-size: clamp(1rem, 5vw, 1rem);
   border: 2px solid #74c0fc;
   padding: 4px;
   border-radius: 50%;
 }
+
 .notification ul {
   list-style: none;
   padding: 10px;
@@ -203,19 +184,20 @@ body {
   color: #989898;
   border-bottom: 1px solid #ccc8c8;
 }
+
 .notification ul li div {
   display: flex;
   flex-direction: column;
   padding: 0 10px;
   font-weight: 300;
 }
+
 .notification b {
   color: #74c0fc;
   font-weight: 500;
 }
 
 /* Estilos del contenido principal */
-
 .main-content {
   flex: 1;
   padding: 20px 0;
@@ -247,10 +229,11 @@ body {
   border: 1px solid #ccc;
   border-radius: 5px;
   resize: vertical;
-  field-sizing: content;
+  box-sizing: border-box;
   padding-left: 8px;
 }
 
+/* Estilos generales de los fieldset en el área de administración */
 .admin fieldset {
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -274,11 +257,13 @@ option {
   font-size: 10px;
 }
 
+/* Estilos de los botones en el área de administración */
 .admin button:active {
   background-color: #33333378;
   color: white;
 }
 
+/* Botones del formulario de productos */
 .product-form button {
   background-color: #007bff;
   color: #fff;
@@ -305,21 +290,20 @@ option {
   background-color: #bb2d3b;
 }
 
+/* Estilos de la tabla de productos */
 .table-container {
   margin-top: 50px;
   width: 100%;
 }
 
-/* Estilos de la barra de búsqueda */
+/* Estilos de la barra de búsqueda en administración */
 .admin .search-bar {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
   width: 90%;
-  margin: 0 auto;
-  margin: 10px;
-  border: 1px solid #ccc;
   margin: 10px auto;
+  border: 1px solid #ccc;
 }
 
 .admin .search-bar input {
@@ -343,12 +327,14 @@ option {
   background-color: #0056b3;
 }
 
+/* Imagen del producto */
 .product-image {
   width: 50px;
   height: auto;
   max-height: 100px;
 }
 
+/* Lista de productos */
 .product-list {
   width: 90%;
   margin: 0 auto;
@@ -381,10 +367,12 @@ option {
   text-align: center;
 }
 
+/* Botones de acciones en la lista de productos */
 .product-list .btns button {
   margin-right: 5px;
 }
 
+/* Paginación en la lista de productos */
 .product-list .pagination {
   margin-top: 20px;
   text-align: center;
@@ -404,6 +392,7 @@ option {
   border-color: #007bff;
 }
 
+/* Paginación general */
 .pagination {
   margin-top: 20px;
   text-align: center;
@@ -436,13 +425,13 @@ option {
   cursor: not-allowed;
 }
 
-/* Estilos para las columnas de acciones */
+/* Alineación para las columnas de acciones */
 .product-list th:nth-child(8),
 .product-list td:nth-child(8) {
   text-align: center;
 }
 
-/* Estilos para los botones de editar y eliminar */
+/* Botones de editar y eliminar */
 .edit-btn,
 .delete-btn {
   background-color: #007bff;
@@ -459,14 +448,11 @@ option {
   background-color: #0056b3;
 }
 
-/* Estilos específicos para los botones de eliminar */
 .delete-btn {
   background-color: #dc3545;
 }
 
-/* Ajustes para la separación de los botones de editar y eliminar */
 .edit-btn {
-    margin-right: 5px; 
   margin-right: 5px; /* Ajusta el margen entre los botones según sea necesario */
 }
 
@@ -474,19 +460,22 @@ option {
 .absolute {
   position: absolute;
 }
+
 .container-filtro {
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
+
 .filtro-paginacion {
-  padding: 0px;
+  padding: 0;
   margin: 0;
   height: 36px;
   width: 100px;
-  border-radius: 8px 0px 0px 8px;
+  border-radius: 8px 0 0 8px;
   text-align: center;
 }
+
 .update-btn {
   background-color: #007bff;
   color: #fff;
@@ -496,6 +485,7 @@ option {
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
+
 .select-rol {
   width: 10%;
   padding: 10px;
@@ -505,6 +495,8 @@ option {
   background-color: #f9f9f9;
   margin-bottom: 10px;
 }
+
+/* Barra de progreso personalizada */
 .progress-bar-custom {
   display: flex;
   align-items: center;
@@ -556,6 +548,7 @@ option {
   background-color: inherit; /* Se usa el color dinámico del estado */
 }
 
+/* Estilos para el carrito de compras */
 .carrito-container {
   padding: 20px;
 }

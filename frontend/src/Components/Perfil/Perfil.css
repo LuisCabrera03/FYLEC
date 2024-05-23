@@ -1,46 +1,50 @@
-.container-perfil{
+/* Contenedor principal del perfil */
+.container-perfil {
   width: 80%;
-  margin: 0 auto;
+  margin: 20px auto 50px;
   background-color: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 0px;
-  margin-top: 20px;
-  border-radius: 20px 20px  10px 10px;
-  margin-bottom: 50px;
+  border-radius: 20px 20px 10px 10px;
   padding-bottom: 20px;
-
 }
-.profile-info{
+
+/* Información del perfil */
+.profile-info {
   width: 80%;
   margin: 0 auto;
   padding: 20px 0;
 }
-.profile-info div{
+
+/* Estilo de cada sección de información del perfil */
+.profile-info div {
   width: 90%;
-  margin: 0 auto;
+  margin: 0 auto 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  margin-bottom: 20px;
   border-bottom: 1px solid #EBEBEB;
   padding-bottom: 10px;
 }
-.info{
+
+/* Estilo del texto de la información */
+.info {
   color: #5f5e5e;
 }
-.cabecera-perfil{
+
+/* Cabecera del perfil */
+.cabecera-perfil {
   background-color: #EBEBEB;
   border-radius: 20px 20px 0 0;
   min-height: 130px;
 }
-.cabecera-saludo{
+
+/* Saludo en la cabecera del perfil */
+.cabecera-saludo {
   background: linear-gradient(to bottom, #001530, #003366, #001530);
-  /* Esto crea un gradiente lineal que se repite */
   background-size: 400% 400%;
-  /* Hacemos el gradiente más grande para que pueda animarse */
   animation: gradientAnimation 10s ease infinite;
-  /* Animamos el gradiente */  width: 80%;
+  width: 80%;
   min-height: 80px;
   display: flex;
   justify-content: space-around;
@@ -50,31 +54,35 @@
   border-radius: 40px 40px 0 0;
   text-align: center;
 }
-.cabecera-saludo button{
+
+/* Estilo de los botones en la cabecera del perfil */
+.cabecera-saludo button {
   background-color: transparent;
   border: none;
   outline: none;
   cursor: pointer;
   font-size: 1.5em;
-
 }
+
+/* Iconos de editar y salir en la cabecera del perfil */
 .icon-edit, 
-.icon-exit{
+.icon-exit {
   color: #EBEBEB;
 }
 
-.icon-edit:hover{
+/* Efecto hover en el icono de editar */
+.icon-edit:hover {
   color: #0056b3;
   transition: all 0.3s ease;
-
 }
 
-
-.icon-exit:hover{
+/* Efecto hover en el icono de salir */
+.icon-exit:hover {
   color: #e51a4c;
   transition: all 0.3s ease;
 }
 
+/* Animación de gradiente de la cabecera */
 @keyframes gradientAnimation {
   0% {
     background-position: 0% 50%;
@@ -86,7 +94,9 @@
     background-position: 0% 50%;
   }
 }
-.btn-acciones{
+
+/* Contenedor de los botones de acciones */
+.btn-acciones {
   width: 50%;
   margin: 0 auto;
   display: flex;
@@ -94,53 +104,48 @@
   align-items: center;
   gap: 10px;
 }
-.btn2-edt{
+
+/* Estilo de los botones de editar y salir */
+.btn2-edt,
+.btn2-exit {
+  padding: 5px 10px;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 300;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 10px 0;
+}
+
+.btn2-edt {
   background-color: #0056b3;
-  padding: 5px 10px;
-  color: white;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-size: 1em;
-  font-weight: 300;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 10px;
-  margin-top: 10px;
-
 }
-.btn2-exit{
+
+.btn2-exit {
   background-color: #e51a4c;
-  padding: 5px 10px;
-  color: white;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-size: 1em;
-  font-weight: 300;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 10px;
-  margin-top: 10px;
 }
 
-.btn2-edt:hover
-{
+/* Efecto hover en el botón de editar */
+.btn2-edt:hover {
   background-color: white;
   color: #0056b3;
-  transition: all 0.3s ease;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   font-weight: 400;
 }
 
-.btn2-exit:hover{
+/* Efecto hover en el botón de salir */
+.btn2-exit:hover {
   background-color: red;
   color: white;
-  transition: all 0.3s ease;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   font-weight: 400;
 }
-.loading{
+
+/* Estilo de la pantalla de carga */
+.loading {
   width: 100%;
   min-height: 100vh;
   display: flex;
@@ -149,11 +154,12 @@
   animation: spin 2s linear infinite, pulse 1.5s infinite;
 }
 
+/* Animación de giro */
 @keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

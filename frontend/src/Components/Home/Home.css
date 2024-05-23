@@ -1,7 +1,9 @@
+/* Estilos generales para el cuerpo */
 body {
   background-color: #E5E5E5;
 }
 
+/* Contenedor principal con imagen de fondo */
 .container {
   width: 100%;
   background-image: url(../../assets/home.png);
@@ -18,18 +20,21 @@ body {
   font-style: normal;
 }
 
+/* Estilo para el título principal */
 .container h2 {
   color: #001530;
   margin: 0 50px;
   font-size: clamp(1rem, 5vw, 2rem);
 }
 
+/* Estilo para el subtítulo */
 .container h3 {
   color: #F1AC2B;
   margin: 0 50px;
   font-size: clamp(0.8rem, 3vw, 1.5rem);
 }
 
+/* Contenedor para los servicios */
 .servicios {
   display: flex;
   width: 100%;
@@ -38,6 +43,7 @@ body {
   background-color: white;
 }
 
+/* Estilo para cada servicio */
 .servicios div {
   width: 20%;
   height: 120px;
@@ -46,6 +52,7 @@ body {
   align-items: center;
 }
 
+/* Estilo para el título de cada servicio */
 .servicios div h4 {
   margin-top: 10px;
   margin-bottom: 5px;
@@ -54,6 +61,7 @@ body {
   text-align: center;
 }
 
+/* Estilo para la descripción de cada servicio */
 .servicios div p {
   text-align: center;
   color: #555555;
@@ -61,19 +69,23 @@ body {
   font-size: clamp(0.5rem, 1.5vw, 0.7rem);
 }
 
+/* Estilo para los iconos de los servicios */
 .icons {
   color: #F1AC2B;
   margin-top: 10px;
 }
 
+/* Estilo para los iconos de las categorías */
 .icons2 {
   padding: 10px;
 }
 
+/* Efecto hover para los iconos de las categorías */
 .icons2:hover {
   color: #353e4e;
 }
 
+/* Contenedor para las categorías con iconos */
 .categorias-icon {
   display: flex;
   font-size: clamp(0.3rem, 4vw, 1.2rem);
@@ -87,27 +99,27 @@ body {
   color: #353e4e70;
 }
 
+/* Segundo contenedor principal con imagen de fondo */
 .container2 {
   background-image: url(../../assets/home2.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: 120% auto;
-  /* La imagen ocupa el 100% del ancho y se ajusta automáticamente en altura */
   height: 200px;
-  /* Altura fija de 200px */
   width: 80%;
-  /* Ancho del contenedor al 100% */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
+/* Estilo para el título del segundo contenedor */
 .container2 h2 {
   color: #F1AC2B;
   font-size: clamp(2rem, 5vw, 4rem);
 }
 
+/* Estilo para el subtítulo del segundo contenedor */
 .container2 h3 {
   color: #001530;
   font-size: clamp(1rem, 3vw, 2rem);
@@ -126,19 +138,14 @@ body {
   transition: all 0.3s ease;
 }
 
-
-
+/* Estilo para los botones seleccionados */
 .selected2 {
   background-color: #F1AC2B;
   color: white;
   border-radius: 10px;
 }
 
-
-
-
-/* 04/04/24 */
-
+/* Tercer contenedor principal */
 .container5 {
   width: 80%;
   margin: 0 auto;
@@ -148,15 +155,18 @@ body {
   padding: 20px;
 }
 
+/* Estilo para el título del tercer contenedor */
 .container5 h2 {
   color: #F1AC2B;
   font-size: clamp(2rem, 5vw, 4rem);
 }
 
+/* Estilo para los elementos dentro del tercer contenedor */
 .container5 div {
   padding: 0 0 0 10px;
 }
 
+/* Estilo específico para la imagen de fondo del primer ítem */
 .martillo {
   background-image: url(../../assets/desc1.png);
   background-repeat: no-repeat;
@@ -167,6 +177,7 @@ body {
   width: 25%;
 }
 
+/* Estilo específico para la imagen de fondo del segundo ítem */
 .tornillo {
   background-image: url(../../assets/des2.png);
   background-repeat: no-repeat;
@@ -176,9 +187,9 @@ body {
   justify-content: center;
   width: 25%;
   height: 150px;
-
 }
 
+/* Estilo específico para la imagen de fondo del tercer ítem */
 .linterna {
   background-image: url(../../assets/des3.png);
   background-repeat: no-repeat;
@@ -188,7 +199,6 @@ body {
   justify-content: center;
   width: 25%;
   height: 150px;
-
 }
 
 /* Estilos para pantallas más pequeñas */
@@ -199,9 +209,7 @@ body {
 
   .container2 {
     height: 180px;
-    /* Altura fija de 200px */
     width: 90%;
-    /* Ancho del contenedor al 100% */
     background-size: 120% 250px;
   }
 
@@ -225,6 +233,4 @@ body {
     height: 150px;
     margin: 0 auto;
   }
-
-
 }

@@ -1,5 +1,3 @@
-
-
 :root {
   --color-header: #00132B;
   --color-seccion: #F2F2F2;
@@ -8,6 +6,7 @@
   --fondo-item: #EDEDED;
 }
 
+/* Estilos generales del header */
 header {
   width: 100%;
   height: 50px;
@@ -17,6 +16,7 @@ header {
   background-color: var(--color-header);
 }
 
+/* Estilos para el logo "FYLEC" */
 .fylec {
   font-family: "Rubik", sans-serif;
   font-optical-sizing: auto;
@@ -24,19 +24,14 @@ header {
   font-style: normal;
   margin: 20px;
   background: rgb(181, 178, 178);
-  background: -moz-linear-gradient(0deg, rgba(181, 178, 178, 1) 0%, rgba(255, 255, 255, 1) 100%);
-  background: -webkit-linear-gradient(0deg, rgba(181, 178, 178, 1) 0%, rgba(255, 255, 255, 1) 100%);
   background: linear-gradient(0deg, rgba(181, 178, 178, 1) 0%, rgba(255, 255, 255, 1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#b5b2b2", endColorstr="#ffffff", GradientType=1);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f1ecec", endColorstr="#ffffff", GradientType=1);
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
-  -webkit-animation-fill-color: transparent;
-cursor: pointer;
-
+  cursor: pointer;
 }
 
+/* Barra de búsqueda */
 .search-bar {
   background-color: white;
   border-radius: 10px;
@@ -56,37 +51,38 @@ cursor: pointer;
   width: 8%;
   margin: 5px;
   background-color: transparent;
-  border: red;
+  border: none;
   outline: none;
   cursor: pointer;
-
 }
 
+/* Iconos del perfil */
 .profile-icons {
   display: flex;
   align-items: center;
   justify-content: space-around;
   width: 30%;
   color: var(--color-icon);
-cursor: pointer;
+  cursor: pointer;
 }
 
-.profile-icons>div {
+.profile-icons > div {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 5px;
 }
 
+/* Estilo para el saludo del usuario */
 .saludo {
   font-family: "Rubik", sans-serif;
   font-optical-sizing: auto;
   font-weight: lighter;
   font-style: normal;
   font-size: 0.6em;
-
 }
 
+/* Sección principal */
 section {
   background-color: var(--color-seccion);
   width: 100%;
@@ -96,9 +92,9 @@ section {
   align-items: center;
   background-color: #F2F2F2;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
-
 }
 
+/* Contenedor de categorías */
 .container-categorias {
   display: flex;
   align-items: center;
@@ -111,34 +107,35 @@ section {
   font-size: 0.7em;
   cursor: pointer;
   position: relative;
-  
 }
 
+/* Menú desplegable */
 .dropdown-menu {
   position: absolute;
   width: 90%;
   top: 100px;
   left: 50%;
-  transform: translateX(-50%) scaleY(0); /* Inicialmente, el menú tiene una escala vertical de 0 */
-  transform-origin: top; /* El punto de origen de la transformación está en la parte superior */
+  transform: translateX(-50%) scaleY(0);
+  transform-origin: top;
   z-index: 999;
   background-color: #fff;
   border: 1px solid #ccc;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   display: flex;
-  animation: slideDown 0.3s forwards; /* Aplica la animación de despliegue */
+  animation: slideDown 0.3s forwards;
 }
 
+/* Animación para el menú desplegable */
 @keyframes slideDown {
   from {
-      transform: translateX(-50%) scaleY(0); /* Comienza con una escala vertical de 0 */
+    transform: translateX(-50%) scaleY(0);
   }
   to {
-      transform: translateX(-50%) scaleY(1); /* Termina con una escala vertical de 1 */
+    transform: translateX(-50%) scaleY(1);
   }
 }
 
-
+/* Lista de categorías en el menú */
 .dropdown-menu ul {
   list-style-type: none;
   padding: 0;
@@ -153,6 +150,7 @@ section {
   background-color: #f0f0f0;
 }
 
+/* Lista de categorías en la sección */
 .lista-categorias ul {
   display: flex;
   gap: 10px;
@@ -163,7 +161,6 @@ section {
   height: 100%;
   align-items: center;
   justify-content: space-around;
-
 }
 
 .lista-categorias ul li {
@@ -182,6 +179,7 @@ section {
   transition: 0.3s;
 }
 
+/* Elementos de la lista de categorías */
 .item {
   width: 30%;
   color: #25252578;
@@ -192,15 +190,16 @@ section {
   cursor: pointer;
   padding: 10px;
 }
-/* Estilos para el elemento seleccionado */
+
+/* Elemento seleccionado */
 .selected {
-  color: #252525; /* Color del texto del elemento seleccionado */
+  color: #252525;
 }
 
-/* Estilos para las subcategorías */
-.sub-item{
+/* Subcategorías */
+.sub-item {
   display: flex;
-  flex-wrap:wrap;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-around;
   gap: 10px;
@@ -211,26 +210,27 @@ section {
   color: #25252578;
   transition: all 0.5s ease;
 }
-.sub-item p:hover{
+
+.sub-item p:hover {
   color: #252525;
   transition: 0.3s;
-  
 }
 
-.sub-item p:active{
+.sub-item p:active {
   color: #252525;
   transition: 0.5s;
 }
 
-
 .subcategory-list {
-  list-style-type: none; /* Elimina los puntos de la lista */
+  list-style-type: none;
   font-optical-sizing: auto;
   font-style: normal;
   font-size: 0.7em;
   cursor: pointer;
 }
-.btn-inicio{
+
+/* Botón para volver al inicio */
+.btn-inicio {
   padding: 8px 20px;
   background-color: var(--amarillo);
   border-radius: 10px;
@@ -240,46 +240,50 @@ section {
   font-weight: 550;
   font-style: normal;
   cursor: pointer;
-  
 }
 
-.btn-inicio:hover{
+.btn-inicio:hover {
   background-color: #a86d00;
   transition: 0.3s;
 }
 
-.btn-inicio:active{
-  background-color:#a86d00;
+.btn-inicio:active {
+  background-color: #a86d00;
   transition: 0.5s;
 }
-.selected2{
+
+/* Elemento seleccionado con estilo especial */
+.selected2 {
   background-color: #F1AC2B;
   color: white;
   border-radius: 10px;
-
 }
 
-.selected2:active{
+.selected2:active {
   background-color: #a86d00;
 }
+
+/* Elemento de subcategoría */
 .subcategory-item {
-  margin-bottom: 5px; /* Espacio entre cada elemento de la subcategoría */
+  margin-bottom: 5px;
 }
-.btn-direccion{
+
+/* Botón para direcciones */
+.btn-direccion {
   padding: 10px 20px;
   border-radius: 10px;
 }
 
-.btn-direccion:hover{
+.btn-direccion:hover {
   background-color: #F1AC2B;
   transition: 0.3s;
 }
 
-.btn-direccion:active{
+.btn-direccion:active {
   background-color: #a86d00;
   transition: 0.3s;
-  
 }
+
 /* Estilos para pantallas más pequeñas */
 @media only screen and (max-width: 768px) {
   header {
@@ -304,15 +308,15 @@ section {
   }
 
   .saludo {
-    display: none; /* Oculta el saludo en pantallas más pequeñas */
+    display: none;
   }
 
   .lista-categorias {
-    display: none; /* Oculta la lista de categorías en pantallas más pequeñas */
+    display: none;
   }
 }
 
-/* Estilos para pantallas más pequeñas */
+/* Estilos para pantallas aún más pequeñas */
 @media only screen and (max-width: 576px) {
   .search-bar {
     width: 90%;

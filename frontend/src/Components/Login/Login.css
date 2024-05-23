@@ -1,18 +1,19 @@
-.login{
-display: flex;
-justify-content: center;
-align-items: center;
-width: 100%;
-min-height: 100vh;
-opacity: 0.8;
-background-image: url(../../assets/wood-1404326_1280.jpg);
-background-position: center;
-background-repeat: no-repeat;
-background-size: cover;
-
+/* Estilo general para la página de inicio de sesión */
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  opacity: 0.8;
+  background-image: url(../../assets/wood-1404326_1280.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
-.login-container-custom{
+/* Contenedor personalizado para el formulario de inicio de sesión */
+.login-container-custom {
   width: 60%;
   margin: 0 auto;
   text-align: center;
@@ -24,13 +25,17 @@ background-size: cover;
   justify-content: space-between;
   align-items: center;
 }
-.campos{
+
+/* Estilo para los campos del formulario */
+.campos {
   width: 40%;
   border: 1px solid var(--bordes-cartas);
   border-radius: 10px;
   padding: 10px 0;
 }
-.campos input{
+
+/* Estilo para los inputs del formulario */
+.campos input {
   width: 80%;
   padding: 8px;
   background-color: white;
@@ -38,24 +43,29 @@ background-size: cover;
   border-bottom: 1.5px solid #EBEBEB;
 }
 
-.campos input:focus{
+/* Quitar el outline al enfocar los inputs */
+.campos input:focus {
   outline: none;
 }
 
-.campos input::placeholder{
+/* Estilo para los placeholders de los inputs */
+.campos input::placeholder {
   color: #d2cccc;
 }
-.campos label{
+
+/* Estilo para las etiquetas de los campos */
+.campos label {
   display: block;
   font-size: 14px;
   color: #999;
   font-weight: 450;
   transition: all 0.3s ease;
   cursor: pointer;
-line-height: 2;
-  
+  line-height: 2;
 }
-.custom-button{
+
+/* Botón personalizado para las acciones del formulario */
+.custom-button {
   width: 70%;
   padding: 8px;
   border-radius: 10px;
@@ -68,7 +78,9 @@ line-height: 2;
   margin-top: 10px;
   margin-bottom: 10px;
 }
-.btn-admin button{
+
+/* Botón personalizado para acceder como administrador */
+.btn-admin button {
   margin-top: 20px;
   width: 80%;
   border: none;
@@ -76,7 +88,8 @@ line-height: 2;
   color: #333;
 }
 
-.btn-admin button:hover{
+/* Efecto hover para el botón de administrador */
+.btn-admin button:hover {
   color: var(--color-encabezado);
   border-bottom: 1.2px solid #333;
   transition: all 0.8s ease;
@@ -84,23 +97,28 @@ line-height: 2;
   cursor: pointer;
 }
 
-  .login-titulo{
-    font-family: "Arial", sans-serif;
-    font-size: 28px;
-    font-weight: bold;
-    color: #333; /* Color de texto negro */
-    text-align: center;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-.bienvenida{
+/* Título de la sección de inicio de sesión */
+.login-titulo {
+  font-family: "Arial", sans-serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Contenedor de bienvenida */
+.bienvenida {
   width: 60%;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-.bienvenida p{
+
+/* Texto de bienvenida */
+.bienvenida p {
   font-size: 18px;
   font-weight: 450;
   color: #333;
@@ -109,9 +127,10 @@ line-height: 2;
   text-transform: uppercase;
   letter-spacing: 1px;
   line-height: 1.5;
-
 }
-.bienvenida button{
+
+/* Botón de bienvenida para crear cuenta */
+.bienvenida button {
   width: 50%;
   padding: 5px;
   border-radius: 10px;
@@ -120,9 +139,11 @@ line-height: 2;
   color: var(--amarillo);
 }
 
-.bienvenida button:hover{
+/* Efecto hover para el botón de crear cuenta */
+.bienvenida button:hover {
   background-color: var(--amarillo);
   color: white;
   border: 1.5px solid var(--amarillo);
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;}
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
