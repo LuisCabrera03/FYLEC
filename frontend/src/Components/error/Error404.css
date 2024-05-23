@@ -3,49 +3,37 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    min-height: 100vh;
   }
   
-  .content {
+  .error404 .content {
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
   }
   
-  p {
+  .error404  p {
     margin-right: 20px;
     line-height: 1.5;
     font-family:  "Cabin Sketch";
-    font-size: 30px;
+    font-size: 40px;
     font-weight: 100;
     text-align: right;
   }
   
-  .imgerror {
+  .error404  .imgerror {
     max-width: 300px;
     height: auto;
   }
   
-  button {
-    margin-top: 20px;
-    width: 150px;
-    height: 50px;
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 1rem;
-    font-weight: 600;
-    background-color: #00132b;
-    border-radius: 10px;
-    color: white;
-    border: 0.5px solod gray;
-  }
- 
+
   @media (max-width: 768px) {
-    .content {
+    .error404  .content {
       flex-direction: column;
     }
   
-    p {
+    .error404  p {
       margin-right: 0;
       margin-bottom: 20px;
     }

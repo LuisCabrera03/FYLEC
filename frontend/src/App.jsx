@@ -1,3 +1,4 @@
+import  'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Header from './Components/Header/Header';
 import Home from './Components/Home/Home';
@@ -19,6 +20,13 @@ import Ver from './Components/Admin/Ver/Ver';
 import Usuarios from './Components/Admin/Usuarios/Usuarios';
 import Roles from './Components/Admin/Roles/Roles';
 import Ventas from './Components/Admin/Ventas/Ventas';
+import Error404 from './Components/Error/Error404';
+import Error400 from './Components/Error/Error400';
+import Error401 from './Components/Error/Error401';
+import Error403 from './Components/Error/Error403';
+import Error500 from './Components/Error/Error500';
+import Error503 from './Components/Error/Error503';
+
 const HeaderWithRoutes = () => (
   <>
     <Header />
@@ -31,7 +39,12 @@ const HeaderWithRoutes = () => (
       <Route path="/categorias" component={Categorias} />
       <Route path="/compra/:productId/:cantidad" component={Compra} />
       <Route path="/Factura" component={Factura} />
-
+      <Route path="/error400" component={Error400} />
+      <Route path="/error401" component={Error401} />
+      <Route path="/error403" component={Error403} />
+      <Route path="/error500" component={Error500} />
+      <Route path="/error503" component={Error503} />
+      <Route component={Error404} />
     </Switch>
     <Footer />
   </>
