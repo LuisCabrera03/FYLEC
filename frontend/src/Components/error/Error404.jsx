@@ -10,7 +10,7 @@ function Error404() {
           Error 404<br />
           La página que estás<br />
           buscando<br />
-          no existe y me dio ansiedad
+          no existe y me dio amsiedad
         </p>
         <img className="imgerror" src={image} alt="error404" />
       </div>
