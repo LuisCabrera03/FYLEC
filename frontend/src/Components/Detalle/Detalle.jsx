@@ -44,7 +44,6 @@ function Detalle({ match }) {
                     setSesionIniciada(true);
                 }
             } catch (error) {
-                // No mostrar error si la autenticación falla
                 setSesionIniciada(false);
             }
         };

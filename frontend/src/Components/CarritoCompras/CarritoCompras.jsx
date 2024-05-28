@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link, useHistory } from 'react-router-dom'; // Importamos Link y useHistory desde react-router-dom
+import { Link, useHistory } from 'react-router-dom';
 import './CarritoCompras.css';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,7 +18,7 @@ function CarritoCompras() {
     const [total, setTotal] = useState(0);
     const [loading, setLoading] = useState(true);
     const [loggedIn, setLoggedIn] = useState(false);
-    const history = useHistory(); // Inicializamos useHistory
+    const history = useHistory();
 
     useEffect(() => {
         const obtenerCarrito = async () => {
@@ -84,7 +84,7 @@ function CarritoCompras() {
     const handlePagar = () => {
         if (carrito.length > 0) {
             const items = carrito.map(item => `${item.producto.id}-${item.cantidad}`).join('&');
-            history.push(`/compra?items=${items}`);
+            history.push(`/compra/${items}`);
         }
     };
 
@@ -216,9 +216,7 @@ function CarritoCompras() {
                         )}
                     </div>
                 )}
-
             </div>
-
         </>
     );
 }

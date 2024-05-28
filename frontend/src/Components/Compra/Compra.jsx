@@ -8,9 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Compra(props) {
-    const [producto, setProducto] = useState(null);
-    const [cantidad, setCantidad] = useState(1);
-    const [precioConDescuento, setPrecioConDescuento] = useState(null);
+    const [productos, setProductos] = useState([]);
     const [mostrarFormularioPago, setMostrarFormularioPago] = useState(false);
     const [nombreCliente, setNombreCliente] = useState('');
     const [correoCliente, setCorreoCliente] = useState('');
@@ -37,28 +35,31 @@ function Compra(props) {
     };
 
     useEffect(() => {
-        const obtenerProducto = async () => {
+        const obtenerProductos = async () => {
             try {
-                const { productId, cantidad } = props.match.params;
-                const response = await axios.get(`http://localhost:5000/api/productos/${productId}`);
-                setProducto(response.data.producto);
-                setCantidad(parseInt(cantidad));
+                const { items } = props.match.params;
+                const itemsArray = items.split('&').map(item => {
+                    const [id, cantidad] = item.split('-');
+                    return { id, cantidad: parseInt(cantidad) };
+                });
+
+                const productosPromises = itemsArray.map(async (item) => {
+                    const response = await axios.get(`http://localhost:5000/api/productos/${item.id}`);
+                    return {
+                        ...response.data.producto,
+                        cantidad: item.cantidad
+                    };
+                });
+
+                const productosObtenidos = await Promise.all(productosPromises);
+                setProductos(productosObtenidos);
             } catch (error) {
-                console.error('Error al obtener el producto:', error);
+                console.error('Error al obtener los productos:', error);
             }
         };
 
-        obtenerProducto();
+        obtenerProductos();
     }, [props.match.params]);
-
-    useEffect(() => {
-        if (producto && producto.descuento > 0) {
-            const precioConDescuento = producto.precio * (1 - producto.descuento / 100);
-            setPrecioConDescuento(precioConDescuento);
-        } else {
-            setPrecioConDescuento(null);
-        }
-    }, [producto]);
 
     useEffect(() => {
         const obtenerUsuario = async () => {
@@ -90,14 +91,22 @@ function Compra(props) {
         setMunicipios(municipiosDepartamento || []);
     };
 
-    const aumentarCantidad = () => {
-        if (cantidad < producto.cantidad) {
-            setCantidad(prevCantidad => prevCantidad + 1);
-        }
+    const aumentarCantidad = (index) => {
+        setProductos(prevProductos => prevProductos.map((producto, i) => {
+            if (i === index && producto.cantidad < producto.stock) {
+                return { ...producto, cantidad: producto.cantidad + 1 };
+            }
+            return producto;
+        }));
     };
 
-    const disminuirCantidad = () => {
-        setCantidad(prevCantidad => (prevCantidad > 1 ? prevCantidad - 1 : prevCantidad));
+    const disminuirCantidad = (index) => {
+        setProductos(prevProductos => prevProductos.map((producto, i) => {
+            if (i === index && producto.cantidad > 1) {
+                return { ...producto, cantidad: producto.cantidad - 1 };
+            }
+            return producto;
+        }));
     };
 
     const handleCompraDirecta = () => {
@@ -132,8 +141,7 @@ function Compra(props) {
         try {
             const token = localStorage.getItem('token');
             const response = await axios.post('http://localhost:5000/api/completar-compra', {
-                producto_id: producto.id,
-                cantidad: cantidad,
+                productos: productos.map(p => ({ id: p.id, cantidad: p.cantidad })),
                 nombre: nombreCliente,
                 correo: correoCliente,
                 direccion: direccion,
@@ -168,8 +176,7 @@ function Compra(props) {
             const token = localStorage.getItem('token');
             const response = await axios.post('http://localhost:5000/api/crear-factura', {
                 usuario_id: usuario.id,
-                producto_id: producto.id,
-                cantidad: cantidad,
+                productos: productos.map(p => ({ id: p.id, cantidad: p.cantidad })),
                 nombre: nombreCliente,
                 correo: correoCliente,
                 direccion: direccion,
@@ -207,18 +214,15 @@ function Compra(props) {
         doc.text(`La Plata Huila`, 10, 90);
 
         doc.text(`ID de Compra: ${idCompra}`, 10, 100);
-        doc.text(`Producto: ${producto.nombre}`, 10, 110);
-        doc.text(`Categoría: ${producto.categoria}`, 10, 120);
-        doc.text(`Subcategoría: ${producto.subcategoria}`, 10, 130);
-        doc.text(`Precio por Unidad: $${producto.precio.toFixed(2)}`, 10, 140);
-        doc.text(`Precio sin IVA: $${precioSinIVA.toFixed(2)}`, 10, 150);
-        if (producto.descuento > 0) {
-            doc.text(`Precio con Descuento: $${precioConDescuento.toFixed(2)}`, 10, 160);
-        }
-        doc.text(`Cantidad: ${cantidad}`, 10, 170);
-        doc.text(`Precio Total: $${precioTotal.toFixed(2)}`, 10, 180);
-        doc.text(`Cliente: ${usuario.nombre}`, 10, 190);
-        doc.text(`Correo Electrónico: ${usuario.correo}`, 10, 200);
+        productos.forEach((producto, index) => {
+            doc.text(`Producto ${index + 1}: ${producto.nombre}`, 10, 110 + index * 10);
+            doc.text(`Cantidad: ${producto.cantidad}`, 10, 120 + index * 10);
+            doc.text(`Precio Unitario: $${producto.precio.toFixed(2)}`, 10, 130 + index * 10);
+        });
+        doc.text(`Precio sin IVA: $${precioSinIVA.toFixed(2)}`, 10, 140 + productos.length * 10);
+        doc.text(`Precio Total: $${precioTotal.toFixed(2)}`, 10, 150 + productos.length * 10);
+        doc.text(`Cliente: ${usuario.nombre}`, 10, 160 + productos.length * 10);
+        doc.text(`Correo Electrónico: ${usuario.correo}`, 10, 170 + productos.length * 10);
 
         doc.save('comprobante.pdf');
     };
@@ -228,40 +232,45 @@ function Compra(props) {
     };
 
     const calcularPrecioTotal = () => {
-        return producto.descuento > 0 ? cantidad * precioConDescuento : cantidad * producto.precio;
+        return productos.reduce((total, producto) => {
+            const precio = producto.descuento > 0 ? producto.precio * (1 - producto.descuento / 100) : producto.precio;
+            return total + producto.cantidad * precio;
+        }, 0);
     };
 
     const calcularPrecioSinIVA = () => {
-        return producto.precio / 1.19; // Resta el 19% de IVA
+        return productos.reduce((total, producto) => {
+            return total + (producto.precio / 1.19) * producto.cantidad;
+        }, 0);
     };
 
     return (
         <div className='carrito-container'>
-            {producto ? (
+            {productos.length > 0 ? (
                 <div className='lista-carrito'>
-                    <div className='item-carrito'>
-                        <div className='detalle-item'>
-                            <div className="carrito-img">
-                                <img src={producto.imgUrl} alt={producto.nombre} />
-                            </div>
-                            <div className='nombre'>{producto.nombre}</div>
-
-                            <p>Precio Unitario: ${producto.precio}</p>
-                            {producto.descuento > 0 && (
-                                <div>
-                                    <p>Descuento: {producto.descuento}%</p>
-                                    {precioConDescuento !== null && (
-                                        <p>Precio con Descuento: ${precioConDescuento.toFixed(2)}</p>
-                                    )}
+                    {productos.map((producto, index) => (
+                        <div key={producto.id} className='item-carrito'>
+                            <div className='detalle-item'>
+                                <div className="carrito-img">
+                                    <img src={producto.imgUrl} alt={producto.nombre} />
                                 </div>
-                            )}
-                            <div className='cantidad'>
-                                <button onClick={disminuirCantidad}><FontAwesomeIcon icon={faSquareMinus} /></button>
-                                <input type="number" min="1" max={producto.cantidad} value={cantidad} readOnly />
-                                <button onClick={aumentarCantidad}><FontAwesomeIcon icon={faSquarePlus} /></button>
+                                <div className='nombre'>{producto.nombre}</div>
+
+                                <p>Precio Unitario: ${producto.precio}</p>
+                                {producto.descuento > 0 && (
+                                    <div>
+                                        <p>Descuento: {producto.descuento}%</p>
+                                        <p>Precio con Descuento: ${(producto.precio * (1 - producto.descuento / 100)).toFixed(2)}</p>
+                                    </div>
+                                )}
+                                <div className='cantidad'>
+                                    <button onClick={() => disminuirCantidad(index)}><FontAwesomeIcon icon={faSquareMinus} /></button>
+                                    <input type="number" min="1" max={producto.stock} value={producto.cantidad} readOnly />
+                                    <button onClick={() => aumentarCantidad(index)}><FontAwesomeIcon icon={faSquarePlus} /></button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ))}
                     <div className='acciones'>
                         <button onClick={handleCompraDirecta} className='btn-pagar'>Retiro por Ventanilla</button>
                         <button className='btn-pagar' onClick={handleCompraEnvio}>Envío a tu Dirección</button>
@@ -306,7 +315,7 @@ function Compra(props) {
                     )}
                 </div>
             ) : (
-                <p>Cargando producto...</p>
+                <p>Cargando productos...</p>
             )}
             {mostrarBotonDescargar && (
                 <button onClick={descargarComprobante}>Descargar Comprobante</button>

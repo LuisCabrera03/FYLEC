@@ -37,7 +37,7 @@ const HeaderWithRoutes = () => (
       <Route path="/CartasHome" component={CartasHome} />
       <Route path="/detalle/:id" component={Detalle} />
       <Route path="/categorias" component={Categorias} />
-      <Route path="/compra/:productId/:cantidad" component={Compra} />
+      <Route path="/compra/:items" component={Compra} />      
       <Route path="/Factura" component={Factura} />
       <Route path="/error400" component={Error400} />
       <Route path="/error401" component={Error401} />
