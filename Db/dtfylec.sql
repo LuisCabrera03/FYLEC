@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-05-2024 a las 19:58:06
+-- Tiempo de generación: 20-07-2024 a las 00:20:44
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -43,7 +43,7 @@ CREATE TABLE `administrador` (
 --
 
 INSERT INTO `administrador` (`id`, `nombre`, `email`, `contraseña`, `fecha_ingreso`, `rol`) VALUES
-(1, 'Jhilder Jesus', 'admin@gmail.com', '123', '2024-05-05', 1),
+(1, 'Jhilder Jesus', 'admin@gmail.com', 'admin.Jesus', '2024-05-05', 1),
 (9, 'Juan Camilo', 'durodelestomago@gmail.com', '123456', '2024-05-10', 2),
 (11, 'patito', 'patito@gmail.com', '123456', '2024-05-10', 1);
 
@@ -59,6 +59,13 @@ CREATE TABLE `carritocompras` (
   `producto_id` int(11) NOT NULL,
   `cantidad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `carritocompras`
+--
+
+INSERT INTO `carritocompras` (`id`, `usuario_id`, `producto_id`, `cantidad`) VALUES
+(81, 13, 54, 4);
 
 -- --------------------------------------------------------
 
@@ -120,7 +127,7 @@ CREATE TABLE `productos` (
   `categoria` varchar(50) DEFAULT NULL,
   `subcategoria` varchar(100) DEFAULT NULL,
   `imgUrl` varchar(255) DEFAULT NULL,
-  `precio` decimal(10,3) DEFAULT NULL,
+  `precio` decimal(10,2) DEFAULT NULL,
   `descuento` decimal(5,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -129,41 +136,41 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `codigo`, `nombre`, `marca`, `descripcion`, `cantidad`, `categoria`, `subcategoria`, `imgUrl`, `precio`, `descuento`) VALUES
-(27, '1', 'Juego de brocas de destornillador de 1/4 pulgadas', 'Malca ñao', 'Juego de brocas de destornillador de 1/4 pulgadas, Kit de herramientas de Llave de trinquete para reparación automática, 46 piezas', 9, 'Herramientas Manuales', 'Destornilladores', 'https://s.alicdn.com/@sc04/kf/Hcae4888fbe404337875e604d9f5bc344C.jpg', 33.000, 0.00),
-(28, '12', 'Juego de Herramientas de llave de tubo, trinquete reversible, combinación de 16 Uds.', 'Ningbo Dongrun Imp & Exp Co., Ltd.', 'Garantía	1 month\nMaterial	De acero al carbono', 4, 'Herramientas Manuales', 'Llaves (fijas, ajustables, de tubo)', 'https://s.alicdn.com/@sc04/kf/He2de61db49b64a599ad92f14f88444c9X.jpg', 22.000, 0.00),
-(30, '1', 'Martillo con mango de fibra, superficie de succión, martillo con cabeza cuadrada', 'Hefei Chegongshe Hardware Technology', 'Material del mango	Fibra de vidrio, Plástico\nUso	Multifuncional martillo', 27, 'Herramientas Manuales', 'Martillos (de carpintero, de bola, de goma)', 'https://s.alicdn.com/@sc04/kf/H4dab9f9ac4b54474baa045b4253650a4P.jpg', 16000.000, 0.00),
-(31, '1', 'sierra de mano para acampar en madera', 'Changxing Yuao Import And Export Co., Ltd', 'TODO tipo de herramientas de trabajo pesado, hoja Extra larga de 45cm, sierra de mano para acampar en madera', 43, 'Herramientas Manuales', 'Sierras (para madera, para metal)', 'https://s.alicdn.com/@sc04/kf/HTB1C9agaEvrK1RjSszfq6xJNVXag.jpg', 12500.000, 0.00),
-(32, '1', 'Cincel plano de 6 pulgadas', 'Enping Jinkun Hardware Products Co., Ltd.', 'Cincel plano de 6 pulgadas Juego de cinceles de mampostería resistente de acero de grado industrial con protección para las manos', 86, 'Herramientas Manuales', 'Cinceles,', 'https://s.alicdn.com/@sc04/kf/H32929ad978104a02afb4a61b225737b9K.jpg', 8901.000, 0.00),
-(33, '1', 'Soporte de acero ajustable para gato de coche', 'Qingdao Giantfortune Industry Co., Ltd.', 'Soporte de acero ajustable para gato de coche, herramientas para vehículo, 3 toneladas, precio barato', 543, 'Herramientas Manuales', 'Gatos y prensas', 'https://s.alicdn.com/@sc04/kf/H495938e7680f4432afc8c9d87a1b271bP.jpg', 36200.000, 0.00),
-(34, '2', 'Taladro eléctrico sin escobillas', 'Ningbo Liangye Electric Appliances Co., Ltd', 'Taladro eléctrico sin escobillas, Herramientas, 20v', 43, 'Herramientas eléctricas', 'Taladros', 'https://s.alicdn.com/@sc04/kf/Hb8e3f84f9dec4f59ab7ac4428170aca9V.jpg', 120001.000, 11.00),
-(35, '2', 'Minisierra Circular inalámbrica', 'Wuxi Saab Machinery Co., Ltd', 'Minisierra Circular inalámbrica, 20v, velocidad Variable, batería de litio', 654, 'Herramientas eléctricas', 'Sierra circular', 'https://s.alicdn.com/@sc04/kf/H262bb274da984ea3b06f5f2c99b4be62S.jpg', 250000.000, 13.00),
-(36, '2', 'Amoladora angular de batería de litio', 'Zhejiang Topwire Trading Co., Ltd.', 'Amoladora angular de batería de litio, herramienta eléctrica inalámbrica de 21V con interruptor deslizante para corte y acondicionamiento de superficies', 23, 'Herramientas eléctricas', 'Amoladoras', 'https://s.alicdn.com/@sc04/kf/H7e5b52bb469d43c0b7bb09151936b8e4a.png', 300.000, 15.00),
-(37, '2', 'Lijadora de coche de aire profesional RP7336S 6', 'Zhejiang Rongpeng Air Tools Co., Ltd', 'RONGPENG-Lijadora de coche de aire profesional RP7336S 6 \'\'para lijadoras neumáticas de superficies curvas', 43, 'Herramientas eléctricas', 'Lijadoras', 'https://s.alicdn.com/@sc04/kf/Hb88d956d47254223aea6a3fdf0684cc5b.png', 370000.000, 0.00),
-(38, '2', 'Máquina de sierra caladora', 'Yuyao Goldsen International Trade Co., L', 'Herramienta profesional de trabajo de madera TOLHIT, máquina de sierra caladora de mandril de liberación rápida, sierra caladora eléctrica manual portátil Industrial 65mm 710W', 43, 'Herramientas eléctricas', 'Sierras caladoras', 'https://s.alicdn.com/@sc04/kf/H1071c6a431ec4d6ea6bfca4b6eb00873u.jpg', 54300.000, 12.00),
-(39, '2', 'Pistola de calor ', 'Hefei Chegongshe Hardware Technology', 'Pistola de calor de velocidad ajustable para soldar molde de plástico, grado ndustrial 2000W', 90, 'Herramientas eléctricas', 'Pistolas de calor', 'https://s.alicdn.com/@sc04/kf/H924fd55233ce47f7a517e59750add597R.jpg', 68000.000, 0.00),
-(40, '2', 'Máquina de soldar portátil 3 en 1', 'Yongkang Songshi Technology Co., Ltd.', 'Máquina de soldar portátil 3 en 1 MIG/MAG/MMA IGBT, inversor, máquina de soldadura sin gas', 31, 'Herramientas eléctricas', 'Soldadoras', 'https://s.alicdn.com/@sc04/kf/He65006b046db472ebf3917bacd82381eD.jpg', 700000.000, 15.00),
-(41, '3', 'Tornillo combinado de cabeza plana', 'Shenzhen Senyi Precision Hardware Co., Ltd.', 'Tornillo combinado de cabeza plana empotrada en cruz personalizado de fábrica al por mayor M2 M3 M4 M5 Tornillo de arandela doble de resorte plano de acero inoxidable', 468, 'Ferretería general', 'Tornillería y fijaciones (tornillos, tuercas, arandelas, clavos)', 'https://s.alicdn.com/@sc04/kf/Hb6f9c9fa78694d60848adceb4a969501q.jpg', 100.000, 0.00),
-(42, '3', 'Bisagras de puerta', 'Foshan Chengyi Hardware Factory', 'Bisagras de puerta al por mayor de China para puertas compuestas comprar Bisagras de metal horno de acero inoxidable 316 bisagra para madera', 21, 'Ferretería general', 'Bisagras y cerraduras', 'https://s.alicdn.com/@sc04/kf/H910be6907b7b42b981a00b47def08df7h.png', 6000.000, 0.00),
-(43, '3', 'Tirador de puerta de armario', 'Guangdong Topcent Development Co., ', 'Topcent-tirador de puerta de armario, perillas de acero inoxidable para muebles, manijas de cajón de cocina', 76, 'Ferretería general', 'Pomos y manijas', 'https://s.alicdn.com/@sc04/kf/Hab0a4050f627448e81503cefcd0fb403Y.jpg', 7001.000, 0.00),
-(44, '3', 'Candado de aluminio', 'Wenzhou Boshi Safety Products Co., Ltd', 'Candado de aluminio ligero anodizado impermeable personalizado de fabricante OEM de alta calidad para bloqueo industrial-Equipo de etiquetado', 8, 'Ferretería general', 'Cadenas y candados', 'https://s.alicdn.com/@sc04/kf/H14a1865a9eae4a4b97fcf5892f70d617u.jpg', 15000.000, 0.00),
-(45, '3', 'Andamio de aluminio', 'Zhejiang Leader Industry&Trade Co., Ltd.', 'Andamio de aluminio de fábrica Andamio de escalera multiusos con escaleras de plataforma y escalera de andamios', 6, 'Ferretería general', 'Escaleras y andamios', 'https://s.alicdn.com/@sc04/kf/Hb273a95a643d4985b11e66bac510f2c4I.jpg', 250000.000, 20.00),
-(46, '3', 'Abor-carrete de rueda rolley, 6400 Newest, práctico', 'Qingdao Yuantai Metal Products Co., Ltd.', 'Abor-carrete de rueda rolley, 6400 Newest, práctico', 5, 'Ferretería general', 'Carretillas y carros de mano', 'https://s.alicdn.com/@sc04/kf/H21dba7d7809848a89c52fd61af6f3eab2.png', 70.000, 1.00),
-(47, '3', 'Chapa metálica', 'Foshan Canen Metal Products Co., Ltd.', 'Hardware, piezas de estampado, proveedores de piezas de fabricación de chapa metálica, soportes de estante de metal, soportes angulares de soporte en L para conector de madera', 318, 'Ferretería general', 'Soportes y colgadores', 'https://s.alicdn.com/@sc04/kf/Hcf25aafed0b84e71ace5f60a22dc1ac9m.jpg', 3000.000, 0.00),
-(48, '4', 'Pintura de revestimiento impermeable', 'Hebei Naisi International Trading Ltd.', 'Pintura de revestimiento impermeable de baja temperatura para la construcción y el ahorro de energía de la casa', 54, 'Pintura y acabados', 'Pinturas (interior, exterior, esmaltes, aerosoles)', 'https://s.alicdn.com/@sc04/kf/H35f33c1f732e4de98601f61e8d92af39s.jpg', 70000.000, 0.00),
-(49, '4', 'Cepillo de madera con cerdas, pincel de pintura barato', 'Danyang Rixing Tool Co., Ltd.', 'Cepillo de madera con cerdas, pincel de pintura barato', 65, 'Pintura y acabados', 'Rodillos y brochas', 'https://s.alicdn.com/@sc04/kf/H7f13d7ae4e744ec490383a4b85141addf.jpg', 5000.000, 0.00),
-(50, '4', 'Cinta adhesiva resistente a altas temperaturas', 'Dongguan Yihong New Material Co., Ltd.', 'Cinta adhesiva resistente a altas temperaturas 3mm proveedor Jumbo Precio Autobody Cinta automotriz', 25, 'Pintura y acabados', 'Cintas de enmascarar', 'https://s.alicdn.com/@sc04/kf/H026a2321a9ac4be493e155696f8b9aa4l.jpg', 7000.000, 0.00),
-(51, '3', 'CLAVOS HELICOIDALES', 'Anhui Amigo Imp. & Exp. Co., Ltd.', 'CLAVOS HELICOIDALES para palés, fabricante 2, 1/4 \'\'x.099\'\'', 960, 'Ferretería general', 'Tornillería y fijaciones (tornillos, tuercas, arandelas, clavos)', 'https://s.alicdn.com/@sc04/kf/HTB1pOXJcER1BeNjy0Fmq6z0wVXaL.jpg', 3000.000, 0.00),
-(53, '65432', 'Cemento ', 'Argos', 'cemento pa cementar', 876533, 'Materiales de Construcción', 'Materiales de Albañilería', 'https://www.argos.com.pa/wp-content/uploads/2020/12/PRODUCTOS_CEMENTO-GRIS-USO-GENERAL_1.jpg', 30000.000, 0.00),
-(54, '3233r', 'Destornilladores multiusos con mango de PP aislado', ' Straight Head', 'Destornilladores multiusos con mango de PP aislado, destornillador de mano, accesorios resistentes al desgaste, herramientas de mantenimiento del hogar', 872, 'Herramientas Manuales', 'Destornilladores', 'https://s.alicdn.com/@sc04/kf/H0ea649199fe44b4c821cdf4d2a32734ei.jpg', 10.000, 5.00),
-(55, '45567', 'Luminum', 'Luminum', 'Luminum-luminaria flexible, accesorio de iluminación ajustable', 0, 'Herramientas Manuales', 'Llaves (fijas, ajustables, de tubo)', 'https://s.alicdn.com/@sc04/kf/H30b34ba0d74044278626ff6d1b24ae88A.jpg', 16600.000, 2.00),
-(56, '2323f4', 'Tornillo de compresión sin cabeza', 'Shuangyang', 'Tornillo de compresión sin cabeza, herramienta de fijación quirúrgica, caja de instrumentos, 2,4, 2,7', 478, 'Ferretería general', 'Tornillería y fijaciones (tornillos, tuercas, arandelas, clavos)', 'https://s.alicdn.com/@sc04/kf/HTB1foc1X6DuK1RjSszdq6xGLpXaP.jpg', 300.000, 0.00),
-(57, '2rree4', 'Tornillos hexagonales de acero inoxidable', 'WANLUO', 'Tornillos hexagonales de acero inoxidable, estándar personalizado, para muebles, autoperforación', 340, 'Ferretería general', 'Tornillería y fijaciones (tornillos, tuercas, arandelas, clavos)', 'https://s.alicdn.com/@sc04/kf/Hd8b2c62782164493bef75a1f78434e63E.jpg', 300.000, 0.00),
-(58, '232323c', 'Xternal exagon Elf-tapping', 'WANLUO', 'Xternal exagon Elf-tapping, equipos de oarse, xtension Elf-Drilling, 6M8M10M12\n', 666, 'Ferretería general', 'Tornillería y fijaciones (tornillos, tuercas, arandelas, clavos)', 'https://s.alicdn.com/@sc04/kf/H5767546ac9f9467e88dc7d1575c2bfefM.jpg', 300.000, 0.00),
-(59, '222ee2', 'Tornillo de madera avellanado de acero inoxidable', 'WANLUO', 'Phillips-tornillo de madera avellanado de acero inoxidable, rosca autorroscante A2,', 654, 'Ferretería general', 'Tornillería y fijaciones (tornillos, tuercas, arandelas, clavos)', 'https://s.alicdn.com/@sc04/kf/Hc212fc5bd5b544ac88eb67aa31e44cfff.jpg', 350.000, 0.00),
-(60, '323345f', 'Alicates', 'Mogen', 'Aislado Terminal Manual de herramientas de crimpado de alambre eléctrico alicates', 29, 'Herramientas Manuales', 'Alicates (de corte, de punta, de presión)', 'https://s.alicdn.com/@sc04/kf/Hb1153f4206f14d0884b44c2dd34da6539.jpg', 20001.000, 4.00),
-(61, '3ee33', 'Minialicates de Corte Lateral', 'OEM', 'Minialicates de Corte Lateral, cortador Diagonal PT936', 23, 'Herramientas Manuales', 'Alicates (de corte, de punta, de presión)', 'https://s.alicdn.com/@sc04/kf/H6d79783b86a64a8f96fc181b175a2c61P.jpg', 5000.000, 0.00),
-(62, '233', 'Alicates de combinación de corte multifuncional', 'TOLSEN', 'TOLSEN 10000 Herramientas de mano Alicates de combinación de corte multifuncional', 47, 'Herramientas Manuales', 'Alicates (de corte, de punta, de presión)', 'https://s.alicdn.com/@sc04/kf/HTB1fLvJKQvoK1RjSZFDq6xY3pXae.jpg', 60.000, 0.00),
-(67, '2121', 'dfd', 'ddd', 'dfdf', 211, 'Herramientas eléctricas', 'Sierras caladoras', 'https://s.alicdn.com/@sc04/kf/Hcdab7d7f77bf4e94a190a8588e2a7680H.jpg', 12.000, 0.00);
+(27, '1', 'Juego de brocas de destornillador de 1/4 pulgadas', 'Malca ñao', 'Juego de brocas de destornillador de 1/4 pulgadas, Kit de herramientas de Llave de trinquete para reparación automática, 46 piezas', 9, 'Herramientas Manuales', 'Destornilladores', 'https://s.alicdn.com/@sc04/kf/Hcae4888fbe404337875e604d9f5bc344C.jpg', 34.20, 0.00),
+(28, '12', 'Juego de Herramientas de llave de tubo, trinquete reversible, combinación de 16 Uds.', 'Ningbo Dongrun Imp & Exp Co., Ltd.', 'Garantía	1 month\nMaterial	De acero al carbono', 4, 'Herramientas Manuales', 'Llaves (fijas, ajustables, de tubo)', 'https://s.alicdn.com/@sc04/kf/He2de61db49b64a599ad92f14f88444c9X.jpg', 22.00, 0.00),
+(30, '1', 'Martillo con mango de fibra, superficie de succión, martillo con cabeza cuadrada', 'Hefei Chegongshe Hardware Technology', 'Material del mango	Fibra de vidrio, Plástico\nUso	Multifuncional martillo', 27, 'Herramientas Manuales', 'Martillos (de carpintero, de bola, de goma)', 'https://s.alicdn.com/@sc04/kf/H4dab9f9ac4b54474baa045b4253650a4P.jpg', 160.00, 0.00),
+(31, '1', 'sierra de mano para acampar en madera', 'Changxing Yuao Import And Export Co., Ltd', 'TODO tipo de herramientas de trabajo pesado, hoja Extra larga de 45cm, sierra de mano para acampar en madera', 43, 'Herramientas Manuales', 'Sierras (para madera, para metal)', 'https://s.alicdn.com/@sc04/kf/HTB1C9agaEvrK1RjSszfq6xJNVXag.jpg', 12.50, 0.00),
+(32, '1', 'Cincel plano de 6 pulgadas', 'Enping Jinkun Hardware Products Co., Ltd.', 'Cincel plano de 6 pulgadas Juego de cinceles de mampostería resistente de acero de grado industrial con protección para las manos', 86, 'Herramientas Manuales', 'Cinceles,', 'https://s.alicdn.com/@sc04/kf/H32929ad978104a02afb4a61b225737b9K.jpg', 89.00, 0.00),
+(33, '1', 'Soporte de acero ajustable para gato de coche', 'Qingdao Giantfortune Industry Co., Ltd.', 'Soporte de acero ajustable para gato de coche, herramientas para vehículo, 3 toneladas, precio barato', 543, 'Herramientas Manuales', 'Gatos y prensas', 'https://s.alicdn.com/@sc04/kf/H495938e7680f4432afc8c9d87a1b271bP.jpg', 36200.00, 0.00),
+(34, '2', 'Taladro eléctrico sin escobillas', 'Ningbo Liangye Electric Appliances Co., Ltd', 'Taladro eléctrico sin escobillas, Herramientas, 20v', 43, 'Herramientas eléctricas', 'Taladros', 'https://s.alicdn.com/@sc04/kf/Hb8e3f84f9dec4f59ab7ac4428170aca9V.jpg', 120001.00, 11.00),
+(35, '2', 'Minisierra Circular inalámbrica', 'Wuxi Saab Machinery Co., Ltd', 'Minisierra Circular inalámbrica, 20v, velocidad Variable, batería de litio', 654, 'Herramientas eléctricas', 'Sierra circular', 'https://s.alicdn.com/@sc04/kf/H262bb274da984ea3b06f5f2c99b4be62S.jpg', 250000.00, 13.00),
+(36, '2', 'Amoladora angular de batería de litio', 'Zhejiang Topwire Trading Co., Ltd.', 'Amoladora angular de batería de litio, herramienta eléctrica inalámbrica de 21V con interruptor deslizante para corte y acondicionamiento de superficies', 23, 'Herramientas eléctricas', 'Amoladoras', 'https://s.alicdn.com/@sc04/kf/H7e5b52bb469d43c0b7bb09151936b8e4a.png', 300.00, 15.00),
+(37, '2', 'Lijadora de coche de aire profesional RP7336S 6', 'Zhejiang Rongpeng Air Tools Co., Ltd', 'RONGPENG-Lijadora de coche de aire profesional RP7336S 6 \'\'para lijadoras neumáticas de superficies curvas', 43, 'Herramientas eléctricas', 'Lijadoras', 'https://s.alicdn.com/@sc04/kf/Hb88d956d47254223aea6a3fdf0684cc5b.png', 370000.00, 0.00),
+(38, '2', 'Máquina de sierra caladora', 'Yuyao Goldsen International Trade Co., L', 'Herramienta profesional de trabajo de madera TOLHIT, máquina de sierra caladora de mandril de liberación rápida, sierra caladora eléctrica manual portátil Industrial 65mm 710W', 43, 'Herramientas eléctricas', 'Sierras caladoras', 'https://s.alicdn.com/@sc04/kf/H1071c6a431ec4d6ea6bfca4b6eb00873u.jpg', 54300.00, 12.00),
+(39, '2', 'Pistola de calor ', 'Hefei Chegongshe Hardware Technology', 'Pistola de calor de velocidad ajustable para soldar molde de plástico, grado ndustrial 2000W', 90, 'Herramientas eléctricas', 'Pistolas de calor', 'https://s.alicdn.com/@sc04/kf/H924fd55233ce47f7a517e59750add597R.jpg', 68000.00, 0.00),
+(40, '2', 'Máquina de soldar portátil 3 en 1', 'Yongkang Songshi Technology Co., Ltd.', 'Máquina de soldar portátil 3 en 1 MIG/MAG/MMA IGBT, inversor, máquina de soldadura sin gas', 31, 'Herramientas eléctricas', 'Soldadoras', 'https://s.alicdn.com/@sc04/kf/He65006b046db472ebf3917bacd82381eD.jpg', 700000.00, 15.00),
+(41, '3', 'Tornillo combinado de cabeza plana', 'Shenzhen Senyi Precision Hardware Co., Ltd.', 'Tornillo combinado de cabeza plana empotrada en cruz personalizado de fábrica al por mayor M2 M3 M4 M5 Tornillo de arandela doble de resorte plano de acero inoxidable', 468, 'Ferretería general', 'Tornillería y fijaciones (tornillos, tuercas, arandelas, clavos)', 'https://s.alicdn.com/@sc04/kf/Hb6f9c9fa78694d60848adceb4a969501q.jpg', 100.00, 0.00),
+(42, '3', 'Bisagras de puerta', 'Foshan Chengyi Hardware Factory', 'Bisagras de puerta al por mayor de China para puertas compuestas comprar Bisagras de metal horno de acero inoxidable 316 bisagra para madera', 21, 'Ferretería general', 'Bisagras y cerraduras', 'https://s.alicdn.com/@sc04/kf/H910be6907b7b42b981a00b47def08df7h.png', 6000.00, 0.00),
+(43, '3', 'Tirador de puerta de armario', 'Guangdong Topcent Development Co., ', 'Topcent-tirador de puerta de armario, perillas de acero inoxidable para muebles, manijas de cajón de cocina', 76, 'Ferretería general', 'Pomos y manijas', 'https://s.alicdn.com/@sc04/kf/Hab0a4050f627448e81503cefcd0fb403Y.jpg', 7001.00, 0.00),
+(44, '3', 'Candado de aluminio', 'Wenzhou Boshi Safety Products Co., Ltd', 'Candado de aluminio ligero anodizado impermeable personalizado de fabricante OEM de alta calidad para bloqueo industrial-Equipo de etiquetado', 8, 'Ferretería general', 'Cadenas y candados', 'https://s.alicdn.com/@sc04/kf/H14a1865a9eae4a4b97fcf5892f70d617u.jpg', 15000.00, 0.00),
+(45, '3', 'Andamio de aluminio', 'Zhejiang Leader Industry&Trade Co., Ltd.', 'Andamio de aluminio de fábrica Andamio de escalera multiusos con escaleras de plataforma y escalera de andamios', 6, 'Ferretería general', 'Escaleras y andamios', 'https://s.alicdn.com/@sc04/kf/Hb273a95a643d4985b11e66bac510f2c4I.jpg', 250000.00, 20.00),
+(46, '3', 'Abor-carrete de rueda rolley, 6400 Newest, práctico', 'Qingdao Yuantai Metal Products Co., Ltd.', 'Abor-carrete de rueda rolley, 6400 Newest, práctico', 5, 'Ferretería general', 'Carretillas y carros de mano', 'https://s.alicdn.com/@sc04/kf/H21dba7d7809848a89c52fd61af6f3eab2.png', 70.00, 1.00),
+(47, '3', 'Chapa metálica', 'Foshan Canen Metal Products Co., Ltd.', 'Hardware, piezas de estampado, proveedores de piezas de fabricación de chapa metálica, soportes de estante de metal, soportes angulares de soporte en L para conector de madera', 318, 'Ferretería general', 'Soportes y colgadores', 'https://s.alicdn.com/@sc04/kf/Hcf25aafed0b84e71ace5f60a22dc1ac9m.jpg', 3000.00, 0.00),
+(48, '4', 'Pintura de revestimiento impermeable', 'Hebei Naisi International Trading Ltd.', 'Pintura de revestimiento impermeable de baja temperatura para la construcción y el ahorro de energía de la casa', 54, 'Pintura y acabados', 'Pinturas (interior, exterior, esmaltes, aerosoles)', 'https://s.alicdn.com/@sc04/kf/H35f33c1f732e4de98601f61e8d92af39s.jpg', 70000.00, 0.00),
+(49, '4', 'Cepillo de madera con cerdas, pincel de pintura barato', 'Danyang Rixing Tool Co., Ltd.', 'Cepillo de madera con cerdas, pincel de pintura barato', 65, 'Pintura y acabados', 'Rodillos y brochas', 'https://s.alicdn.com/@sc04/kf/H7f13d7ae4e744ec490383a4b85141addf.jpg', 5000.00, 0.00),
+(50, '4', 'Cinta adhesiva resistente a altas temperaturas', 'Dongguan Yihong New Material Co., Ltd.', 'Cinta adhesiva resistente a altas temperaturas 3mm proveedor Jumbo Precio Autobody Cinta automotriz', 25, 'Pintura y acabados', 'Cintas de enmascarar', 'https://s.alicdn.com/@sc04/kf/H026a2321a9ac4be493e155696f8b9aa4l.jpg', 7000.00, 0.00),
+(51, '3', 'CLAVOS HELICOIDALES', 'Anhui Amigo Imp. & Exp. Co., Ltd.', 'CLAVOS HELICOIDALES para palés, fabricante 2, 1/4 \'\'x.099\'\'', 960, 'Ferretería general', 'Tornillería y fijaciones (tornillos, tuercas, arandelas, clavos)', 'https://s.alicdn.com/@sc04/kf/HTB1pOXJcER1BeNjy0Fmq6z0wVXaL.jpg', 3000.00, 0.00),
+(53, '65432', 'Cemento ', 'Argos', 'cemento pa cementar', 876533, 'Materiales de Construcción', 'Materiales de Albañilería', 'https://www.argos.com.pa/wp-content/uploads/2020/12/PRODUCTOS_CEMENTO-GRIS-USO-GENERAL_1.jpg', 30000.00, 0.00),
+(54, '3233r', 'Destornilladores multiusos con mango de PP aislado', ' Straight Head', 'Destornilladores multiusos con mango de PP aislado, destornillador de mano, accesorios resistentes al desgaste, herramientas de mantenimiento del hogar', 872, 'Herramientas Manuales', 'Destornilladores', 'https://s.alicdn.com/@sc04/kf/H0ea649199fe44b4c821cdf4d2a32734ei.jpg', 10.00, 5.00),
+(55, '45567', 'Luminum', 'Luminum', 'Luminum-luminaria flexible, accesorio de iluminación ajustable', 0, 'Herramientas Manuales', 'Llaves (fijas, ajustables, de tubo)', 'https://s.alicdn.com/@sc04/kf/H30b34ba0d74044278626ff6d1b24ae88A.jpg', 16600.00, 2.00),
+(56, '2323f4', 'Tornillo de compresión sin cabeza', 'Shuangyang', 'Tornillo de compresión sin cabeza, herramienta de fijación quirúrgica, caja de instrumentos, 2,4, 2,7', 478, 'Ferretería general', 'Tornillería y fijaciones (tornillos, tuercas, arandelas, clavos)', 'https://s.alicdn.com/@sc04/kf/HTB1foc1X6DuK1RjSszdq6xGLpXaP.jpg', 300.00, 0.00),
+(57, '2rree4', 'Tornillos hexagonales de acero inoxidable', 'WANLUO', 'Tornillos hexagonales de acero inoxidable, estándar personalizado, para muebles, autoperforación', 340, 'Ferretería general', 'Tornillería y fijaciones (tornillos, tuercas, arandelas, clavos)', 'https://s.alicdn.com/@sc04/kf/Hd8b2c62782164493bef75a1f78434e63E.jpg', 300.00, 0.00),
+(58, '232323c', 'Xternal exagon Elf-tapping', 'WANLUO', 'Xternal exagon Elf-tapping, equipos de oarse, xtension Elf-Drilling, 6M8M10M12\n', 666, 'Ferretería general', 'Tornillería y fijaciones (tornillos, tuercas, arandelas, clavos)', 'https://s.alicdn.com/@sc04/kf/H5767546ac9f9467e88dc7d1575c2bfefM.jpg', 300.00, 0.00),
+(59, '222ee2', 'Tornillo de madera avellanado de acero inoxidable', 'WANLUO', 'Phillips-tornillo de madera avellanado de acero inoxidable, rosca autorroscante A2,', 654, 'Ferretería general', 'Tornillería y fijaciones (tornillos, tuercas, arandelas, clavos)', 'https://s.alicdn.com/@sc04/kf/Hc212fc5bd5b544ac88eb67aa31e44cfff.jpg', 350.00, 0.00),
+(60, '323345f', 'Alicates', 'Mogen', 'Aislado Terminal Manual de herramientas de crimpado de alambre eléctrico alicates', 29, 'Herramientas Manuales', 'Alicates (de corte, de punta, de presión)', 'https://s.alicdn.com/@sc04/kf/Hb1153f4206f14d0884b44c2dd34da6539.jpg', 20001.00, 4.00),
+(61, '3ee33', 'Minialicates de Corte Lateral', 'OEM', 'Minialicates de Corte Lateral, cortador Diagonal PT936', 23, 'Herramientas Manuales', 'Alicates (de corte, de punta, de presión)', 'https://s.alicdn.com/@sc04/kf/H6d79783b86a64a8f96fc181b175a2c61P.jpg', 5000.00, 0.00),
+(62, '233', 'Alicates de combinación de corte multifuncional', 'TOLSEN', 'TOLSEN 10000 Herramientas de mano Alicates de combinación de corte multifuncional', 47, 'Herramientas Manuales', 'Alicates (de corte, de punta, de presión)', 'https://s.alicdn.com/@sc04/kf/HTB1fLvJKQvoK1RjSZFDq6xY3pXae.jpg', 60.00, 0.00),
+(67, '2121', 'Cable', 'Pepe', 'Ideal pa la casa', 211, 'Herramientas eléctricas', 'Sierras caladoras', 'https://s.alicdn.com/@sc04/kf/Hcdab7d7f77bf4e94a190a8588e2a7680H.jpg', 12.00, 0.00);
 
 -- --------------------------------------------------------
 
@@ -202,7 +209,9 @@ INSERT INTO `usuarios` (`id`, `nombre`, `correo`, `contraseña`, `fecha_nacimien
 (64, 'Maria Alejandra Cabrera', 'administra1dor@gmail.com', '$2b$12$Y622Sq06yvh1sKZZDO8xQOoSlRGq2zChaC9HNIlLuiKg1Wtnpt/8K', '2024-04-30', 'CE', '1004250794', 'Masculino', 'Amazonas', 'Leticia', 'calle 2'),
 (65, 'Juan Camilo Cuetochambo', 'adminwwistrador@gmail.com', '$2b$12$OgCj9asFodklOoXyXiX1R.seTcVv6CwpiTiuwZwD7sU0ce57KNM1q', '2024-04-29', 'CC', '1004250794', 'Masculino', 'Antioquia', 'Medellín', 'calle 2'),
 (67, 'Luis Alfredo', 'durodelestomago@gmail.com', '$2b$12$Ibawn/wisbh009.jfhAiluDhDiT8opQceD8k9GP74hDUHx4f0Ya2e', '2024-04-28', 'TI', '1004250794', 'Masculino', 'Amazonas', 'Leticia', 'calle 2'),
-(68, 'Luis Alfredo', 'durodelestmago@gmail.com', '$2b$12$g5bHupgrqG5qpg6xnpLkxu7iPVrkjA0LpqQVuXgd8bbV2l2Ok7yMW', '2024-04-29', 'CC', '1004250794', 'Femenino', 'Amazonas', 'Leticia', 'calle 2');
+(68, 'Luis Alfredo', 'durodelestmago@gmail.com', '$2b$12$g5bHupgrqG5qpg6xnpLkxu7iPVrkjA0LpqQVuXgd8bbV2l2Ok7yMW', '2024-04-29', 'CC', '1004250794', 'Femenino', 'Amazonas', 'Leticia', 'calle 2'),
+(69, 'Luis Alfredo', 'adewemin@gmail.com', '$2b$12$k.bnEET43OEIX1YOVgw9uuQb.I2f3GXV7OS2oMQ4IiKXfEQyxL8wq', '2024-07-01', 'TI', '1004302071', 'Masculino', 'Amazonas', 'Leticia', 'la plata huila'),
+(70, 'Arroz Jacinto', 'arrozmin@gmail.com', '$2b$12$GQy6yL2BadFJFm.laeExH.dGG5X2wgLSJuNeCm2PPAwT0d9BE4OPa', '2024-07-01', 'TI', '1004302071', 'Femenino', 'Amazonas', 'Leticia', 'la plata huila');
 
 --
 -- Índices para tablas volcadas
@@ -257,7 +266,7 @@ ALTER TABLE `administrador`
 -- AUTO_INCREMENT de la tabla `carritocompras`
 --
 ALTER TABLE `carritocompras`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT de la tabla `factura`
@@ -275,7 +284,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- Restricciones para tablas volcadas
