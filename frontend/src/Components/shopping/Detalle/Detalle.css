@@ -1,0 +1,258 @@
+/* Encabezado del detalle */
+.detalle .encabezado {
+  width: 80%;
+  background-color: white;
+  padding: 10px 0;
+  margin: 20px auto 0;
+  font-size: 1.5em;
+}
+
+/* Contenedor principal del detalle */
+.detalle-container {
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  margin: 0 auto 30px;
+}
+
+/* Información del detalle */
+.detalle-info {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+/* Estrellas de calificación */
+.estrellas {
+  color: var(--amarillo);
+  font-size: 2em;
+}
+
+/* Contenedor de la cantidad */
+.cantidad {
+  border: 1px solid #EBEBEB;
+  padding: 10px;
+  max-width: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+}
+
+/* Botones de aumento y disminución de cantidad */
+.cantidad button {
+  border: none;
+  background-color: transparent;
+  font-size: 1.5em;
+  color: var(--amarillo);
+}
+
+/* Input de cantidad */
+.cantidad input {
+  border: none;
+  background-color: transparent;
+  text-align: center;
+  font-size: 1em;
+}
+
+/* Contenedor de botones de acción */
+.btns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid #EBEBEB;
+  border-radius: 10px;
+}
+
+/* Botón de comprar */
+.btn-comprar {
+  background-color: var(--amarillo);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* Botón de agregar al carrito */
+.btn-carrito {
+  background-color: white;
+  color: var(--amarillo);
+  border: 2px solid var(--amarillo);
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* Efecto hover en el botón de agregar al carrito */
+.btn-carrito:hover {
+  background-color: var(--amarillo);
+  color: white;
+  border: 2px solid var(--amarillo);
+  transition: all 0.2s ease;
+}
+
+/* Efecto hover en el botón de comprar */
+.btn-comprar:hover {
+  background-color: white;
+  color: var(--amarillo);
+  border: 2px solid var(--amarillo);
+}
+
+/* Contenedor de la imagen del producto */
+.image-container {
+  position: relative;
+  overflow: hidden;
+  width: 50%;
+  border-right: 1px solid #EBEBEB;
+}
+
+/* Imagen del producto */
+.image-container img {
+  transition: transform 1s ease-in-out;
+  width: 90%;
+  margin: 0 auto;
+  cursor: crosshair;
+}
+
+/* Efecto de zoom en la imagen */
+.image-container img.zoom-in {
+  transform: scale(5);
+  cursor: zoom-in;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Ventana de zoom */
+.zoom-window {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  pointer-events: none;
+  display: none;
+}
+
+/* Mostrar la ventana de zoom al pasar el cursor sobre la imagen */
+.image-container:hover .zoom-window {
+  display: block;
+}
+
+/* Tabla de detalles del producto */
+.detalle-container table {
+  width: 80%;
+  margin: 10px auto;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 20px;
+  border: 1px solid #EBEBEB;
+  border-radius: 10px;
+  background-color: white;
+}
+
+/* Celdas de la tabla de detalles del producto */
+.detalle-container th,
+.detalle-container td {
+  text-align: left;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-width: 1px 0;
+}
+
+/* Fila alterna en la tabla */
+.detalle-container tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Tarjeta de producto relacionado */
+.product-card {
+  text-decoration: none;
+}
+
+/* Animación de agregado al carrito */
+.agregar-animacion {
+  animation-name: fadeOut;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  opacity: 1;
+}
+
+/* Contenedor del mensaje de agregado al carrito */
+.animation-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Icono de animación */
+.animation-icon {
+  color: green;
+  font-size: 2em;
+}
+
+/* Texto de animación */
+.animation-text {
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+/* Animación de desvanecimiento */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Contenedor de productos relacionados */
+.container-products {
+  width: 80%;
+  margin: 20px auto;
+}
+
+/* Encabezado de productos relacionados */
+.container-products .encabezado {
+  text-align: center;
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+/* Tarjetas de productos relacionados */
+.product-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 20px;
+}
+
+.product-card {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px;
+  width: 200px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.product-card img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}

@@ -1,0 +1,144 @@
+/* Variables de colores */
+:root {
+    --primary-color: #007BFF;
+    /* Este color puede representar el color principal del tema */
+    --secondary-color: #6C757D;
+    /* Este color puede ser usado para texto secundario y detalles */
+    --border-color: #CED4DA;
+    /* Color de los bordes de los inputs */
+    --background-color: #F8F9FA;
+    /* Color de fondo del contenedor principal */
+    --error-color: #E51A4C;
+    /* Color para mensajes de error */
+    --input-focus-color: #80BDFF;
+    /* Color del borde del input en foco */
+    --input-background-color: #FFFFFF;
+    /* Color de fondo de los inputs */
+    --input-placeholder-color: #6C757D;
+    /* Color de los placeholders en los inputs */
+    --button-background-color: #007BFF;
+    /* Color de fondo de los botones */
+    --button-hover-color: #0056b3;
+    /* Color de fondo del botón en hover */
+}
+
+.container-account {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    opacity: 0.8;
+    background-image: url(../../../assets/wood-1404326_1280.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Contenedor principal del formulario */
+.create-account {
+    width: 40%;
+    margin: 5% auto;
+    padding: 40px;
+    background-color: var(--background-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.container-all{
+    width: 98%;
+}
+/* Formulario */
+.create-account .form {
+    width: auto;
+}
+
+/* Paso del formulario */
+.create-account .form-step {
+    margin-bottom: 20px;
+}
+
+.create-account .form-step h2 {
+    color: #EFB850;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+/* Grupo de formulario */
+.create-account .form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.create-account .form-group label {
+    margin-bottom: 8px;
+    font-size: 1em;
+    color: var(--secondary-color);
+}
+
+/* Inputs y selectores */
+.create-account .form-group input,
+.create-account .form-group select,
+.create-account .form-group .react-datepicker-wrapper input {
+    width: 100%;
+    padding: 12px 0 ;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1em;
+    transition: border-color 0.3s ease;
+    background-color: var(--input-background-color);
+}
+
+.create-account .form-group input:focus,
+.create-account .form-group select:focus,
+.create-account .form-group .react-datepicker-wrapper input:focus {
+    border-color: var(--input-focus-color);
+    outline: none;
+}
+
+.create-account .form-group .react-datepicker-wrapper {
+    width: 100%;
+}
+
+/* Inputs con error */
+.create-account .input-error {
+    border-color: var(--error-color) !important;
+}
+
+/* Mensajes de alerta */
+.create-account .alert {
+    color: var(--error-color);
+    font-size: 0.875em;
+    margin-top: 5px;
+}
+
+.create-account .alert-icon {
+    margin-right: 5px;
+}
+
+/* Navegación entre pasos */
+.create-account .step-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.create-account .custom-button {
+    width: 48%;
+    padding: 12px;
+    font-size: 1em;
+    color: #FFFFFF;
+    background-color: #EFB850;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.create-account .custom-button:hover {
+    background-color: #f9c669;
+}

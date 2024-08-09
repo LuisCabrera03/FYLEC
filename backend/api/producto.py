@@ -4,6 +4,7 @@ import random
 import time
 import logging
 from models import db, Producto
+
 producto_bp = Blueprint('producto', __name__)
 
 @producto_bp.route('/api/productos', methods=['GET'])
@@ -13,9 +14,21 @@ def obtener_productos_por_subcategoria():
     if subcategoria:
         productos = Producto.query.filter_by(subcategoria=subcategoria).all()
     elif search:
-        productos_buscados = Producto.query.filter(or_(Producto.nombre.ilike(f'%{search}%'), Producto.descripcion.ilike(f'%{search}%'))).all()
-        productos_relacionados = Producto.query.filter(or_(Producto.categoria.in_([p.categoria for p in productos_buscados]), Producto.subcategoria.in_([p.subcategoria for p in productos_buscados]))).all()
+        productos_buscados = Producto.query.filter(
+            or_(
+                Producto.nombre.ilike(f'%{search}%'),
+                Producto.descripcion.ilike(f'%{search}%')
+            )
+        ).all()
+        productos_relacionados = Producto.query.filter(
+            or_(
+                Producto.categoria.in_([p.categoria for p in productos_buscados]),
+                Producto.subcategoria.in_([p.subcategoria for p in productos_buscados])
+            )
+        ).all()
         productos = productos_buscados + productos_relacionados
+        # Eliminar duplicados si es necesario
+        productos = list({p.id: p for p in productos}.values())
     else:
         productos = Producto.query.all()
     return jsonify({'productos': [producto.serialize() for producto in productos]}), 200
@@ -28,17 +41,22 @@ def obtener_producto_por_id(id):
 @producto_bp.route('/api/agregar-producto', methods=['POST'])
 def agregar_producto():
     data = request.json
+
+    # Convierte el precio a un float si viene en string formateado
+    precio_str = str(data['precio'])
+    precio_float = float(precio_str.replace('.', '').replace(',', '.'))
+
     nuevo_producto = Producto(
         codigo=data['codigo'],
         nombre=data['nombre'],
-        marca=data['marca'],
-        descripcion=data['descripcion'],
+        marca=data.get('marca', None),
+        descripcion=data.get('descripcion', None),
         cantidad=data['cantidad'],
-        categoria=data['categoria'],
-        subcategoria=data['subcategoria'], 
-        precio=data['precio'],
-        descuento=data['descuento'],
-        imgUrl=data['imgUrl']
+        categoria=data.get('categoria', None),
+        subcategoria=data.get('subcategoria', None), 
+        precio=precio_float,  # Guarda el precio como float
+        descuento=data.get('descuento', 0),
+        imgUrl=data.get('imgUrl', None)
     )
     db.session.add(nuevo_producto)
     db.session.commit()
@@ -48,6 +66,11 @@ def agregar_producto():
 def actualizar_producto(id):
     producto = Producto.query.get_or_404(id)
     data = request.json
+
+    # Convierte el precio a un float si viene en string formateado
+    precio_str = str(data['precio'])
+    precio_float = float(precio_str.replace('.', '').replace(',', '.'))
+
     producto.codigo = data.get('codigo', producto.codigo)
     producto.nombre = data.get('nombre', producto.nombre)
     producto.marca = data.get('marca', producto.marca)
@@ -55,7 +78,7 @@ def actualizar_producto(id):
     producto.cantidad = data.get('cantidad', producto.cantidad)
     producto.categoria = data.get('categoria', producto.categoria)
     producto.subcategoria = data.get('subcategoria', producto.subcategoria)
-    producto.precio = data.get('precio', producto.precio)
+    producto.precio = precio_float  # Guarda el precio como float
     producto.descuento = data.get('descuento', producto.descuento)
     producto.imgUrl = data.get('imgUrl', producto.imgUrl)
     db.session.commit()
@@ -103,6 +126,7 @@ def obtener_productos_aleatorios():
         return jsonify({'productosAleatorios': productos_serializados}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 # Variable global para la oferta relámpago
 tiempo_inicio_oferta_relampago = None
 

@@ -46,7 +46,7 @@ body {
 .sidebar-1 {
   background-color: #424a5d;
   width: 14%;
-  height: 800px;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   padding: 8px;
@@ -146,7 +146,7 @@ body {
 
 /* Estilos de la sección de notificaciones */
 .notification {
-  min-height: 800px;
+  min-height: 100vh;
   background-color: white;
   padding: 10px;
   width: 20%;

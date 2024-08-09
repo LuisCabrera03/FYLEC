@@ -4,6 +4,8 @@ import "./Admin.css";
 import "react-toastify/dist/ReactToastify.css";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { confirmAlert } from 'react-confirm-alert';
+import CompradoresChart from './CompradoresChart';
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faBars,
@@ -11,7 +13,6 @@ import {
     faClock,
     faBoxesStacked,
     faSackDollar,
-    faTrophy,
     faGaugeHigh,
     faSquarePlus,
     faCartFlatbed,
@@ -20,13 +21,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { UsersRound, ShoppingBasket, DollarSign, } from 'lucide-react';
 
-// Código del componente...
+
 
 import { registerLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
 import axios from "axios";
 import { formatDistanceToNow } from 'date-fns';
-import CRUD from "./Crud/CRUD";
+import CreateProduct from "./CreateProduct/CreateProduct";
 registerLocale("es", es);
 
 const Admin = () => {
@@ -126,7 +127,7 @@ const Admin = () => {
     };
 
     const navegarACrud = () => {
-        history.push("/ver");
+        history.push("/EditProduct");
     };
 
     const mostrarAgregarProducto = () => {
@@ -283,18 +284,14 @@ const Admin = () => {
                                 <p className="estadistica"><DollarSign />{cantidadProductosComprados} <small>Has Vendido {cantidadProductosComprados} Productos </small></p>
                             </div>
                             <div className="tarjetas">
-                                <h2>Top Compras</h2>
-                                {topCompradores.map((comprador, index) => (
-                                    <p key={index}>
-                                        <FontAwesomeIcon icon={faTrophy} style={{ color: index === 0 ? "#FFD700" : index === 1 ? "#C0C0C0" : "#CD7F32" }} />
-                                        {comprador.nombre} - {comprador.compras} productos
-                                    </p>
-                                ))}
+                            <h2>Top Compras</h2>
+                            <CompradoresChart topCompradores={topCompradores} />
+                            
                             </div>
 
                         </div>
                     )}
-                    {mostrarCRUD && <CRUD />}
+                    {mostrarCRUD && <CreateProduct />}
                     {mostrarInicioState && (
                         <div>
                             <div className="usuarios-info">
@@ -321,13 +318,9 @@ const Admin = () => {
                             </li>
                         ))}
                     </ul>
-                    {/* <Calendar 
-                        onChange={(date) => setSelectedDate(date)}
-                        value={selectedDate}
-                        locale="es"
-                    /> */}
                 </div>
             </div>
+            
         </div>
     );
 };

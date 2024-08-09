@@ -1,31 +1,42 @@
 import  'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Header from './Components/Header/Header';
-import Home from './Components/Home/Home';
-import Perfil from './Components/Perfil/Perfil';
-import Login from './Components/Login/Login';
-import CreateAccount from './Components/Crearcuenta/CreateAccount';
+// Common components
+import Header from './Components/Common/Header/Header';
+import Footer from './Components/Common/Footer/Footer';
+import Error404 from './Components/Common/Error/Error404';
+import Error400 from './Components/Common/Error/Error400';
+import Error401 from './Components/Common/Error/Error401';
+import Error403 from './Components/Common/Error/Error403';
+import Error500 from './Components/Common/Error/Error500';
+import Error503 from './Components/Common/Error/Error503';
+
+// Authentication components
+import Login from './Components/auth/Login/Login';
+import CreateAccount from './Components/auth/Crearcuenta/CreateAccount';
+import AdminLogin from './Components/auth/Admin-login/Admin-login';
+import ForgotPassword from './Components/auth/Login/ForgotPassword/ForgotPassword';
+
+// Admin components
 import Admin from './Components/Admin/Admin';
-import Productos from './Components/Productos/Productos';
-import CarritoCompras from './Components/CarritoCompras/CarritoCompras';
-import AdminLogin from './Components/Admin-login/Admin-login';
-import CartasHome from './Components/CartasHome/CartasHome';
-import Detalle from './Components/Detalle/Detalle';
-import Categorias from './Components/Categorias/Categorias';
-import ForgotPassword from './Components/Login/ForgotPassword/ForgotPassword';
-import Compra from './Components/Compra/Compra';
-import Factura from './Components/Factura/Factura';
-import Footer from './Components/Footer/Footer';
-import Ver from './Components/Admin/Ver/Ver';
+import EditProduct from './Components/Admin/EditProduct/EditProduct';
 import Usuarios from './Components/Admin/Usuarios/Usuarios';
 import Roles from './Components/Admin/Roles/Roles';
 import Ventas from './Components/Admin/Ventas/Ventas';
-import Error404 from './Components/Error/Error404';
-import Error400 from './Components/Error/Error400';
-import Error401 from './Components/Error/Error401';
-import Error403 from './Components/Error/Error403';
-import Error500 from './Components/Error/Error500';
-import Error503 from './Components/Error/Error503';
+
+// User components
+import Perfil from './Components/User/Perfil/Perfil';
+
+// Products and shopping components
+import Productos from './Components/Products/Productos/Productos';
+import CarritoCompras from './Components/shopping/CarritoCompras/CarritoCompras';
+import Detalle from './Components/shopping/Detalle/Detalle';
+import Compra from './Components/shopping/Compra/Compra';
+import Factura from './Components/shopping/Factura/Factura';
+import CartasHome from './Components/Products/CartasHome/CartasHome';
+import Categorias from './Components/Products/Categorias/Categorias';
+
+// Other components
+import Home from './Components/Home/Home';
 
 const HeaderWithRoutes = () => (
   <>
@@ -59,7 +70,7 @@ function App() {
         <Route path="/crearCuenta" component={CreateAccount} />
         <Route path="/Admin-login" component={AdminLogin} />
         <Route path="/Admin" component={Admin} />
-        <Route path="/Ver" component={Ver} />
+        <Route path="/EditProduct" component={EditProduct} />
         <Route path="/Usuarios" component={Usuarios} />
         <Route path="/Roles" component={Roles} />
         <Route path="/ventas" component={Ventas} />

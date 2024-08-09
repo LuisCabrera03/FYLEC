@@ -1,0 +1,301 @@
+/* Contenedor principal del perfil */
+.container-perfil {
+  width: 80%;
+  margin: 20px auto 50px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 20px 20px 10px 10px;
+  padding-bottom: 20px;
+}
+
+/* Información del perfil */
+.profile-info {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+/* Estilo de cada sección de información del perfil */
+.profile-info div {
+  width: 90%;
+  margin: 0 auto 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #EBEBEB;
+  padding-bottom: 10px;
+}
+
+/* Estilo del texto de la información */
+.info {
+  color: #5f5e5e;
+}
+
+/* Cabecera del perfil */
+.cabecera-perfil {
+  background-color: #EBEBEB;
+  border-radius: 20px 20px 0 0;
+  min-height: 130px;
+}
+
+/* Saludo en la cabecera del perfil */
+.cabecera-saludo {
+  background: linear-gradient(to bottom, #001530, #003366, #001530);
+  background-size: 400% 400%;
+  animation: gradientAnimation 10s ease infinite;
+  width: 80%;
+  min-height: 80px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+  margin: 30px auto;
+  border-radius: 40px 40px 0 0;
+  text-align: center;
+}
+
+/* Estilo de los botones en la cabecera del perfil */
+.cabecera-saludo button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 1.5em;
+}
+
+/* Iconos de editar y salir en la cabecera del perfil */
+.icon-edit, 
+.icon-exit {
+  color: #EBEBEB;
+}
+
+/* Efecto hover en el icono de editar */
+.icon-edit:hover {
+  color: #0056b3;
+  transition: all 0.3s ease;
+}
+
+/* Efecto hover en el icono de salir */
+.icon-exit:hover {
+  color: #e51a4c;
+  transition: all 0.3s ease;
+}
+
+/* Animación de gradiente de la cabecera */
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Contenedor de los botones de acciones */
+.btn-acciones {
+  width: 50%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Estilo de los botones de editar y salir */
+.btn2-edt,
+.btn2-exit {
+  padding: 5px 10px;
+  color: white;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 300;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 10px 0;
+}
+
+.btn2-edt {
+  background-color: #0056b3;
+}
+
+.btn2-exit {
+  background-color: #e51a4c;
+}
+
+/* Efecto hover en el botón de editar */
+.btn2-edt:hover {
+  background-color: white;
+  color: #0056b3;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-weight: 400;
+}
+
+/* Efecto hover en el botón de salir */
+.btn2-exit:hover {
+  background-color: red;
+  color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-weight: 400;
+}
+
+/* Estilo de la pantalla de carga */
+.loading {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: spin 2s linear infinite, pulse 1.5s infinite;
+}
+
+/* Animación de giro */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/* Contenedor principal de la edición del perfil */
+
+.container-perfil .login-container-custom2 {
+  width: 100%;
+  max-width: 500px; /* Asegura que la pantalla de login sea cuadrada */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* Formulario de edición de perfil */
+ 
+.container-perfil .login-container-custom2 form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+/* Estilo de cada campo del formulario */
+
+.container-perfil .input-nombre {
+  width: 100%;
+  margin: 15px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+
+.container-perfil .input-nombre label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+
+}
+
+
+.container-perfil .input-nombre input,
+
+.container-perfil .input-nombre select {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+.container-perfil .input-nombre input{
+  width: 95.7%;
+}
+.input-nombre input:focus,
+.input-nombre select:focus {
+  outline: none;
+  border-color: #0056b3;
+  box-shadow: inset 0 1px 4px rgba(0, 86, 179, 0.3);
+}
+
+/* Botones del formulario */
+
+.container-perfil .login-container-custom2 .button {
+  width: 100%;
+  max-width: 500px; /* Asegura que todos los botones tengan el mismo tamaño máximo */
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 300;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 15px 0;
+}
+
+.login-container-custom2 .button[type="submit"] {
+  background-color: #0056b3;
+  color: white;
+}
+
+.login-container-custom2 .button[type="button"] {
+  background-color: #e51a4c;
+  color: white;
+}
+
+/* Efecto hover en los botones */
+.login-container-custom2 .button:hover {
+  background-color: white;
+  color: #0056b3;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-weight: 400;
+}
+
+.login-container-custom2 .button[type="button"]:hover {
+  background-color: red;
+  color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-weight: 400;
+}
+
+/* Estilo de los campos select */
+.select {
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 500px; /* Asegura que todos los select tengan el mismo tamaño máximo */
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #0056b3;
+  box-shadow: inset 0 1px 4px rgba(0, 86, 179, 0.3);
+}
+
+/* Estilo de la pantalla de carga */
+.loading {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: spin 2s linear infinite, pulse 1.5s infinite;
+}
+
+/* Animación de giro */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

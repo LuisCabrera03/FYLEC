@@ -17,8 +17,8 @@ import {
   faToolbox,
 } from "@fortawesome/free-solid-svg-icons";
 
-import Categorias from "../Categorias/Categorias";
-import CartasHome from "../CartasHome/CartasHome";
+import Categorias from "../Products/Categorias/Categorias";
+import CartasHome from "../Products/CartasHome/CartasHome";
 
 export class Home extends Component {
   constructor(props) {

@@ -1,0 +1,118 @@
+/* Estilos generales para el Footer */
+.footer {
+    background-color: #000E20;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* Sección de contacto */
+.contact {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    padding: 5px;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #32373D;
+}
+
+/* Contenido de cada elemento de contacto */
+.contact .contact-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Iconos de contacto */
+.icon-contact {
+    font-size: 2em;
+}
+
+/* Texto dentro de los elementos de contacto */
+.contact-content div {
+    padding: 10px;
+    text-align: justify;
+}
+
+/* Estilo general para los párrafos */
+p {
+    color: #999999;
+}
+
+/* Sección de información */
+.informacion {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    padding: 5px;
+}
+
+/* Párrafos dentro de la sección de información */
+.informacion p {
+    text-align: justify;
+}
+
+/* Sub-sección de información */
+.informacio-2 {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.6em;
+}
+
+/* Sección de redes sociales */
+.redes {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+/* Contenido de las redes sociales */
+.redes-content {
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 10%;
+}
+
+/* Sección de desarrollo */
+.desarrollo {
+    width: 80%;
+    text-align: end;
+}
+
+/* Estilos para pantallas más pequeñas */
+@media only screen and (max-width: 768px) {
+    .redes-content {
+        width: 30%;
+    }
+
+    .desarrollo {
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .informacion {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+    }
+
+    .contact {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .contact .contact-content {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
