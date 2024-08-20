@@ -10,7 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function CreateAccount() {
-  const { register, handleSubmit, formState: { errors }, watch, trigger, setValue } = useForm();
+  const { register, handleSubmit, formState: { errors }, watch, trigger, setValue, reset } = useForm();
   const [fechaNacimiento, setFechaNacimiento] = useState(null);
   const [departamentos, setDepartamentos] = useState([]);
   const [municipios, setMunicipios] = useState([]);
@@ -20,9 +20,24 @@ function CreateAccount() {
   const [step, setStep] = useState(1);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [aceptaTerminos, setAceptaTerminos] = useState(false);
   const history = useHistory();
 
   const inputRefs = useRef({});
+
+  useEffect(() => {
+    // Cargar datos del formulario desde localStorage si existen
+    const savedData = localStorage.getItem('createAccountData');
+    if (savedData) {
+      const parsedData = JSON.parse(savedData);
+      reset(parsedData);
+      setFechaNacimiento(parsedData.fechaNacimiento ? new Date(parsedData.fechaNacimiento) : null);
+      setDepartamento(parsedData.departamento || '');
+      setMunicipio(parsedData.municipio || '');
+      setAceptaTerminos(parsedData.aceptaTerminos || false);
+      setStep(parsedData.step || 1);
+    }
+  }, [reset]);
 
   // Cargar los departamentos desde API-Colombia al montar el componente
   useEffect(() => {
@@ -57,7 +72,32 @@ function CreateAccount() {
     }
   }, [departamento, departamentos]);
 
+  const saveFormDataToLocalStorage = () => {
+    const formData = {
+      ...watch(),
+      fechaNacimiento: fechaNacimiento ? fechaNacimiento.toISOString() : null,
+      departamento,
+      municipio,
+      aceptaTerminos,
+      step,
+    };
+    localStorage.setItem('createAccountData', JSON.stringify(formData));
+  };
+
   const onSubmit = async (data) => {
+    if (!aceptaTerminos) {
+      toast.error('Debe aceptar los términos y condiciones para continuar.', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
+
     try {
       const response = await fetch('http://127.0.0.1:5000/api/crear-cuenta', {
         method: 'POST',
@@ -80,7 +120,10 @@ function CreateAccount() {
           draggable: true,
           progress: undefined,
         });
-        setTimeout(() => history.push('/login'), 2100);
+        setTimeout(() => {
+          localStorage.removeItem('createAccountData'); // Limpiar el almacenamiento local al crear la cuenta
+          history.push('/login');
+        }, 2100);
       } else if (response.status === 400) {
         const responseData = await response.json();
         if (responseData.error === 'El correo electrónico ya está en uso') {
@@ -343,6 +386,23 @@ function CreateAccount() {
                     className={errors.direccion ? 'input-error' : ''}
                   />
                   {errors.direccion && <span className='alert'><FontAwesomeIcon icon={faCircleExclamation} className='alert-icon' /> Este campo es requerido</span>}
+                </div>
+
+                <div className="form-group">
+                  <input
+                    type="checkbox"
+                    id="terminos"
+                    {...register('terminos', { required: true })}
+                    checked={aceptaTerminos}
+                    onChange={() => setAceptaTerminos(!aceptaTerminos)}
+                  />
+                  <label htmlFor="terminos">
+                    Acepto los <a href="#" onClick={() => {
+                      saveFormDataToLocalStorage(); // Guardar datos antes de redirigir
+                      history.push('/terminos');
+                    }}>términos y condiciones</a>
+                  </label>
+                  {errors.terminos && <span className='alert'><FontAwesomeIcon icon={faCircleExclamation} className='alert-icon' /> Debe aceptar los términos y condiciones</span>}
                 </div>
               </div>
             )}

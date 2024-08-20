@@ -1,0 +1,70 @@
+/* Estilos generales para el contenedor principal */
+.terminos {
+    font-family: Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilo para el título principal */
+  .terminos h1 {
+    font-size: 2rem;
+    color: #007bff;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Estilo para subtítulos (h2) */
+  .terminos h2 {
+    font-size: 1.5rem;
+    color: #0056b3;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  /* Estilo para los párrafos */
+  .terminos p {
+    margin-bottom: 15px;
+  }
+  
+  /* Estilo para las listas */
+  .terminos ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .terminos ul li {
+    margin-bottom: 10px;
+  }
+  
+  /* Enlaces dentro del texto */
+  .terminos a {
+    color: #0056b3;
+    text-decoration: none;
+  }
+  
+  .terminos a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Estilo para las notas importantes o citas */
+  .terminos p.note {
+    font-style: italic;
+    background-color: #e9ecef;
+    padding: 10px;
+    border-left: 4px solid #007bff;
+    margin-bottom: 15px;
+    border-radius: 4px;
+  }
+  
+  /* Estilo para resaltar términos clave o importantes */
+  .terminos .highlight {
+    font-weight: bold;
+    color: #d9534f;
+  }
+  

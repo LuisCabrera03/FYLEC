@@ -15,6 +15,7 @@ import Login from './Components/auth/Login/Login';
 import CreateAccount from './Components/auth/Crearcuenta/CreateAccount';
 import AdminLogin from './Components/auth/Admin-login/Admin-login';
 import ForgotPassword from './Components/auth/Login/ForgotPassword/ForgotPassword';
+import Terminos from './Components/auth/Crearcuenta/Terminos';
 
 // Admin components
 import Admin from './Components/Admin/Admin';
@@ -68,6 +69,7 @@ function App() {
         <Route path="/perfil" component={Perfil} />
         <Route path="/login" component={Login} />
         <Route path="/crearCuenta" component={CreateAccount} />
+        <Route path="/terminos" component={Terminos} />
         <Route path="/Admin-login" component={AdminLogin} />
         <Route path="/Admin" component={Admin} />
         <Route path="/EditProduct" component={EditProduct} />
