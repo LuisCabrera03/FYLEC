@@ -299,3 +299,105 @@
     transform: rotate(360deg);
   }
 }
+
+/*pantallas para telefonos*/
+
+@media only screen and (max-width: 600px) {
+  .container-perfil{
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    border-radius: 0px;
+  }
+  .cabecera-saludo{
+    font-size: 0.9em;
+    margin-bottom: 10px;
+    width: 90%;
+  }
+  .container-principal {
+    flex-direction: column;
+    align-items: center;
+  }
+  .login-container-custom {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+  .login-container-custom2 {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+  .container-principal .btn-acciones {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+  }
+  .container-principal .btn2-edt,
+  .container-principal .btn2-exit {
+    margin: 10px 0;
+  }
+  .container-principal .loading {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .container-principal .loading h1 {
+    font-size: 1.5em;
+    margin-bottom: 0;
+  }
+  .container-principal .loading p {
+    font-size: 1em;
+    margin-top: 0;
+  }
+  .container-principal .loading img {
+    width: 50px;
+  }
+  .container-principal .login-container-custom {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .container-principal .login-container-custom form {
+    width: 100%;
+    gap: 10px;
+  }
+  .container-principal .login-container-custom input,
+  .container-principal .login-container-custom select {
+    width: 90%;
+  }
+  .container-principal .login-container-custom.button {
+    width: 100%;
+    max-width: 100%;
+  }
+  .container-principal .login-container-custom.button[type="submit"],
+  .container-principal .login-container-custom.button[type="button"] {
+    width: 100%;
+    max-width: 100%;
+  }
+  .container-principal .login-container-custom2 {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+  .container-principal .login-container-custom2 form {
+    width: 100%;
+    gap: 10px;
+  }
+  .container-principal .login-container-custom2 input,
+  .container-principal .login-container-custom2 select {
+    width: 90%;
+  }
+  .container-principal .login-container-custom2.button {
+    width: 100%;
+    max-width: 100%;
+  }
+
+}

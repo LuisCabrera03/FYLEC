@@ -147,3 +147,17 @@
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
+
+/*pantallas para telefonos*/
+
+@media only screen and (max-width: 600px) {
+  .login-container-custom {
+    flex-direction: column;
+    width: 100%;
+    border-radius: 0px;
+  }
+  .campos {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}

@@ -218,5 +218,103 @@
 
 /* Estilos para pantallas más pequeñas */
 @media only screen and (max-width: 768px) {
-    /* Ajustes para pantallas más pequeñas */
+    /* Reducimos el tamaño de los elementos en pantallas más pequeñas */
+   .carrito-container {
+    width: 100%;
+
+    }
+   .carro-vacio {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    font-size: 18px;
+    }
+   .carro-vacio .llave {
+    font-size: 100px;
+    }
+   .carro-vacio .btn-iniciar-sesion {
+    font-size: 16px;
+    padding: 10px 40px;
+    }
+   .carro-vacio p {
+    font-size: 16px;
+    }
+   .lista-carrito {
+    width: 100%;
+    padding: 0;
+
+    }
+
+   .detalle-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+
+    }
+   .carrito-img {
+    width: 100%;
+    margin: 0 auto;
+    }
+   .carrito-info {
+    height: auto;
+    }
+   .carrito-info p {
+    font-size: 14px;
+    }
+   .btn-eliminar {
+    font-size: 14px;
+    padding: 8px 16px;
+    }
+   .acciones {
+    background: linear-gradient(135deg, var(--amarillo-claro) 0%, var(--amarillo) 100%);
+    }
+   .acciones::before,
+   .acciones::after {
+    height: 30%;
+    }
+    .acciones p {
+    font-size: 14px;
+    }
+    .acciones .btn-vaciar {
+    font-size: 14px;
+    padding: 8px 16px;
+    }
+    .acciones .btn-pagar {
+    font-size: 14px;
+    padding: 8px 16px;
+    }
+    /* Agregamos un margen inferior para separar los botones */
+    .acciones:after {
+    top: 10px;
+    }
+    /* Agregamos un margen superior para separar los botones */
+    .acciones p {
+    margin-top: 10px;
+    }
+    /* Agregamos un margen superior para separar los botones */
+    .acciones .btn-vaciar {
+    margin-top: 10px;
+    }
+    /* Agregamos un margen superior para separar los botones */
+    .acciones .btn-pagar {
+    margin-top: 10px;
+    }
+    /* Agregamos un margen inferior para separar los botones */
+    .carrito-container form {
+    margin-bottom: 10px;
+    }
+
+    /* Agregamos un margen inferior para separar los botones */
+    .carrito-container form button {
+    margin-bottom: 10px;
+    }
+    /* Agregamos un margen inferior para separar los botones */
+    .carrito-container form input {
+    margin-bottom: 10px;
+    }
+    /* Agregamos un margen inferior para separar los botones */
+    .carrito-container form label {
+    margin-bottom: 10px;
+    }
+
 }

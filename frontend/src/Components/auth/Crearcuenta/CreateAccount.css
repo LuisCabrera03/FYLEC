@@ -142,3 +142,31 @@
 .create-account .custom-button:hover {
     background-color: #f9c669;
 }
+
+/* Pantallas para telefonos*/
+
+@media (max-width: 768px) {
+    .container-account {
+        width: 100%;
+    }
+
+    .create-account {
+        width: 100%;
+        padding: 20px;
+        border-radius: 0px;
+
+    }
+
+    .create-account .form-group {
+        margin-bottom: 10px;
+    }
+
+    .create-account .form-group label {
+        margin-bottom: 5px;
+    }
+
+    .create-account .custom-button {
+        width: 40%;
+        padding: 8px;
+    }
+}
