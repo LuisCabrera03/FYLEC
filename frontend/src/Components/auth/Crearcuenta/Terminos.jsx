@@ -25,7 +25,7 @@ function Terminos() {
                 <li>Cumplir con obligaciones legales y regulatorias.</li>
             </ul>
             <p>
-                Puedes ejercer tus derechos de acceso, corrección, actualización o supresión de tus datos personales en cualquier momento, enviando una solicitud a nuestro correo electrónico [correo electrónico de contacto].
+                Puedes ejercer tus derechos de acceso, corrección, actualización o supresión de tus datos personales en cualquier momento, enviando una solicitud a nuestro correo electrónico ByteHunters@gmail.com.
             </p>
 
             <h2>3. Uso del Sitio Web</h2>
@@ -48,7 +48,7 @@ function Terminos() {
 
             <h2>5. Limitación de Responsabilidad</h2>
             <p>
-                En la medida en que lo permita la legislación aplicable, [Nombre de la Empresa] no será responsable por ningún daño directo, indirecto, incidental, especial o consecuente que surja del uso o la imposibilidad de uso de nuestro sitio web, incluso si hemos sido informados de la posibilidad de tales daños.
+                En la medida en que lo permita la legislación aplicable, BYTE HUNTERS no será responsable por ningún daño directo, indirecto, incidental, especial o consecuente que surja del uso o la imposibilidad de uso de nuestro sitio web, incluso si hemos sido informados de la posibilidad de tales daños.
             </p>
 
             <h2>6. Modificaciones a los Términos y Condiciones</h2>
