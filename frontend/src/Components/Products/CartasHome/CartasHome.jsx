@@ -173,6 +173,7 @@ const CartasHome = () => {
                             <p className='categorias'>{producto.categoria}</p>
                             <img src={producto.imgUrl} alt={producto.nombre} />
                             <p className='nombre'>{producto.nombre}</p>
+                            <p className='precio'>${producto.precio.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                             {producto.descuento !== 0 && (
                                 <b>
                                     <p>Precio con descuento: ${(producto.precio * (1 - producto.descuento / 100)).toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>

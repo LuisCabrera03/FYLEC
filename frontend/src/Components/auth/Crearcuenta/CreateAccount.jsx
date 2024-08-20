@@ -388,7 +388,7 @@ function CreateAccount() {
                   {errors.direccion && <span className='alert'><FontAwesomeIcon icon={faCircleExclamation} className='alert-icon' /> Este campo es requerido</span>}
                 </div>
 
-                <div className="form-group">
+                <div className="check-terminos">
                   <input
                     type="checkbox"
                     id="terminos"
@@ -396,7 +396,7 @@ function CreateAccount() {
                     checked={aceptaTerminos}
                     onChange={() => setAceptaTerminos(!aceptaTerminos)}
                   />
-                  <label htmlFor="terminos">
+                  <label htmlFor="terminos" className='check-terminos'>
                     Acepto los <a href="#" onClick={() => {
                       saveFormDataToLocalStorage(); // Guardar datos antes de redirigir
                       history.push('/terminos');

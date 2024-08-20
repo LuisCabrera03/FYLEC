@@ -142,7 +142,13 @@
 .create-account .custom-button:hover {
     background-color: #f9c669;
 }
+.password-group{
+    gap: 10px;
+}
 
+.check-terminos{
+padding: 10px;
+}
 /* Pantallas para telefonos*/
 
 @media (max-width: 768px) {

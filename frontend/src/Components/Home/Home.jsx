@@ -6,13 +6,13 @@ import {
   faComments,
   faShieldAlt,
   faBoxOpen,
-  faUserGraduate,
   faSeedling,
   faHardHat,
+  faTractor,
   faHammer,
   faTools,
   faUserShield,
-  faUserSecret,
+  faTrowel,
   faUserTie,
   faToolbox,
 } from "@fortawesome/free-solid-svg-icons";
@@ -42,14 +42,14 @@ export class Home extends Component {
           {this.renderService(faBoxOpen, "GRAN PORTAFOLIO", "Tenemos todo lo que necesitas.")}
         </div>
         <div className="categorias-icon">
-          {this.renderCategory(faUserGraduate, "Agrónomo")}
-          {this.renderCategory(faSeedling, "Agricultor")}
+          {this.renderCategory(faSeedling, "Agrónomo")}
+          {this.renderCategory(faTractor, "Agricultor")}
           {this.renderCategory(faHardHat, "Minero")}
           {this.renderCategory(faHammer, "Soldador")}
           {this.renderCategory(faTools, "Pulidor")}
           {this.renderCategory(faUserShield, "Operativo")}
           {this.renderCategory(faToolbox, "Carpintero")}
-          {this.renderCategory(faUserSecret, "Albañil")}
+          {this.renderCategory(faTrowel, "Albañil")}
           {this.renderCategory(faUserTie, "Obrero")}
           {this.renderCategory(faTools, "Jardinero")}
         </div>
