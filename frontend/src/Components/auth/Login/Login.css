@@ -147,6 +147,26 @@
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
+.show-password input{
+  display: none;
+  margin-left: 5px;
+  cursor: pointer;
+  transition: visibility 0.3s ease;
+  transform: translateX(5px);
+}
+.show-password label{
+color: red;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  transform: translateX(5px);
+  position: relative;
+
+}
+
+.show-password input:checked + label{
+  color: black;
+}
+
 
 /*pantallas para telefonos*/
 

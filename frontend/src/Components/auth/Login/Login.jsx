@@ -10,6 +10,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // Estado para visibilidad de la contraseña
 
   useEffect(() => {
     const checkLoggedIn = async () => {
@@ -21,7 +22,7 @@ const Login = () => {
               Authorization: `Bearer ${token}`,
             },
           });
-  
+
           if (response.ok) {
             setIsLoggedIn(true);
           } else if (response.status === 401) {
@@ -38,7 +39,7 @@ const Login = () => {
         setIsLoggedIn(false);
       }
     };
-  
+
     checkLoggedIn();
   }, []);
 
@@ -90,6 +91,10 @@ const Login = () => {
     history.push('/crearcuenta');
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword); // Alterna la visibilidad de la contraseña
+  };
+
   return (
     <div className='login'>
       <ToastContainer />
@@ -106,14 +111,39 @@ const Login = () => {
                 <form onSubmit={handleSubmit}>
                   <div className="form-group-custom">
                     <label htmlFor="correo">Correo Electrónico</label>
-                    <input type="email" id="correo" name="correo" value={formData.correo} onChange={handleChange} required placeholder="Tu correo electrónico" />
+                    <input 
+                      type="email" 
+                      id="correo" 
+                      name="correo" 
+                      value={formData.correo} 
+                      onChange={handleChange} 
+                      required 
+                      placeholder="Tu correo electrónico" 
+                    />
                   </div>
                   <div className="form-group-custom">
                     <label htmlFor="contraseña">Contraseña</label>
-                    <input type="password" id="contraseña" name="contraseña" value={formData.contraseña} onChange={handleChange} required placeholder="Tu contraseña" />
+                    <input 
+                      type={showPassword ? 'text' : 'password'} 
+                      id="contraseña" 
+                      name="contraseña" 
+                      value={formData.contraseña} 
+                      onChange={handleChange} 
+                      required 
+                      placeholder="Tu contraseña" 
+                    />
+                    <div className="show-password">
+                      <input 
+                        type="checkbox" 
+                        id="showPassword" 
+                        checked={showPassword} 
+                        onChange={togglePasswordVisibility} 
+                      />
+                      <label htmlFor="showPassword">Mostrar Contraseña</label>
+                    </div>
                   </div>
                   {error && <p className="error-custom">{error}</p>}
-                  <button type="submit" className="custom-button" >Ingresar</button>
+                  <button type="submit" className="custom-button">Ingresar</button>
                 </form>
               )}
 
@@ -128,7 +158,7 @@ const Login = () => {
         <div className="bienvenida">
           <div className="btn-crear">
             <p>¡Únete y construye con nosotros!</p>
-            <button onClick={handleCreateAccount} >Crear Cuenta</button>
+            <button onClick={handleCreateAccount}>Crear Cuenta</button>
           </div>
         </div>
       </div>
