@@ -220,7 +220,7 @@ function Detalle({ match }) {
                 </div>
             ) : producto ? (
                 <div>
-                    <div className="encabezado">
+                    {/* <div>
                         <p>
                             {producto.categoria}{" "}
                             <small>
@@ -232,7 +232,7 @@ function Detalle({ match }) {
                                 {producto.codigo}{" "}
                             </small>
                         </p>
-                    </div>
+                    </div> */}
 
                     <div className="detalle-container">
                         <div

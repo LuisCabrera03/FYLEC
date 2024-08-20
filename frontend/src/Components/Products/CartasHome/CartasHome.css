@@ -200,6 +200,7 @@
 
 /* Estilos para pantallas más pequeñas */
 @media only screen and (max-width: 768px) {
+    
     .cartas-home .container3,
     .container4 {
         width: 100%;
@@ -211,6 +212,10 @@
 
     .list-product,
     .oferta {
-        width: 100%;
+        width: 90%;
+        margin: 8px auto;
     }
+    /* Estilos del contenedor de productos más visitados y ofertas */
+
+
 }

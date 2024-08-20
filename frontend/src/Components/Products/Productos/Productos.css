@@ -2,6 +2,7 @@
   width: 80%;
   margin: 20px auto;
   background-color: #ffff;
+
 }
 .product-cards2{
   display: flex;
@@ -15,5 +16,21 @@
 .container-products{
   width: 100%;
   font-size: clamp(8px, 1vw, 18px);
+  padding: 0px;
+  margin: 0;
 }
+.productos{
+  width: 100%;
+  margin: 0;
+}
+.product-card2{
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.product-card2 img{
+  width: 100%;
+  height: auto;
+}
+
 }

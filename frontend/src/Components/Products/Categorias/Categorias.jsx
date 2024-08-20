@@ -88,7 +88,6 @@ function Categorias() {
     };
 
     return (
-        <>
             <div className='container-products'>
                 <div className="productos">
                     {Object.entries(productosPorSubcategoria).map(([subcategoria, productos], index) => (
@@ -111,7 +110,7 @@ function Categorias() {
                     ))}
                 </div>
             </div>
-        </>
+
     );
 }
 

@@ -173,12 +173,10 @@ const CartasHome = () => {
                             <p className='categorias'>{producto.categoria}</p>
                             <img src={producto.imgUrl} alt={producto.nombre} />
                             <p className='nombre'>{producto.nombre}</p>
-                            <b>Precio original: ${producto.precio.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</b>
                             {producto.descuento !== 0 && (
-                                <h4>
+                                <b>
                                     <p>Precio con descuento: ${(producto.precio * (1 - producto.descuento / 100)).toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-                                    <p>Descuento: {producto.descuento.toFixed(2)}%</p>
-                                </h4>
+                                </b>
                             )}
                         </div>
                     ))}
@@ -201,7 +199,7 @@ const CartasHome = () => {
                                     <div className="list-desc">
                                         <p className='categorias'>{producto.categoria}</p>
                                         <p className='nombre'>{producto.nombre}</p>
-                                        <p className='precio'>Precio: ${producto.precio.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                                        <p className='precio'>${producto.precio.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                                     </div>
                                 </div>
                             </CSSTransition>
