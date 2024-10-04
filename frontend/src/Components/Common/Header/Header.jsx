@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './Header.css';
 import { useHistory, useLocation } from 'react-router-dom';
 import { faSearch, faUser, faTruck, faShoppingBag, faBars } from '@fortawesome/free-solid-svg-icons';
@@ -44,13 +44,9 @@ function Header() {
 
     const fetchProfileData = async () => {
         try {
-            const token = localStorage.getItem('token');
             const response = await fetch('http://localhost:5000/api/profile', {
                 method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
+                credentials: 'include', // Enviar la cookie con la solicitud
             });
 
             if (!response.ok) {
@@ -128,7 +124,7 @@ function Header() {
         history.push(`/categorias?categoria=${categoria}&subcategorias=${subcategoriasParam}`);
         setSelectedCategory(categoria);
         setIsOpen(false);
-    }
+    };
 
     const obtenerSubcategorias = (categoria) => {
         const subcategorias = {
@@ -144,7 +140,7 @@ function Header() {
         };
 
         return subcategorias[categoria] || [];
-    }
+    };
 
     const categorias = [
         "Herramientas Manuales",

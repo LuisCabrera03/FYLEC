@@ -8,8 +8,8 @@ from api import api
 app = Flask(__name__)
 app.config.from_object(Config)
 
-# Configuración de CORS
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
+# Configura CORS para permitir el origen del frontend y enviar credenciales
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}}, supports_credentials=True)
 
 # Inicialización de la base de datos y JWT
 db.init_app(app)

@@ -23,17 +23,15 @@ function CarritoCompras() {
     useEffect(() => {
         const obtenerCarrito = async () => {
             try {
-                const token = localStorage.getItem('token');
                 const response = await axios.get('http://localhost:5000/api/carrito', {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+                    withCredentials: true, // Asegura que las cookies se envían junto con la solicitud
                 });
                 setCarrito(response.data.carrito);
                 calcularTotal(response.data.carrito);
                 setLoggedIn(true);
             } catch (error) {
                 console.error('Error al obtener el carrito:', error);
+                setLoggedIn(false);
             } finally {
                 setLoading(false);
             }
@@ -52,11 +50,8 @@ function CarritoCompras() {
 
     const handleEliminarItem = async (itemId) => {
         try {
-            const token = localStorage.getItem('token');
             await axios.delete(`http://localhost:5000/api/carrito/${itemId}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+                withCredentials: true, // Asegura que las cookies se envían junto con la solicitud
             });
             const nuevoCarrito = carrito.filter(item => item.id !== itemId);
             setCarrito(nuevoCarrito);
@@ -68,11 +63,8 @@ function CarritoCompras() {
 
     const handleVaciarCarrito = async () => {
         try {
-            const token = localStorage.getItem('token');
             await axios.delete('http://localhost:5000/api/carrito/vaciar', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+                withCredentials: true, // Asegura que las cookies se envían junto con la solicitud
             });
             setCarrito([]);
             setTotal(0);
@@ -90,13 +82,10 @@ function CarritoCompras() {
 
     const handleCantidadChange = async (itemId, newCantidad) => {
         try {
-            const token = localStorage.getItem('token');
             await axios.put(`http://localhost:5000/api/carrito/${itemId}`, {
                 cantidad: newCantidad
             }, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+                withCredentials: true, // Asegura que las cookies se envían junto con la solicitud
             });
 
             const nuevoCarrito = carrito.map(item => {

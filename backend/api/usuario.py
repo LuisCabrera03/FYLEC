@@ -1,7 +1,7 @@
 import os
 import resend
-from flask import Blueprint, request, jsonify
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask import Blueprint, request, jsonify, make_response
+from flask_jwt_extended import create_access_token, set_access_cookies, unset_jwt_cookies, jwt_required, get_jwt_identity
 from email_validator import validate_email, EmailNotValidError
 from flask_bcrypt import generate_password_hash, check_password_hash
 from datetime import datetime as dt
@@ -19,11 +19,11 @@ limiter = Limiter(
 )
 
 # Configura la clave API de Resend
-resend.api_key = "re_KRJhQFH1_8jrgZWYCD474NTWptRaFtNsx"
+resend.api_key = os.getenv("RESEND_API_KEY", "tu_clave_api_resend")
 
 def send_welcome_email(correo, nombre):
     params = {
-        "from": "Acme <onboarding@resend.dev>",  
+        "from": "Acme <onboarding@resend.dev>",
         "to": [correo],
         "subject": "Bienvenido a nuestro servicio",
         "html": f"<strong>Hola {nombre}, ¡bienvenido a nuestro servicio!</strong><p>Estamos encantados de tenerte con nosotros.</p><p>Saludos,<br>El equipo de soporte.</p>"
@@ -136,9 +136,17 @@ def login():
 
     if usuario and check_password_hash(usuario.contraseña, contraseña):
         token_de_sesion = create_access_token(identity=usuario.id)
-        return jsonify({'token': token_de_sesion, 'userId': usuario.id}), 200
+        response = jsonify({'message': 'Inicio de sesión exitoso', 'userId': usuario.id})
+        set_access_cookies(response, token_de_sesion)  # Establecer la cookie con el token de sesión
+        return response, 200
     else:
         return jsonify({'error': 'Credenciales incorrectas'}), 401
+
+@usuario_bp.route('/api/logout', methods=['POST'])
+def logout():
+    response = jsonify({'message': 'Sesión cerrada exitosamente'})
+    unset_jwt_cookies(response)  # Eliminar la cookie con el token
+    return response, 200
 
 @usuario_bp.route('/api/profile', methods=['GET'])
 @jwt_required()
@@ -208,3 +216,13 @@ def obtener_usuarios():
     except Exception as e:
         logging.error(f"Error al obtener usuarios: {str(e)}")
         return jsonify({'error': 'Error interno del servidor'}), 500
+    
+@usuario_bp.route('/api/verifyToken', methods=['GET'])
+@jwt_required()
+def verify_token():
+    current_user_id = get_jwt_identity()
+    usuario = Usuario.query.get(current_user_id)
+    if usuario:
+        return jsonify({'message': 'Token válido', 'userId': current_user_id}), 200
+    else:
+        return jsonify({'error': 'Usuario no encontrado'}), 404

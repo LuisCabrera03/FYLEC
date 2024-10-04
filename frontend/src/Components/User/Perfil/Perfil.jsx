@@ -37,13 +37,13 @@ const Perfil = () => {
       setIsLoading(true);
       setError(null);
 
-      const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:5000/api/profile', {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'application/json'
-        }
+        },
+        credentials: 'include',
       });
 
       if (!response.ok) {
@@ -53,7 +53,7 @@ const Perfil = () => {
       const responseData = await response.json();
 
       if (!responseData || !responseData.usuario) {
-        throw new Error('Error al obtener el perfil: Datos de perfil no válidos');
+        throw new Error('Datos de perfil no válidos');
       }
 
       setProfile(responseData.usuario);
@@ -68,6 +68,7 @@ const Perfil = () => {
         retriesRef.current++;
         setTimeout(fetchProfileData, RETRY_DELAY);
       } else {
+        toast.error('Por favor inicia sesión nuevamente.');
         history.push('/login');
       }
     }
@@ -112,12 +113,11 @@ const Perfil = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    history.push('/');
+    history.push('/login');
   };
 
   const handleEdit = () => {
     setEditing(true);
-    setFormData(profile); // Esto asegura que el formulario tenga los datos actuales al iniciar la edición
   };
 
   const handleCancelEdit = () => {
@@ -145,13 +145,13 @@ const Perfil = () => {
       setIsLoading(true);
       setError(null);
 
-      const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:5000/api/actualizar-perfil', {
         method: 'PUT',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify(formData)
       });
 
@@ -160,7 +160,7 @@ const Perfil = () => {
       }
 
       const responseData = await response.json();
-      setProfile(responseData.usuario); // Actualiza el perfil con los datos nuevos
+      setProfile(responseData.usuario);
       setEditing(false);
       toast.success('Perfil actualizado correctamente');
 
@@ -178,13 +178,13 @@ const Perfil = () => {
       setIsLoading(true);
       setError(null);
 
-      const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:5000/api/cambiar-contrasena', {
         method: 'PUT',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify({
           passwordAnterior: formData.passwordAnterior,
           passwordNueva: formData.passwordNueva,

@@ -10,32 +10,23 @@ const Login = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // Estado para visibilidad de la contraseña
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     const checkLoggedIn = async () => {
-      const token = localStorage.getItem('token');
-      if (token) {
-        try {
-          const response = await fetch('http://127.0.0.1:5000/api/verifyToken', {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+      try {
+        const response = await fetch('http://localhost:5000/api/verifyToken', {
+          method: 'GET',
+          credentials: 'include', // Importante para enviar la cookie con la solicitud
+        });
 
-          if (response.ok) {
-            setIsLoggedIn(true);
-          } else if (response.status === 401) {
-            setIsLoggedIn(false);
-            localStorage.removeItem('token');
-          } else {
-            setIsLoggedIn(false);
-          }
-        } catch (error) {
-          console.error('Error al verificar token:', error);
+        if (response.ok) {
+          setIsLoggedIn(true);
+        } else {
           setIsLoggedIn(false);
         }
-      } else {
+      } catch (error) {
+        console.error('Error al verificar token:', error);
         setIsLoggedIn(false);
       }
     };
@@ -53,18 +44,16 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch('http://127.0.0.1:5000/api/login', {
+      const response = await fetch('http://localhost:5000/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include', // Importante para que las cookies se gestionen automáticamente
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        const { token, userId } = await response.json();
-        localStorage.setItem('token', token);
-        localStorage.setItem('userId', userId);
         setIsLoggedIn(true);
         history.push('/');
       } else {
@@ -81,18 +70,22 @@ const Login = () => {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-    setIsLoggedIn(false);
-  };
-
-  const handleCreateAccount = () => {
-    history.push('/crearcuenta');
+  const handleLogout = async () => {
+    try {
+      await fetch('http://localhost:5000/api/logout', {
+        method: 'POST',
+        credentials: 'include', // Importante para eliminar la cookie en el servidor
+      });
+      setIsLoggedIn(false);
+      history.push('/login');
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+      toast.error('Error al cerrar sesión.');
+    }
   };
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword); // Alterna la visibilidad de la contraseña
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -158,7 +151,7 @@ const Login = () => {
         <div className="bienvenida">
           <div className="btn-crear">
             <p>¡Únete y construye con nosotros!</p>
-            <button onClick={handleCreateAccount}>Crear Cuenta</button>
+            <button onClick={() => history.push('/crearcuenta')}>Crear Cuenta</button>
           </div>
         </div>
       </div>

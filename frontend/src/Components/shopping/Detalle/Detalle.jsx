@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faGreaterThan,
     faSquarePlus,
     faSquareMinus,
     faStar,
@@ -35,16 +34,14 @@ function Detalle({ match }) {
     useEffect(() => {
         const obtenerUsuarioId = async () => {
             try {
-                const token = localStorage.getItem("token");
-                if (token) {
-                    const response = await axios.get("http://localhost:5000/api/profile", {
-                        headers: { Authorization: `Bearer ${token}` },
-                    });
-                    setUsuarioId(response.data.usuario.id);
-                    setSesionIniciada(true);
-                }
+                const response = await axios.get("http://localhost:5000/api/profile", {
+                    withCredentials: true,  // Asegura que las cookies se envían junto con la solicitud
+                });
+                setUsuarioId(response.data.usuario.id);
+                setSesionIniciada(true);
             } catch (error) {
                 setSesionIniciada(false);
+                console.error("Error al obtener el perfil del usuario:", error);
             }
         };
 
@@ -70,14 +67,11 @@ function Detalle({ match }) {
                 }
 
                 if (sesionIniciada) {
-                    const token = localStorage.getItem("token");
-                    if (token) {
-                        const responseCarrito = await axios.get("http://localhost:5000/api/carrito", {
-                            headers: { Authorization: `Bearer ${token}` },
-                        });
-                        const productosEnCarrito = responseCarrito.data.carrito.map(item => item.producto.id);
-                        setEnCarrito(productosEnCarrito.includes(response.data.producto.id));
-                    }
+                    const responseCarrito = await axios.get("http://localhost:5000/api/carrito", {
+                        withCredentials: true,  // Asegura que las cookies se envían junto con la solicitud
+                    });
+                    const productosEnCarrito = responseCarrito.data.carrito.map(item => item.producto.id);
+                    setEnCarrito(productosEnCarrito.includes(response.data.producto.id));
                 }
 
                 setLoading(false);
@@ -142,7 +136,9 @@ function Detalle({ match }) {
         }
         try {
             const data = { usuario_id: usuarioId, producto_id: producto.id, cantidad };
-            await axios.post("http://localhost:5000/api/agregar-al-carrito", data);
+            await axios.post("http://localhost:5000/api/agregar-al-carrito", data, {
+                withCredentials: true,  // Asegura que las cookies se envían junto con la solicitud
+            });
             setEnCarrito(true);
             mostrarAnimacionTemporal();
         } catch (error) {
@@ -192,14 +188,11 @@ function Detalle({ match }) {
             }
 
             if (sesionIniciada) {
-                const token = localStorage.getItem("token");
-                if (token) {
-                    const responseCarrito = await axios.get("http://localhost:5000/api/carrito", {
-                        headers: { Authorization: `Bearer ${token}` },
-                    });
-                    const productosEnCarrito = responseCarrito.data.carrito.map(item => item.producto.id);
-                    setEnCarrito(productosEnCarrito.includes(response.data.producto.id));
-                }
+                const responseCarrito = await axios.get("http://localhost:5000/api/carrito", {
+                    withCredentials: true,  // Asegura que las cookies se envían junto con la solicitud
+                });
+                const productosEnCarrito = responseCarrito.data.carrito.map(item => item.producto.id);
+                setEnCarrito(productosEnCarrito.includes(response.data.producto.id));
             }
 
             obtenerProductosRelacionados(response.data.producto.subcategoria);
@@ -220,20 +213,6 @@ function Detalle({ match }) {
                 </div>
             ) : producto ? (
                 <div>
-                    {/* <div>
-                        <p>
-                            {producto.categoria}{" "}
-                            <small>
-                                <FontAwesomeIcon icon={faGreaterThan} size="xs" />{" "}
-                                {producto.subcategoria}
-                                <FontAwesomeIcon icon={faGreaterThan} size="xs" />{" "}
-                                {producto.nombre}
-                                <FontAwesomeIcon icon={faGreaterThan} size="xs" />{" "}
-                                {producto.codigo}{" "}
-                            </small>
-                        </p>
-                    </div> */}
-
                     <div className="detalle-container">
                         <div
                             className="image-container"
