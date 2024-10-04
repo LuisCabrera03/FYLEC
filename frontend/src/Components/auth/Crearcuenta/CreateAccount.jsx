@@ -88,7 +88,7 @@ function CreateAccount() {
     if (!aceptaTerminos) {
       toast.error('Debe aceptar los términos y condiciones para continuar.', {
         position: "top-right",
-        autoClose: 2000,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -97,9 +97,9 @@ function CreateAccount() {
       });
       return;
     }
-
+  
     try {
-      const response = await fetch('http://127.0.0.1:5000/api/crear-cuenta', {
+      const response = await fetch('http://localhost:5000/api/crear-cuenta', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -109,11 +109,11 @@ function CreateAccount() {
           fechaNacimiento: fechaNacimiento ? fechaNacimiento.toISOString().split('T')[0] : null
         }),
       });
-
+  
       if (response.ok) {
         toast.success('¡Cuenta creada correctamente!', {
           position: "top-right",
-          autoClose: 2000,
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -123,14 +123,14 @@ function CreateAccount() {
         setTimeout(() => {
           localStorage.removeItem('createAccountData'); // Limpiar el almacenamiento local al crear la cuenta
           history.push('/login');
-        }, 2100);
+        }, 3100);
       } else if (response.status === 400) {
         const responseData = await response.json();
         if (responseData.error === 'El correo electrónico ya está en uso') {
           setCorreoEnUso(true);
           toast.error('¡El correo electrónico ya está en uso!', {
             position: "top-right",
-            autoClose: 2000,
+            autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -140,7 +140,7 @@ function CreateAccount() {
         } else {
           toast.error(responseData.error, {
             position: "top-right",
-            autoClose: 2000,
+            autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -148,10 +148,20 @@ function CreateAccount() {
             progress: undefined,
           });
         }
-      } else {
-        toast.error('Error interno del servidor. Por favor, inténtelo de nuevo más tarde.', {
+      } else if (response.status === 500) {
+        toast.error('Se produjo un error al procesar la solicitud. Por favor, inténtelo de nuevo más tarde.', {
           position: "top-right",
-          autoClose: 2000,
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      } else {
+        toast.error('Error desconocido. Por favor, inténtelo de nuevo.', {
+          position: "top-right",
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -162,7 +172,7 @@ function CreateAccount() {
     } catch (error) {
       toast.error(`Error al enviar los datos: ${error.message}`, {
         position: "top-right",
-        autoClose: 2000,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -171,7 +181,7 @@ function CreateAccount() {
       });
     }
   };
-
+  
   const handleNextStep = async () => {
     const isValid = await trigger(stepFields[step - 1]);
     if (isValid) {

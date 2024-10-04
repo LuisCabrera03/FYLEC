@@ -37,13 +37,22 @@ const Perfil = () => {
       setIsLoading(true);
       setError(null);
 
+      const cachedProfile = localStorage.getItem('userProfile');
+      if (cachedProfile) {
+        const profileData = JSON.parse(cachedProfile);
+        setProfile(profileData);
+        setFormData(profileData);
+        setIsLoading(false);
+        return;
+      }
+
+      const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:5000/api/profile', {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
-        },
-        credentials: 'include',
+        }
       });
 
       if (!response.ok) {
@@ -51,13 +60,13 @@ const Perfil = () => {
       }
 
       const responseData = await response.json();
-
       if (!responseData || !responseData.usuario) {
-        throw new Error('Datos de perfil no válidos');
+        throw new Error('Error al obtener el perfil: Datos de perfil no válidos');
       }
 
       setProfile(responseData.usuario);
       setFormData(responseData.usuario);
+      localStorage.setItem('userProfile', JSON.stringify(responseData.usuario));
       setIsLoading(false);
     } catch (error) {
       console.error('Error al obtener el perfil:', error.message);
@@ -68,7 +77,6 @@ const Perfil = () => {
         retriesRef.current++;
         setTimeout(fetchProfileData, RETRY_DELAY);
       } else {
-        toast.error('Por favor inicia sesión nuevamente.');
         history.push('/login');
       }
     }
@@ -78,7 +86,6 @@ const Perfil = () => {
     fetchProfileData();
   }, [fetchProfileData]);
 
-  // Cargar los departamentos desde API-Colombia al montar el componente
   useEffect(() => {
     fetch('https://api-colombia.com/api/v1/Department', {
       headers: { 'accept': 'application/json' }
@@ -93,7 +100,6 @@ const Perfil = () => {
       .catch(error => console.error('Error al cargar los departamentos:', error));
   }, []);
 
-  // Cargar los municipios según el departamento seleccionado
   useEffect(() => {
     const selectedDepartamento = departamentos.find(dep => dep.name === formData.departamento);
     if (selectedDepartamento) {
@@ -113,11 +119,13 @@ const Perfil = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    history.push('/login');
+    localStorage.removeItem('userProfile');  // Limpiar la caché del perfil al cerrar sesión
+    history.push('/');
   };
 
   const handleEdit = () => {
     setEditing(true);
+    setFormData(profile); // Esto asegura que el formulario tenga los datos actuales al iniciar la edición
   };
 
   const handleCancelEdit = () => {
@@ -145,13 +153,13 @@ const Perfil = () => {
       setIsLoading(true);
       setError(null);
 
+      const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:5000/api/actualizar-perfil', {
         method: 'PUT',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
-        credentials: 'include',
         body: JSON.stringify(formData)
       });
 
@@ -161,9 +169,10 @@ const Perfil = () => {
 
       const responseData = await response.json();
       setProfile(responseData.usuario);
+      setFormData(responseData.usuario);
+      localStorage.setItem('userProfile', JSON.stringify(responseData.usuario));
       setEditing(false);
       toast.success('Perfil actualizado correctamente');
-
       setIsLoading(false);
     } catch (error) {
       console.error('Error al actualizar el perfil:', error.message);
@@ -178,13 +187,13 @@ const Perfil = () => {
       setIsLoading(true);
       setError(null);
 
+      const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:5000/api/cambiar-contrasena', {
         method: 'PUT',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
-        credentials: 'include',
         body: JSON.stringify({
           passwordAnterior: formData.passwordAnterior,
           passwordNueva: formData.passwordNueva,
@@ -207,7 +216,6 @@ const Perfil = () => {
       setError('');
       setEditing(false);
       toast.success(responseData.message);
-
       setIsLoading(false);
     } catch (error) {
       console.error('Error al cambiar la contraseña:', error.message);

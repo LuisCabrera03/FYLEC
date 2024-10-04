@@ -1,17 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+    faGreaterThan,
     faSquarePlus,
     faSquareMinus,
     faStar,
     faStarHalfAlt,
     faCheckCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import { BarLoader } from "react-spinners";
-
+import CircularProgress from '@mui/material/CircularProgress';
 import "./Detalle.css";
 
 function Detalle({ match }) {
@@ -31,74 +31,101 @@ function Detalle({ match }) {
 
     const history = useHistory();
 
-    useEffect(() => {
-        const obtenerUsuarioId = async () => {
-            try {
-                const response = await axios.get("http://localhost:5000/api/profile", {
-                    withCredentials: true,  // Asegura que las cookies se envían junto con la solicitud
+    const obtenerUsuarioId = useCallback(async () => {
+        const cachedUser = JSON.parse(localStorage.getItem("user"));
+        if (cachedUser) {
+            setUsuarioId(cachedUser.id);
+            setSesionIniciada(true);
+            return;
+        }
+
+        try {
+            const token = localStorage.getItem("token");
+            if (token) {
+                const { data } = await axios.get("http://localhost:5000/api/profile", {
+                    headers: { Authorization: `Bearer ${token}` },
                 });
-                setUsuarioId(response.data.usuario.id);
+                setUsuarioId(data.usuario.id);
                 setSesionIniciada(true);
-            } catch (error) {
+                localStorage.setItem("user", JSON.stringify(data.usuario));
+            } else {
                 setSesionIniciada(false);
-                console.error("Error al obtener el perfil del usuario:", error);
             }
-        };
-
-        obtenerUsuarioId();
-    }, []);
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                console.error("Token inválido o expirado. Redirigiendo a la página de login.");
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+                history.push("/login");
+            } else {
+                console.error("Error al obtener el perfil del usuario:", error.message);
+            }
+            setSesionIniciada(false);
+        }
+    }, [history]);
 
     useEffect(() => {
-        const obtenerProducto = async () => {
-            setLoading(true);
-            try {
-                const response = await axios.get(`http://localhost:5000/api/productos/${match.params.id}`);
-                setProducto(response.data.producto);
+        obtenerUsuarioId();
+    }, [obtenerUsuarioId]);
 
-                if (response.data.producto && response.data.producto.subcategoria) {
-                    obtenerProductosRelacionados(response.data.producto.subcategoria);
-                }
+    const obtenerProducto = useCallback(async () => {
+        setLoading(true);
+        window.scrollTo(0, 0); // Mover la página al principio al cargar el producto
+        try {
+            const { data } = await axios.get(`http://localhost:5000/api/productos/${match.params.id}`);
+            setProducto(data.producto);
 
-                const calificacionAleatoria = Math.floor(Math.random() * 3) + 3;
-                setCalificacion(calificacionAleatoria);
-
-                if (response.data.producto.cantidad === 0) {
-                    setExistenciasAgotadas(true);
-                }
-
-                if (sesionIniciada) {
-                    const responseCarrito = await axios.get("http://localhost:5000/api/carrito", {
-                        withCredentials: true,  // Asegura que las cookies se envían junto con la solicitud
-                    });
-                    const productosEnCarrito = responseCarrito.data.carrito.map(item => item.producto.id);
-                    setEnCarrito(productosEnCarrito.includes(response.data.producto.id));
-                }
-
-                setLoading(false);
-                window.scrollTo(0, 0);
-            } catch (error) {
-                console.error("Error al cargar el producto:", error);
-                setLoading(false);
-                setMensajeError("Error al cargar el producto. Por favor, inténtalo de nuevo.");
+            if (data.producto?.subcategoria) {
+                obtenerProductosRelacionados(data.producto.subcategoria);
             }
-        };
 
-        obtenerProducto();
+            setCalificacion(Math.floor(Math.random() * 3) + 3);
+
+            if (data.producto.cantidad === 0) {
+                setExistenciasAgotadas(true);
+            }
+
+            if (sesionIniciada) {
+                const token = localStorage.getItem("token");
+                const { data: carritoData } = await axios.get("http://localhost:5000/api/carrito", {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                const productosEnCarrito = carritoData.carrito.map(item => item.producto.id);
+                setEnCarrito(productosEnCarrito.includes(data.producto.id));
+            }
+
+            setLoading(false);
+        } catch (error) {
+            console.error("Error al cargar el producto:", error);
+            setMensajeError("Error al cargar el producto. Por favor, inténtalo de nuevo.");
+            setLoading(false);
+        }
     }, [match.params.id, sesionIniciada]);
+
+    useEffect(() => {
+        obtenerProducto();
+    }, [obtenerProducto]);
 
     const obtenerProductosRelacionados = async (subcategoria) => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/productos?subcategoria=${subcategoria}`);
-            const productosFiltrados = response.data.productos.filter(p => p.id !== parseInt(match.params.id));
+            const { data } = await axios.get(`http://localhost:5000/api/productos?subcategoria=${subcategoria}`);
+            const productosFiltrados = data.productos.filter(p => p.id !== parseInt(match.params.id));
             setProductosRelacionados(productosFiltrados);
         } catch (error) {
             console.error("Error al obtener productos relacionados:", error);
         }
     };
 
+    const handleProductoRelacionadoClick = async (productoSeleccionado) => {
+        history.push(`/detalle/${productoSeleccionado.id}`);
+        setProducto(null); // Limpiar el estado del producto antes de cargar el nuevo
+        setLoading(true);
+        window.scrollTo(0, 0); // Mover la página al principio al seleccionar un producto relacionado
+        await obtenerProducto();
+    };
+
     const handleCantidadChange = (event) => {
-        let newCantidad = parseInt(event.target.value);
-        newCantidad = Math.max(1, Math.min(newCantidad, producto.cantidad));
+        const newCantidad = Math.max(1, Math.min(parseInt(event.target.value), producto.cantidad));
         setCantidad(newCantidad);
         setMensajeError("");
     };
@@ -122,7 +149,7 @@ function Detalle({ match }) {
             setMensajeError("Debes iniciar sesión para comprar este producto.");
             return;
         }
-        history.push(`/compra/${producto.id}/${cantidad}`);
+        history.push(`/compra/${producto.id}-${cantidad}`);
     };
 
     const handleAgregarAlCarrito = async () => {
@@ -136,9 +163,7 @@ function Detalle({ match }) {
         }
         try {
             const data = { usuario_id: usuarioId, producto_id: producto.id, cantidad };
-            await axios.post("http://localhost:5000/api/agregar-al-carrito", data, {
-                withCredentials: true,  // Asegura que las cookies se envían junto con la solicitud
-            });
+            await axios.post("http://localhost:5000/api/agregar-al-carrito", data);
             setEnCarrito(true);
             mostrarAnimacionTemporal();
         } catch (error) {
@@ -152,7 +177,6 @@ function Detalle({ match }) {
     };
 
     const handleMouseEnter = () => setZoom(true);
-
     const handleMouseLeave = () => setZoom(false);
 
     const handleMouseMove = (event) => {
@@ -174,45 +198,28 @@ function Detalle({ match }) {
         }
     };
 
-    const handleProductoRelacionadoClick = async (productoSeleccionado) => {
-        setLoading(true);
-        try {
-            const response = await axios.get(`http://localhost:5000/api/productos/${productoSeleccionado.id}`);
-            setProducto(response.data.producto);
-            setCantidad(1);
-
-            if (response.data.producto.cantidad === 0) {
-                setExistenciasAgotadas(true);
-            } else {
-                setExistenciasAgotadas(false);
-            }
-
-            if (sesionIniciada) {
-                const responseCarrito = await axios.get("http://localhost:5000/api/carrito", {
-                    withCredentials: true,  // Asegura que las cookies se envían junto con la solicitud
-                });
-                const productosEnCarrito = responseCarrito.data.carrito.map(item => item.producto.id);
-                setEnCarrito(productosEnCarrito.includes(response.data.producto.id));
-            }
-
-            obtenerProductosRelacionados(response.data.producto.subcategoria);
-            setLoading(false);
-            window.scrollTo(0, 0);
-        } catch (error) {
-            console.error("Error al cargar el producto:", error);
-            setLoading(false);
-            setMensajeError("Error al cargar el producto relacionado. Por favor, inténtalo de nuevo.");
-        }
-    };
-
     return (
         <div className="detalle">
             {loading ? (
                 <div className="spinner-container">
-                    <BarLoader color={"#36D7B7"} loading={loading} className="spiner" />
+                    <CircularProgress color="primary" size={60} thickness={4.5} />
                 </div>
             ) : producto ? (
                 <div>
+                    <div className="encabezado">
+                        <p>
+                            {producto.categoria}{" "}
+                            <small>
+                                <FontAwesomeIcon icon={faGreaterThan} size="xs" />{" "}
+                                {producto.subcategoria}
+                                <FontAwesomeIcon icon={faGreaterThan} size="xs" />{" "}
+                                {producto.nombre}
+                                <FontAwesomeIcon icon={faGreaterThan} size="xs" />{" "}
+                                {producto.codigo}{" "}
+                            </small>
+                        </p>
+                    </div>
+
                     <div className="detalle-container">
                         <div
                             className="image-container"

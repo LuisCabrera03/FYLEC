@@ -1,13 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-    faSearch,
-    faTimes,
-    faArrowUp,
-    faArrowDown,
-} from '@fortawesome/free-solid-svg-icons';
+    Container, Grid, TextField, Button, Card, CardContent, Table, TableBody,
+    TableCell, TableHead, TableRow, TableContainer, Typography, Avatar
+} from '@mui/material';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { confirmAlert } from 'react-confirm-alert';
@@ -33,21 +30,7 @@ const EditProduct = () => {
     const [paginaActual, setPaginaActual] = useState(1);
     const [productosPorPagina] = useState(5);
     const [ordenAscendente, setOrdenAscendente] = useState(true);
-    const [mostrarAdminPagina,] = useState(false);
     const [cargando, setCargando] = useState(true);
-
-    const opcionesCategoria = ["Herramientas Manuales", "Herramientas eléctricas", 'Ferretería general', 'Pintura y acabados', 'Electricidad', 'Fontanería', 'Jardinería y exteriores', 'Seguridad y protección', "Materiales de Construcción"];
-    const opcionesSubcategoria = {
-        "Herramientas Manuales": ["Destornilladores", "Llaves (fijas, ajustables, de tubo)", "Alicates (de corte, de punta, de presión)", 'Martillos (de carpintero, de bola, de goma)', 'Sierras (para madera, para metal)', 'Cinceles', 'Gatos y prensas'],
-        "Herramientas eléctricas": ["Taladros", "Sierra circular", "Amoladoras", 'Lijadoras', 'Sierras caladoras', 'Pistolas de calor', 'Soldadoras'],
-        "Ferretería general": ["Tornillería y fijaciones (tornillos, tuercas, arandelas, clavos)", "Bisagras y cerraduras", "Pomos y manijas", 'Cadenas y candados', 'Escaleras y andamios', 'Carretillas y carros de mano', 'Soportes y colgadores'],
-        "Pintura y acabados": ["Pinturas (interior, exterior, esmaltes, aerosoles)", "Rodillos y brochas", "Cintas de enmascarar", 'Masillas y selladores', 'Lijas y papel de lija', 'Impermeabilizantes'],
-        "Electricidad": ["Cables eléctricos", "Interruptores y enchufes", "Lámparas y bombillas", 'Extensiones y enrolladores', 'Tubos y accesorios para instalaciones eléctricas', 'Cajas de conexiones'],
-        "Fontanería": ["Tuberías y accesorios (cobre, PVC, PPR)", "Grifos y accesorios de baño y cocina", "Sanitarios y accesorios de fontanería", 'Bombas de agua', 'Herramientas para fontanería (llaves de tubo, cortatubos)', 'Fosas sépticas y sistemas de tratamiento de aguas'],
-        "Jardinería y exteriores": ["Herramientas de jardinería (pala, rastrillo, podadoras)", "Mangueras y aspersores", "Fertilizantes y pesticidas", "Macetas y jardineras", "Barbacoas y accesorios para exteriores", 'Sistemas de riego'],
-        "Seguridad y protección": ["Sistemas de alarma y vigilancia", "Cerrajería de seguridad (cerrojos, mirillas digitales)", "Extintores y sistemas contra incendios", 'Equipos de protección personal (cascos, guantes, gafas)', 'Señalización de seguridad', 'Cajas fuertes y armeros'],
-        "Materiales de Construcción": ["Herramientas de Construcción", "Materiales de Albañilería", "Materiales de Acabado", "Carpintería y Madera", "Plomería y Fontanería", "Electricidad", "Techos y Cubiertas"],
-    };
 
     useEffect(() => {
         const adminToken = localStorage.getItem('adminToken');
@@ -65,7 +48,7 @@ const EditProduct = () => {
         setTimeout(() => {
             setCargando(false);
         }, 2000);
-    }, [mostrarAdminPagina]);
+    }, []);
 
     const obtenerProductos = async () => {
         try {
@@ -77,19 +60,9 @@ const EditProduct = () => {
         }
     };
 
-    useEffect(() => {
-        const formElement = document.querySelector('.product-form');
-        if (formElement) {
-            // Acción sobre el elemento encontrado
-        } else {
-            console.error('Elemento .product-form no encontrado');
-        }
-    }, []);
-
     const actualizarProducto = async () => {
         try {
-            // Convierte el precio de string a float antes de enviarlo al backend
-            const precioLimpio = precio.replace(/\./g, '').replace(',', '.'); // Eliminar puntos y cambiar comas por puntos
+            const precioLimpio = precio.replace(/\./g, '').replace(',', '.');
             const precioDecimal = parseFloat(precioLimpio);
             if (isNaN(precioDecimal)) {
                 toast.error('El precio no es válido.');
@@ -104,7 +77,7 @@ const EditProduct = () => {
                 cantidad,
                 categoria,
                 subcategoria,
-                precio: precioDecimal, // Enviar como número
+                precio: precioDecimal,
                 descuento,
                 imgUrl
             });
@@ -128,19 +101,15 @@ const EditProduct = () => {
             setCantidad(producto.cantidad);
             setCategoria(producto.categoria);
             setSubcategoria(producto.subcategoria);
-            const precioFormateado = formatPriceForDisplay(producto.precio);
-            setPrecio(precioFormateado);
-            setDescuento(producto.descuento);
+            setPrecio(producto.precio.toString());
+            setDescuento(producto.descuento.toString());
             setImgUrl(producto.imgUrl);
             setEditando(true);
             setIdProductoEditar(id);
 
-            // Comprobación de existencia del elemento
             const formElement = document.querySelector('.product-form');
             if (formElement) {
                 formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            } else {
-                console.error('Elemento .product-form no encontrado');
             }
         } catch (error) {
             console.error('Error al obtener producto para editar:', error);
@@ -193,17 +162,10 @@ const EditProduct = () => {
         if (isNaN(precioDecimal)) {
             return '0,00';
         }
-        const precioFormateado = precioDecimal.toLocaleString('es-CO', {
+        return precioDecimal.toLocaleString('es-CO', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
         });
-        return precioFormateado;
-    };
-
-    const handlePrecioChange = (e) => {
-        const inputPrecio = e.target.value.replace(/[^0-9,]/g, ''); // Mantiene solo dígitos y comas
-        const formattedPrice = inputPrecio.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Añade puntos como separadores de miles
-        setPrecio(formattedPrice);
     };
 
     const filtrarProductos = () => {
@@ -218,216 +180,121 @@ const EditProduct = () => {
         setPaginaActual(numeroPagina);
     };
 
-    const ordenarProductos = (campo) => {
-        const productosOrdenados = [...productosFiltrados];
-        productosOrdenados.sort((a, b) => {
-            const valorA = a[campo];
-            const valorB = b[campo];
-            if (valorA < valorB) {
-                return ordenAscendente ? -1 : 1;
-            }
-            if (valorA > valorB) {
-                return ordenAscendente ? 1 : -1;
-            }
-            return 0;
-        });
-        setProductosFiltrados(productosOrdenados);
-        setOrdenAscendente(!ordenAscendente);
-    };
-
-    const cerrarSesion = () => {
-        confirmAlert({
-            title: 'Confirmación',
-            message: '¿Estás seguro de que deseas cerrar la sesión?',
-            buttons: [
-                {
-                    label: 'Sí',
-                    onClick: () => {
-                        localStorage.removeItem('adminToken');
-                        history.push('/login');
-                    }
-                },
-                {
-                    label: 'No',
-                    onClick: () => { }
-                }
-            ]
-        });
-    };
-
-    const navegarACrud = () => {
-        history.push("/admin");
-    };
-
     const indexOfLastProducto = paginaActual * productosPorPagina;
     const indexOfFirstProducto = indexOfLastProducto - productosPorPagina;
     const productosPaginados = productosFiltrados.slice(indexOfFirstProducto, indexOfLastProducto);
 
     return (
-        <div className='admin'>
+        <Container maxWidth="lg">
             <ToastContainer />
-            <div className="header">
-                <div className="header-sliderbar">
-                    <button className="logout-btn" onClick={navegarACrud}>
-                        inicio
-                    </button>
-                    <h1>Panel de Administración</h1>
-                </div>
-
-                <button className="logout-btn" onClick={cerrarSesion}>
-                    Cerrar Sesión
-                </button>
-            </div>
-            <div className="main-content">
-                {cargando ? (
-                    <div className="loader">Cargando...</div>
-                ) : (
-                    mostrarAdminPagina ? null : (
-                        <div>
-                            {editando && (
-                                <div className='absolute'>
-                                    <div className="product-form">
-                                        <h3>Editar Producto</h3>
-                                        <span>Código del Producto </span>
-                                        <input type="text" placeholder="Código" value={codigo} onChange={(e) => setCodigo(e.target.value)} />
-                                        <span>Nombre del Producto </span>
-                                        <input type="text" placeholder="Nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} />
-                                        <span>Marca del Producto</span>
-                                        <input type="text" placeholder="Marca" value={marca} onChange={(e) => setMarca(e.target.value)} />
-                                        <span>Descripción del Producto </span>
-
-                                        <textarea
-                                            placeholder="Descripción"
-                                            value={descripcion}
-                                            onChange={(e) => setDescripcion(e.target.value)}
-                                        />
-                                        <span>Cantidad de Productos </span>
-
-                                        <input type="number" placeholder="Cantidad" value={cantidad} onChange={(e) => setCantidad(e.target.value)} />
-                                        <fieldset>
-                                            <legend>Categoria del Producto</legend>
-                                            <select value={categoria} onChange={(e) => setCategoria(e.target.value)}>
-                                                <option value="">Selecciona una categoría</option>
-                                                {opcionesCategoria.map((opcion, index) => (
-                                                    <option key={index} value={opcion}>{opcion}</option>
-                                                ))}
-                                            </select>
-                                        </fieldset>
-                                        <fieldset>
-                                            <legend>Selecciona una Subcategoría</legend>
-                                            <select value={subcategoria} onChange={(e) => setSubcategoria(e.target.value)}>
-                                                <option value="">Selecciona una subcategoría</option>
-                                                {categoria && opcionesSubcategoria[categoria] && opcionesSubcategoria[categoria].map((opcion, index) => (
-                                                    <option key={index} value={opcion}>{opcion}</option>
-                                                ))}
-                                            </select>
-                                        </fieldset>
-
-                                        <span>Precio del Producto</span>
-                                        <div>
-                                            <input
-                                                type="text"
-                                                placeholder="Precio"
-                                                value={precio}
-                                                onChange={handlePrecioChange}
-                                            />
-
-                                        </div>
-                                        <span>Descuento del Producto %</span>
-                                        <input type="number" placeholder="Descuento (%)" value={descuento} onChange={(e) => setDescuento(e.target.value)} />
-                                        <span>URL de la Imagen del Producto</span>
-
-                                        <input type="text" placeholder="URL de la imagen" value={imgUrl} onChange={(e) => setImgUrl(e.target.value)} />
-
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <Card>
+                        <CardContent>
+                            {editando ? (
+                                <div className="product-form">
+                                    <Typography variant="h6">Editar Producto</Typography>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={6}>
+                                            <TextField label="Código del Producto" fullWidth value={codigo} onChange={(e) => setCodigo(e.target.value)} />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <TextField label="Nombre del Producto" fullWidth value={nombre} onChange={(e) => setNombre(e.target.value)} />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <TextField label="Marca del Producto" fullWidth value={marca} onChange={(e) => setMarca(e.target.value)} />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <TextField label="Cantidad de Productos" type="number" fullWidth value={cantidad} onChange={(e) => setCantidad(e.target.value)} />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <TextField label="Precio del Producto" fullWidth value={precio} onChange={(e) => setPrecio(e.target.value)} />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <TextField label="Descuento (%)" type="number" fullWidth value={descuento} onChange={(e) => setDescuento(e.target.value)} />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <TextField label="Descripción del Producto" fullWidth multiline rows={3} value={descripcion} onChange={(e) => setDescripcion(e.target.value)} />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <TextField label="URL de la Imagen del Producto" fullWidth value={imgUrl} onChange={(e) => setImgUrl(e.target.value)} />
+                                        </Grid>
                                         {imgUrl && (
-                                            <div className="carrito-img">
-
-                                                <img src={imgUrl} alt="Preview" className="preview-image" />
-                                            </div>
+                                            <Grid item xs={6}>
+                                                <Avatar alt="Product Image" src={imgUrl} sx={{ width: 100, height: 100, margin: 'auto' }} />
+                                            </Grid>
                                         )}
-                                        <button className="update-btn" onClick={actualizarProducto}>
-                                            <FontAwesomeIcon icon={faSearch} /> Actualizar Producto
-                                        </button>
-                                        <button className="clear-btn" onClick={limpiarCampos}>
-                                            <FontAwesomeIcon icon={faTimes} /> Limpiar Campos
-                                        </button>
-                                    </div>
+                                        <Grid item xs={12} sx={{ textAlign: 'center' }}>
+                                            <Button variant="contained" color="primary" onClick={actualizarProducto} sx={{ marginRight: 1 }}>
+                                                Actualizar Producto
+                                            </Button>
+                                            <Button variant="contained" color="secondary" onClick={limpiarCampos}>
+                                                Limpiar Campos
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
                                 </div>
-                            )}
-                            <div className="table-container">
-                                <div className="product-list">
-                                    <h3>Tus Productos</h3>
-                                    <div className="search-bar">
-                                        <input type="text" placeholder="Buscar por nombre o código" value={terminoBusqueda} onChange={(e) => setTerminoBusqueda(e.target.value)} />
-                                        <FontAwesomeIcon icon={faSearch} className="search-icon" />
-                                    </div>
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>Id</th>
-
-                                                <th onClick={() => ordenarProductos('codigo')}>
-                                                    Código{' '}
-                                                    {ordenAscendente ? (
-                                                        <FontAwesomeIcon icon={faArrowUp} />
-                                                    ) : (
-                                                        <FontAwesomeIcon icon={faArrowDown} />
-                                                    )}
-                                                </th>
-                                                <th onClick={() => ordenarProductos('nombre')}>
-                                                    Nombre{' '}
-                                                    {ordenAscendente ? (
-                                                        <FontAwesomeIcon icon={faArrowUp} />
-                                                    ) : (
-                                                        <FontAwesomeIcon icon={faArrowDown} />
-                                                    )}
-                                                </th>
-                                                <th>Cantidad</th>
-                                                <th>Categoría</th>
-                                                <th>Subcategoría</th>
-                                                <th>Precio</th>
-                                                <th>Imagen</th>
-                                                <th>Editar</th>
-                                                <th>Eliminar</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {productosPaginados.map(producto => (
-                                                <tr key={producto.id}>
-                                                    <td>{producto.id}</td>
-                                                    <td>{producto.codigo}</td>
-                                                    <td>{producto.nombre}</td>
-                                                    <td>{producto.cantidad}</td>
-                                                    <td>{producto.categoria}</td>
-                                                    <td>{producto.subcategoria}</td>
-                                                    <td>{formatPriceForDisplay(producto.precio)}</td>
-                                                    <td><img src={producto.imgUrl} alt={producto.nombre} className="product-image" /></td>
-                                                    <td className='edit-btn-td'>
-                                                        <button className="edit-btn" onClick={() => editarProducto(producto.id)}>Editar</button>
-                                                    </td>
-                                                    <td className='delete-btn-td'>
-                                                        <button className="delete-btn" onClick={() => eliminarProducto(producto.id)}>Eliminar</button>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-
-
-                                    </table>
-                                    <div className="pagination">
-                                        {[...Array(Math.ceil(productosFiltrados.length / productosPorPagina))].map((_, index) => (
-                                            <button key={index} onClick={() => paginar(index + 1)} className={index + 1 === paginaActual ? 'active' : ''}>
-                                                {index + 1}
-                                            </button>
+                            ) : null}
+                        </CardContent>
+                    </Card>
+                </Grid>
+                <Grid item xs={12}>
+                    <Card>
+                        <CardContent>
+                            <Typography variant="h6">Listado de Productos</Typography>
+                            <TextField label="Buscar" fullWidth value={terminoBusqueda} onChange={(e) => setTerminoBusqueda(e.target.value)} sx={{ marginBottom: 2 }} />
+                            <TableContainer>
+                                <Table>
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell>Id</TableCell>
+                                            <TableCell>Código</TableCell>
+                                            <TableCell>Nombre</TableCell>
+                                            <TableCell>Cantidad</TableCell>
+                                            <TableCell>Categoría</TableCell>
+                                            <TableCell>Subcategoría</TableCell>
+                                            <TableCell>Precio</TableCell>
+                                            <TableCell>Editar</TableCell>
+                                            <TableCell>Eliminar</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {productosPaginados.map(producto => (
+                                            <TableRow key={producto.id}>
+                                                <TableCell>{producto.id}</TableCell>
+                                                <TableCell>{producto.codigo}</TableCell>
+                                                <TableCell>{producto.nombre}</TableCell>
+                                                <TableCell>{producto.cantidad}</TableCell>
+                                                <TableCell>{producto.categoria}</TableCell>
+                                                <TableCell>{producto.subcategoria}</TableCell>
+                                                <TableCell>{formatPriceForDisplay(producto.precio)}</TableCell>
+                                                <TableCell>
+                                                    <Button variant="outlined" color="primary" onClick={() => editarProducto(producto.id)}>
+                                                        Editar
+                                                    </Button>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Button variant="outlined" color="secondary" onClick={() => eliminarProducto(producto.id)}>
+                                                        Eliminar
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
                                         ))}
-                                    </div>
-                                </div>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                            <div className="pagination">
+                                {[...Array(Math.ceil(productosFiltrados.length / productosPorPagina))].map((_, index) => (
+                                    <Button key={index} onClick={() => paginar(index + 1)} className={index + 1 === paginaActual ? 'active' : ''}>
+                                        {index + 1}
+                                    </Button>
+                                ))}
                             </div>
-                        </div>
-                    )
-                )}
-            </div>
-        </div>
+                        </CardContent>
+                    </Card>
+                </Grid>
+            </Grid>
+        </Container>
     );
 };
 

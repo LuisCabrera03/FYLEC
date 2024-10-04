@@ -5,6 +5,14 @@
     background-color: #FFFFFF;
     box-shadow: 0px 1px 5px #d3d2d2;
 }
+.cartas-home .loading-spinner,
+.oferta .loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    min-height: 300px; /* Ajusta según sea necesario */
+}
 
 .categorias {
     display: flex;

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef, useEffect, useCallback,useMemo  } from 'react';
 import './Header.css';
 import { useHistory, useLocation } from 'react-router-dom';
 import { faSearch, faUser, faTruck, faShoppingBag, faBars } from '@fortawesome/free-solid-svg-icons';
@@ -17,8 +17,40 @@ function Header() {
     const history = useHistory();
     const location = useLocation();
 
+    const categorias = useMemo(() => [
+        "Herramientas Manuales",
+        "Herramientas eléctricas",
+        "Ferretería general",
+        "Pintura y acabados",
+        "Electricidad",
+        "Fontanería",
+        "Jardinería y exteriores",
+        "Seguridad y protección",
+        "Materiales de Construcción"
+    ], []);
+
+    const categoriasVisuales = useMemo(() => [
+        "Manuales",
+        "Eléctricos",
+        "Ferretería",
+        "Pinturas",
+        "Electricidad",
+        "Fontanería",
+        "Jardinería",
+        "Seguridad",
+        "Construcción"
+    ], []);
+
     useEffect(() => {
-        fetchProfileData();
+        const cachedProfile = localStorage.getItem('userProfile');
+        if (cachedProfile) {
+            const profile = JSON.parse(cachedProfile);
+            setUserName(profile.nombre);
+            setUserLoggedIn(true);
+        } else {
+            fetchProfileData();
+        }
+
         const previousSearchesData = localStorage.getItem('previousSearches');
         if (previousSearchesData) {
             setPreviousSearches(JSON.parse(previousSearchesData));
@@ -42,11 +74,17 @@ function Header() {
         };
     }, []);
 
-    const fetchProfileData = async () => {
+    const fetchProfileData = useCallback(async () => {
         try {
+            const token = localStorage.getItem('token');
+            if (!token) throw new Error('Token no disponible');
+
             const response = await fetch('http://localhost:5000/api/profile', {
                 method: 'GET',
-                credentials: 'include', // Enviar la cookie con la solicitud
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
             });
 
             if (!response.ok) {
@@ -54,79 +92,73 @@ function Header() {
             }
 
             const responseData = await response.json();
-
             if (!responseData || !responseData.usuario) {
                 throw new Error('Error al obtener el perfil: Datos de perfil no válidos');
             }
 
             setUserName(responseData.usuario.nombre);
             setUserLoggedIn(true);
+
+            // Cachear el perfil en localStorage
+            localStorage.setItem('userProfile', JSON.stringify(responseData.usuario));
         } catch (error) {
             console.error('Error al obtener el perfil:', error.message);
             setUserLoggedIn(false);
         }
-    };
+    }, []);
 
-    const toggleMenu = () => {
-        setIsOpen(!isOpen);
-    };
+    const toggleMenu = useCallback(() => {
+        setIsOpen(prevIsOpen => !prevIsOpen);
+    }, []);
 
-    const handleRedirect = () => {
+    const handleRedirect = useCallback(() => {
         if (userLoggedIn) {
             history.push('/perfil');
         } else {
             history.push('/login');
         }
-    };
+    }, [userLoggedIn, history]);
 
-    const redirectToHome = () => {
+    const redirectToHome = useCallback(() => {
         history.push('/');
         setSelectedCategory(null);
         setIsOpen(false);
-    };
+    }, [history]);
 
-    const handleRedirectToCarrito = () => {
+    const handleRedirectToCarrito = useCallback(() => {
         history.push('/CarritoCompras');
-    };
+    }, [history]);
 
-    const handleRedirectToFactura = () => {
+    const handleRedirectToFactura = useCallback(() => {
         history.push('/Factura');
-    };
+    }, [history]);
 
-    const handleItemClick = (item) => {
+    const handleItemClick = useCallback((item) => {
         const subcategories = obtenerSubcategorias(item);
         setSubItems(subcategories);
         setSelectedCategory(item);
-    };
+    }, []);
 
-    const handleSubcategoryClick = (subcategory) => {
+    const handleSubcategoryClick = useCallback((subcategory) => {
         history.push(`/productos?subcategoria=${subcategory}`);
-    };
+    }, [history]);
 
-    const handleSearchInputChange = (event) => {
+    const handleSearchInputChange = useCallback((event) => {
         const { value } = event.target;
         setSearchTerm(value);
 
         const filteredSearches = previousSearches.filter(search => search.includes(value));
         setSearchSuggestions(filteredSearches);
-    };
+    }, [previousSearches]);
 
-    const handleSearchSubmit = (event) => {
-        if (event.key === 'Enter') {
+    const handleSearchSubmit = useCallback((event) => {
+        if (event.key === 'Enter' || event.type === 'click') {
             setPreviousSearches(prevSearches => [...prevSearches, searchTerm]);
             history.push(`/productos?search=${searchTerm}`);
         }
-    };
+    }, [searchTerm, history]);
 
-    const handleCategoryClick = (categoria) => {
-        const subcategories = obtenerSubcategorias(categoria);
-        const subcategoriasParam = subcategories.join(',');
-        history.push(`/categorias?categoria=${categoria}&subcategorias=${subcategoriasParam}`);
-        setSelectedCategory(categoria);
-        setIsOpen(false);
-    };
-
-    const obtenerSubcategorias = (categoria) => {
+    const obtenerSubcategorias = useCallback((categoria) => {
         const subcategorias = {
             "Herramientas Manuales": ["Destornilladores", "Llaves (fijas, ajustables, de tubo)", "Alicates (de corte, de punta, de presión)", 'Martillos (de carpintero, de bola, de goma)', 'Sierras (para madera, para metal)', 'Cinceles', 'Gatos y prensas'],
             "Herramientas eléctricas": ["Taladros", "Sierra circular", "Amoladoras", 'Lijadoras', 'Sierras caladoras', 'Pistolas de calor', 'Soldadoras'],
@@ -140,31 +172,7 @@ function Header() {
         };
 
         return subcategorias[categoria] || [];
-    };
-
-    const categorias = [
-        "Herramientas Manuales",
-        "Herramientas eléctricas",
-        "Ferretería general",
-        "Pintura y acabados",
-        "Electricidad",
-        "Fontanería",
-        "Jardinería y exteriores",
-        "Seguridad y protección",
-        "Materiales de Construcción"
-    ];
-
-    const categoriasVisuales = [
-        "Manuales",
-        "Eléctricos",
-        "Ferretería",
-        "Pinturas",
-        "Electricidad",
-        "Fontanería",
-        "Jardinería",
-        "Seguridad",
-        "Construcción"
-    ];
+    }, []);
 
     return (
         <>

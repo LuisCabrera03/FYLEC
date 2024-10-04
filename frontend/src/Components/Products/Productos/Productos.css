@@ -2,8 +2,15 @@
   width: 80%;
   margin: 20px auto;
   background-color: #ffff;
-
 }
+.container-products .loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  min-height: 300px; 
+}
+
 .product-cards2{
   display: flex;
   flex-wrap: wrap;

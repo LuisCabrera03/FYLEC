@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://fylec.com.co/</loc>
+  </url>
+  <!-- sitemap defylec.com -->
+    <url>
+    <loc>https://fylec.com.co/login</loc>
+  </url>
+    <url>
+    <loc>https://fylec.com.co/crearcuenta</loc>
+  </url>
+  
+</urlset>

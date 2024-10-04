@@ -203,6 +203,12 @@ body {
   width: 25%;
   height: 150px;
 }
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ocupa toda la altura de la pantalla */
+}
 
 /* Estilos para pantallas más pequeñas */
 @media only screen and (max-width: 768px) {

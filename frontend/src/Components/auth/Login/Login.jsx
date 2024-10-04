@@ -10,23 +10,29 @@ const Login = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     const checkLoggedIn = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/verifyToken', {
-          method: 'GET',
-          credentials: 'include', // Importante para enviar la cookie con la solicitud
-        });
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const response = await fetch('http://localhost:5000/api/verifyToken', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
 
-        if (response.ok) {
-          setIsLoggedIn(true);
-        } else {
+          if (response.ok) {
+            setIsLoggedIn(true);
+          } else {
+            setIsLoggedIn(false);
+            localStorage.removeItem('token');
+          }
+        } catch (error) {
+          console.error('Error al verificar token:', error);
           setIsLoggedIn(false);
         }
-      } catch (error) {
-        console.error('Error al verificar token:', error);
+      } else {
         setIsLoggedIn(false);
       }
     };
@@ -49,11 +55,13 @@ const Login = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', // Importante para que las cookies se gestionen automáticamente
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
+        const { token, userId } = await response.json();
+        localStorage.setItem('token', token);
+        localStorage.setItem('userId', userId);
         setIsLoggedIn(true);
         history.push('/');
       } else {
@@ -70,22 +78,15 @@ const Login = () => {
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      await fetch('http://localhost:5000/api/logout', {
-        method: 'POST',
-        credentials: 'include', // Importante para eliminar la cookie en el servidor
-      });
-      setIsLoggedIn(false);
-      history.push('/login');
-    } catch (error) {
-      console.error('Error al cerrar sesión:', error);
-      toast.error('Error al cerrar sesión.');
-    }
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    setIsLoggedIn(false);
+    history.push('/login');
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+  const handleCreateAccount = () => {
+    history.push('/crearcuenta');
   };
 
   return (
@@ -117,7 +118,7 @@ const Login = () => {
                   <div className="form-group-custom">
                     <label htmlFor="contraseña">Contraseña</label>
                     <input 
-                      type={showPassword ? 'text' : 'password'} 
+                      type="password" 
                       id="contraseña" 
                       name="contraseña" 
                       value={formData.contraseña} 
@@ -125,15 +126,6 @@ const Login = () => {
                       required 
                       placeholder="Tu contraseña" 
                     />
-                    <div className="show-password">
-                      <input 
-                        type="checkbox" 
-                        id="showPassword" 
-                        checked={showPassword} 
-                        onChange={togglePasswordVisibility} 
-                      />
-                      <label htmlFor="showPassword">Mostrar Contraseña</label>
-                    </div>
                   </div>
                   {error && <p className="error-custom">{error}</p>}
                   <button type="submit" className="custom-button">Ingresar</button>
@@ -151,7 +143,7 @@ const Login = () => {
         <div className="bienvenida">
           <div className="btn-crear">
             <p>¡Únete y construye con nosotros!</p>
-            <button onClick={() => history.push('/crearcuenta')}>Crear Cuenta</button>
+            <button onClick={handleCreateAccount}>Crear Cuenta</button>
           </div>
         </div>
       </div>

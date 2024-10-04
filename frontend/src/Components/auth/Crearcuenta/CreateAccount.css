@@ -29,10 +29,11 @@
     width: 100%;
     min-height: 100vh;
     opacity: 0.8;
-    background-image: url(../../../assets/wood-1404326_1280.jpg);
-    background-position: center;
+    background-image: url(https://i.ibb.co/0Fn5zHN/Captura-de-pantalla-3-9-2024-141930-fylec-com-co-2.jpg);
     background-repeat: no-repeat;
     background-size: cover;
+    /* transisicion al aparecer */
+    transition: opacity 0.5s ease-in-out;
 }
 
 /* Contenedor principal del formulario */
@@ -154,6 +155,7 @@ padding: 10px;
 @media (max-width: 768px) {
     .container-account {
         width: 100%;
+        
     }
 
     .create-account {

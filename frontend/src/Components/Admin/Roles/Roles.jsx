@@ -1,17 +1,12 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
-import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-    faSearch,
+    Box, Button, TextField, Select, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Grid, Typography, InputLabel, FormControl, IconButton, InputAdornment
+} from '@mui/material';
+import { Visibility, VisibilityOff, Search } from '@mui/icons-material';
 
-} from '@fortawesome/free-solid-svg-icons';
 const Roles = () => {
-    const history = useHistory();
     const [administradores, setAdministradores] = useState([]);
     const [nombre, setNombre] = useState('');
     const [email, setEmail] = useState('');
@@ -20,15 +15,7 @@ const Roles = () => {
     const [editandoId, setEditandoId] = useState(null);
     const [busqueda, setBusqueda] = useState('');
     const [filtroRol, setFiltroRol] = useState('');
-    const [filtroId] = useState('');
-    const [filtroFecha] = useState('');
-
-    useEffect(() => {
-        const adminToken = localStorage.getItem('adminToken');
-        if (!adminToken) {
-            history.push('/login');
-        }
-    }, [history]);
+    const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar contraseña
 
     useEffect(() => {
         obtenerAdministradores();
@@ -87,45 +74,37 @@ const Roles = () => {
             console.error('Error al editar administrador:', error);
         }
     };
+
     const eliminarAdministrador = async (id) => {
         try {
-            confirmAlert({
-                title: 'Confirmación',
-                message: '¿Estás seguro de que deseas eliminar este administrador?',
-                buttons: [
-                    {
-                        label: 'Sí',
-                        onClick: async () => {
-                            await axios.delete(`http://localhost:5000/api/administradores/${id}`);
-                            setAdministradores(administradores.filter(admin => admin.id !== id));
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Administrador eliminado correctamente',
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                        }
-                    },
-                    {
-                        label: 'No',
-                        onClick: () => { }
-                    }
-                ]
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'No podrás revertir esta acción',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarlo',
+                cancelButtonText: 'Cancelar'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    await axios.delete(`http://localhost:5000/api/administradores/${id}`);
+                    setAdministradores(administradores.filter(admin => admin.id !== id));
+                    Swal.fire('Eliminado', 'El administrador ha sido eliminado.', 'success');
+                }
             });
         } catch (error) {
             console.error('Error al eliminar administrador:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Hubo un error al eliminar el administrador',
-            });
+            Swal.fire('Error', 'Hubo un error al eliminar el administrador', 'error');
         }
     };
+
     const limpiarFormulario = () => {
         setNombre('');
         setEmail('');
         setContraseña('');
         setRol(1);
+        setEditandoId(null);
     };
 
     const editarAdministradorClick = (admin) => {
@@ -145,151 +124,173 @@ const Roles = () => {
         }
     };
 
-    const cerrarSesion = () => {
-        confirmAlert({
-            title: 'Confirmación',
-            message: '¿Estás seguro de que deseas cerrar la sesión?',
-            buttons: [
-                {
-                    label: 'Sí',
-                    onClick: () => {
-                        localStorage.removeItem('adminToken');
-                        history.push('/login');
-                    }
-                },
-                {
-                    label: 'No',
-                    onClick: () => { }
-                }
-            ]
-        });
-    };
-
     const buscarAdministradores = () => {
         return administradores.filter(admin => {
             const nombreMatches = admin.nombre.toLowerCase().includes(busqueda.toLowerCase());
             const emailMatches = admin.email.toLowerCase().includes(busqueda.toLowerCase());
-            const idMatches = admin.id.toString().includes(busqueda.toLowerCase()); // Verificar si la búsqueda coincide con el ID
-            return nombreMatches || emailMatches || idMatches; // Incluir la verificación del ID en el retorno
+            const idMatches = admin.id.toString().includes(busqueda.toLowerCase());
+            return nombreMatches || emailMatches || idMatches;
         });
     };
-
 
     const filtrarAdministradores = (administradores) => {
         let resultadosFiltrados = [...administradores];
         if (filtroRol !== '') {
             resultadosFiltrados = resultadosFiltrados.filter(admin => admin.rol.toString() === filtroRol);
         }
-        if (filtroId !== '') {
-            resultadosFiltrados = resultadosFiltrados.filter(admin => admin.id.toString() === filtroId);
-        }
-        if (filtroFecha !== '') {
-            resultadosFiltrados = resultadosFiltrados.filter(admin => {
-                const fechaIngreso = new Date(admin.fecha_ingreso).toLocaleDateString();
-                return fechaIngreso === filtroFecha;
-            });
-        }
         return resultadosFiltrados;
     };
 
-    const handleBuscar = (e) => {
-        setBusqueda(e.target.value);
-    };
-
-    const handleFiltrarRol = (e) => {
-        setFiltroRol(e.target.value);
-    };
-
-
     const administradoresFiltrados = filtrarAdministradores(busqueda !== '' ? buscarAdministradores() : administradores);
-    const navegarACrud = () => {
-        history.push("/admin");
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
     };
 
     return (
-        <div className='admin'>
-            <div className="header">
-                <div className="header-sliderbar">
-                    <button className="logout-btn" onClick={navegarACrud}>
-                        Inicio
-                    </button>
-                </div>
+        <Box sx={{ p: 4 }}>
+            <Typography variant="h4" gutterBottom>
+                Gestión de Roles
+            </Typography>
 
-                <button className="logout-btn" onClick={cerrarSesion}>
-                    Cerrar Sesión
-                </button>
-            </div>
-            <div className="product-list">
-                <div className="product-form">
-                    <h1 className="header-sliderbar-h1">Administradores</h1>
-                    <form onSubmit={submitHandler}>
-                        <div className="form-group">
-                            <label htmlFor="nombre">Nombre:</label>
-                            <input type="text" id="nombre" placeholder="Nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="email">Email:</label>
-                            <input type="email" id="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="contraseña">Contraseña:</label>
-                            <input type="password" id="contraseña" placeholder="Contraseña" value={contraseña} onChange={(e) => setContraseña(e.target.value)} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="rol">Rol:</label>
-                            <select id="rol" value={rol} onChange={(e) => setRol(parseInt(e.target.value))} className="select-rol">
-                                <option value={1}>Administrador</option>
-                                <option value={2}>Proveedor</option>
-                            </select>
-                        </div>
-                        <button className="update-btn" type="submit">{editandoId === null ? 'Agregar' : 'Editar'}</button>
-                    </form>
-                </div>
-            </div>
-            <div className="table-container">
-                <div className="product-list">
-                    <div className='search-bar'>
-                        <select value={filtroRol} onChange={handleFiltrarRol} className='filtro-paginacion'>
-                            <option value="">Todos los roles</option>
-                            <option value="1">Administrador</option>
-                            <option value="2">Proveedor</option>
-                        </select>
-                        <input type="text" placeholder="Ingresa el ID o el nombre aquí..." value={busqueda} onChange={handleBuscar} />
+            <form onSubmit={submitHandler}>
+                <Grid container spacing={3}>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            fullWidth
+                            label="Nombre"
+                            value={nombre}
+                            onChange={(e) => setNombre(e.target.value)}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            fullWidth
+                            label="Email"
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            fullWidth
+                            label="Contraseña"
+                            type={showPassword ? 'text' : 'password'}
+                            value={contraseña}
+                            onChange={(e) => setContraseña(e.target.value)}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton onClick={togglePasswordVisibility}>
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <FormControl fullWidth>
+                            <InputLabel>Rol</InputLabel>
+                            <Select
+                                value={rol}
+                                onChange={(e) => setRol(parseInt(e.target.value))}
+                            >
+                                <MenuItem value={1}>Administrador</MenuItem>
+                                <MenuItem value={2}>Proveedor</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Button variant="contained" color="primary" type="submit">
+                            {editandoId === null ? 'Agregar' : 'Editar'}
+                        </Button>
+                    </Grid>
+                </Grid>
+            </form>
 
-                        <FontAwesomeIcon icon={faSearch} className="search-icon" />
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Email</th>
-                                <th>Rol</th>
-                                <th>Fecha de Ingreso</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {administradoresFiltrados.map((admin, index) => (
-                                <tr key={admin.id}>
-                                    <td>{index + 1}</td>
-                                    <td>{admin.id}</td>
-                                    <td>{admin.nombre}</td>
-                                    <td>{admin.email}</td>
-                                    <td>{admin.rol === 1 ? 'Administrador' : 'Proveedor'}</td>
-                                    <td>{new Date(admin.fecha_ingreso).toLocaleDateString()}</td>
-                                    <td>
-                                        <button className="edit-btn" onClick={() => editarAdministradorClick(admin)}>Editar</button>
-                                        <button className='delete-btn' onClick={() => eliminarAdministrador(admin.id)}>Eliminar</button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+            <Box sx={{ mt: 4 }}>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} md={4}>
+                        <FormControl fullWidth>
+                            <InputLabel>Filtrar por Rol</InputLabel>
+                            <Select
+                                value={filtroRol}
+                                onChange={(e) => setFiltroRol(e.target.value)}
+                                label="Filtrar por Rol"
+                            >
+                                <MenuItem value="">Todos los Roles</MenuItem>
+                                <MenuItem value={1}>Administrador</MenuItem>
+                                <MenuItem value={2}>Proveedor</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={12} md={8}>
+                        <TextField
+                            fullWidth
+                            label="Buscar por Nombre, Email o ID"
+                            value={busqueda}
+                            onChange={(e) => setBusqueda(e.target.value)}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton>
+                                            <Search />
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </Grid>
+                </Grid>
+            </Box>
+
+            <TableContainer component={Paper} sx={{ mt: 4 }}>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>#</TableCell>
+                            <TableCell>ID</TableCell>
+                            <TableCell>Nombre</TableCell>
+                            <TableCell>Email</TableCell>
+                            <TableCell>Rol</TableCell>
+                            <TableCell>Fecha de Ingreso</TableCell>
+                            <TableCell>Acciones</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {administradoresFiltrados.map((admin, index) => (
+                            <TableRow key={admin.id}>
+                                <TableCell>{index + 1}</TableCell>
+                                <TableCell>{admin.id}</TableCell>
+                                <TableCell>{admin.nombre}</TableCell>
+                                <TableCell>{admin.email}</TableCell>
+                                <TableCell>{admin.rol === 1 ? 'Administrador' : 'Proveedor'}</TableCell>
+                                <TableCell>{new Date(admin.fecha_ingreso).toLocaleDateString()}</TableCell>
+                                <TableCell>
+                                    <Button
+                                        variant="outlined"
+                                        color="primary"
+                                        onClick={() => editarAdministradorClick(admin)}
+                                    >
+                                        Editar
+                                    </Button>
+                                    <Button
+                                        variant="outlined"
+                                        color="secondary"
+                                        onClick={() => eliminarAdministrador(admin.id)}
+                                        sx={{ ml: 2 }}
+                                    >
+                                        Eliminar
+                                    </Button>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Box>
     );
 };
 

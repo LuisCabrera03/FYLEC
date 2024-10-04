@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faSearch,
-
 } from '@fortawesome/free-solid-svg-icons';
+import {
+    Container, Typography, Button, TextField, Select, MenuItem, FormControl, InputLabel, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Modal, IconButton
+} from '@mui/material';
+
 const Usuarios = () => {
     const history = useHistory();
     const [usuarios, setUsuarios] = useState([]);
@@ -18,6 +19,8 @@ const Usuarios = () => {
     const [ordenAscendente, setOrdenAscendente] = useState(true);
     const [paginaActual, setPaginaActual] = useState(1);
     const [usuariosPorPagina, setUsuariosPorPagina] = useState(5);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null); // Estado para el usuario seleccionado
 
     useEffect(() => {
         const adminToken = localStorage.getItem('adminToken');
@@ -38,30 +41,6 @@ const Usuarios = () => {
             setError('Hubo un error al obtener los usuarios. Por favor, inténtalo de nuevo más tarde.');
             setLoading(false);
         }
-    };
-
-    const cerrarSesion = () => {
-        confirmAlert({
-            title: 'Confirmación',
-            message: '¿Estás seguro de que deseas cerrar la sesión?',
-            buttons: [
-                {
-                    label: 'Sí',
-                    onClick: () => {
-                        localStorage.removeItem('adminToken');
-                        history.push('/login');
-                    }
-                },
-                {
-                    label: 'No',
-                    onClick: () => { }
-                }
-            ]
-        });
-    };
-
-    const navegarACrud = () => {
-        history.push("/admin");
     };
 
     const handleFiltroNombreChange = (event) => {
@@ -92,6 +71,16 @@ const Usuarios = () => {
         setPaginaActual(numeroPagina);
     };
 
+    const handleUsuarioClick = (usuario) => {
+        setUsuarioSeleccionado(usuario); // Guardar el usuario seleccionado
+        setModalOpen(true); // Abrir el modal
+    };
+
+    const handleCloseModal = () => {
+        setModalOpen(false); // Cerrar el modal
+        setUsuarioSeleccionado(null); // Limpiar el usuario seleccionado
+    };
+
     const indexOfLastUsuario = paginaActual * usuariosPorPagina;
     const indexOfFirstUsuario = indexOfLastUsuario - usuariosPorPagina;
     const usuariosFiltrados = usuarios.filter(filtrarUsuarios).sort(ordenarUsuarios);
@@ -100,102 +89,132 @@ const Usuarios = () => {
     const totalPages = Math.ceil(usuariosFiltrados.length / usuariosPorPagina);
 
     return (
-        <div className="admin">
-            <div className="header">
-                <div className="header-sliderbar">
-                    <button className="logout-btn" onClick={navegarACrud}>
-                        inicio
-                    </button>
-                    <h1>Panel de Administración</h1>
-                </div>
-                <button className="logout-btn" onClick={cerrarSesion}>
-                    Cerrar Sesión
-                </button>
-            </div>
-            <div className="product-list">
-                <div className="container-filtro">
+        <Container maxWidth="lg">
+            <Box display="flex" justifyContent="space-between" alignItems="center" mt={2}>
+                <Typography variant="h4">Panel de Administración - Usuarios</Typography>
+            </Box>
 
-                    <div className="search-bar">
-                        <select
-                            className="filtro-paginacion"
-                            id="usuariosPorPagina"
-                            value={usuariosPorPagina}
-                            onChange={(e) => setUsuariosPorPagina(Number(e.target.value))}
+            <Box mt={3} display="flex" justifyContent="space-between" alignItems="center">
+                <FormControl variant="outlined" size="small">
+                    <InputLabel id="usuarios-por-pagina-label">Usuarios por Página</InputLabel>
+                    <Select
+                        labelId="usuarios-por-pagina-label"
+                        value={usuariosPorPagina}
+                        onChange={(e) => setUsuariosPorPagina(Number(e.target.value))}
+                        label="Usuarios por Página"
+                    >
+                        <MenuItem value={5}>5</MenuItem>
+                        <MenuItem value={10}>10</MenuItem>
+                        <MenuItem value={15}>15</MenuItem>
+                        <MenuItem value={20}>20</MenuItem>
+                    </Select>
+                </FormControl>
+
+                <TextField
+                    label="Filtrar Por Nombre"
+                    variant="outlined"
+                    size="small"
+                    value={filtroNombre}
+                    onChange={handleFiltroNombreChange}
+                    InputProps={{
+                        endAdornment: (
+                            <IconButton>
+                                <FontAwesomeIcon icon={faSearch} />
+                            </IconButton>
+                        )
+                    }}
+                />
+            </Box>
+
+            {loading ? (
+                <Box display="flex" justifyContent="center" mt={3}>
+                    <p>Cargando...</p>
+                </Box>
+            ) : error ? (
+                <Typography color="error">{error}</Typography>
+            ) : (
+                <TableContainer component={Paper} sx={{ marginTop: 3 }}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell onClick={() => handleOrdenChange('id')}>
+                                    ID {ordenCampo === 'id' && (ordenAscendente ? '▲' : '▼')}
+                                </TableCell>
+                                <TableCell onClick={() => handleOrdenChange('nombre')}>
+                                    Nombre {ordenCampo === 'nombre' && (ordenAscendente ? '▲' : '▼')}
+                                </TableCell>
+                                <TableCell onClick={() => handleOrdenChange('correo')}>
+                                    Email {ordenCampo === 'correo' && (ordenAscendente ? '▲' : '▼')}
+                                </TableCell>
+                                <TableCell onClick={() => handleOrdenChange('sexo')}>
+                                    Sexo {ordenCampo === 'sexo' && (ordenAscendente ? '▲' : '▼')}
+                                </TableCell>
+                                <TableCell onClick={() => handleOrdenChange('tipo_documento')}>
+                                    Tipo de documento {ordenCampo === 'tipo_documento' && (ordenAscendente ? '▲' : '▼')}
+                                </TableCell>
+                                <TableCell onClick={() => handleOrdenChange('numero_documento')}>
+                                    Número de documento {ordenCampo === 'numero_documento' && (ordenAscendente ? '▲' : '▼')}
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {usuariosActuales.map((usuario) => (
+                                <TableRow key={usuario.id} onClick={() => handleUsuarioClick(usuario)} style={{ cursor: 'pointer' }}>
+                                    <TableCell>{usuario.id}</TableCell>
+                                    <TableCell>{usuario.nombre}</TableCell>
+                                    <TableCell>{usuario.correo}</TableCell>
+                                    <TableCell>{usuario.sexo}</TableCell>
+                                    <TableCell>{usuario.tipo_documento}</TableCell>
+                                    <TableCell>{usuario.numero_documento}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            )}
+
+            {totalPages > 1 && (
+                <Box mt={3} display="flex" justifyContent="center">
+                    {Array.from({ length: totalPages }, (_, index) => (
+                        <Button
+                            key={index + 1}
+                            onClick={() => paginar(index + 1)}
+                            variant={paginaActual === index + 1 ? 'contained' : 'outlined'}
+                            color="primary"
+                            size="small"
+                            sx={{ margin: 0.5 }}
                         >
-                            <option value={5}>5</option>
-                            <option value={10}>10</option>
-                            <option value={15}>15</option>
-                            <option value={20}>20</option>
-                        </select>
-                        <input
-                            placeholder="Filtrar Por Nombre"
-                            type="text"
-                            id="filtroNombre"
-                            value={filtroNombre}
-                            onChange={handleFiltroNombreChange}
-                        />
-                        <FontAwesomeIcon icon={faSearch} className="search-icon" />
+                            {index + 1}
+                        </Button>
+                    ))}
+                </Box>
+            )}
 
-                    </div>
-                </div>
-
-
-                <div className="usuarios-table">
-                    {loading ? (
-                        <p>Cargando...</p>
-                    ) : error ? (
-                        <p>{error}</p>
-                    ) : (
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th onClick={() => handleOrdenChange('id')}>
-                                        ID {ordenCampo === 'id' && (ordenAscendente ? '▲' : '▼')}
-                                    </th>
-                                    <th onClick={() => handleOrdenChange('nombre')}>
-                                        Nombre {ordenCampo === 'nombre' && (ordenAscendente ? '▲' : '▼')}
-                                    </th>
-                                    <th onClick={() => handleOrdenChange('correo')}>
-                                        Email {ordenCampo === 'correo' && (ordenAscendente ? '▲' : '▼')}
-                                    </th>
-                                    <th onClick={() => handleOrdenChange('sexo')}>
-                                        Sexo {ordenCampo === 'sexo' && (ordenAscendente ? '▲' : '▼')}
-                                    </th>
-                                    <th onClick={() => handleOrdenChange('tipo_documento')}>
-                                        Tipo de documento {ordenCampo === 'tipo_documento' && (ordenAscendente ? '▲' : '▼')}
-                                    </th>
-                                    <th onClick={() => handleOrdenChange('numero_documento')}>
-                                        Número de documento {ordenCampo === 'numero_documento' && (ordenAscendente ? '▲' : '▼')}
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {usuariosActuales.map((usuario) => (
-                                    <tr key={usuario.id}>
-                                        <td>{usuario.id}</td>
-                                        <td>{usuario.nombre}</td>
-                                        <td>{usuario.correo}</td>
-                                        <td>{usuario.sexo}</td>
-                                        <td>{usuario.tipo_documento}</td>
-                                        <td>{usuario.numero_documento}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+            {/* Modal para mostrar la información del usuario */}
+            <Modal
+                open={modalOpen}
+                onClose={handleCloseModal}
+                aria-labelledby="modal-usuario-title"
+                aria-describedby="modal-usuario-description"
+            >
+                <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+                    {usuarioSeleccionado && (
+                        <>
+                            <Typography id="modal-usuario-title" variant="h6" component="h2">
+                                Información del Usuario
+                            </Typography>
+                            <Typography sx={{ mt: 2 }}>ID: {usuarioSeleccionado.id}</Typography>
+                            <Typography>Nombre: {usuarioSeleccionado.nombre}</Typography>
+                            <Typography>Email: {usuarioSeleccionado.correo}</Typography>
+                            <Typography>Sexo: {usuarioSeleccionado.sexo}</Typography>
+                            <Typography>Tipo de documento: {usuarioSeleccionado.tipo_documento}</Typography>
+                            <Typography>Número de documento: {usuarioSeleccionado.numero_documento}</Typography>
+                            <Typography>Contraseña: {usuarioSeleccionado.password}</Typography>
+                        </>
                     )}
-                </div>
-                {totalPages > 1 && (
-                    <div className="pagination">
-                        {Array.from({ length: totalPages }, (_, index) => (
-                            <button key={index + 1} onClick={() => paginar(index + 1)}>
-                                {index + 1}
-                            </button>
-                        ))}
-                    </div>
-                )}
-
-            </div>
-        </div>
+                </Box>
+            </Modal>
+        </Container>
     );
 };
 

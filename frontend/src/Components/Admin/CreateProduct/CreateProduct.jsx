@@ -1,14 +1,22 @@
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import axios from "axios";
+import {
+  TextField,
+  Button,
+  Box,
+  Grid,
+  Typography,
+  MenuItem,
+  Card,
+  CardContent,
+  CardActions,
+} from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "react-confirm-alert/src/react-confirm-alert.css";
 
 const CreateProduct = () => {
-  const history = useHistory();
   const [codigo, setCodigo] = useState("");
   const [nombre, setNombre] = useState("");
   const [marca, setMarca] = useState("");
@@ -111,17 +119,6 @@ const CreateProduct = () => {
     ],
   };
 
-  useEffect(() => {
-    const verificarAutenticacion = () => {
-      const adminToken = localStorage.getItem("adminToken");
-      if (!adminToken) {
-        history.push("/login");
-      }
-    };
-
-    verificarAutenticacion();
-  }, [history]);
-
   const agregarProducto = async () => {
     if (
       !codigo.trim() ||
@@ -137,35 +134,25 @@ const CreateProduct = () => {
     }
 
     const cantidadNumerica = parseInt(cantidad, 10);
-    const descuentoNumerico = parseFloat(descuento.replace(',', '.')); // Convertir descuento a float
+    const descuentoNumerico = parseFloat(descuento.replace(",", "."));
 
-    if (
-      isNaN(cantidadNumerica) ||
-      cantidadNumerica <= 0 ||
-      isNaN(descuentoNumerico) ||
-      descuentoNumerico < 0
-    ) {
-      toast.error(
-        "Por favor, ingrese valores numéricos válidos y positivos para cantidad y descuento."
-      );
+    if (isNaN(cantidadNumerica) || cantidadNumerica <= 0 || isNaN(descuentoNumerico) || descuentoNumerico < 0) {
+      toast.error("Por favor, ingrese valores numéricos válidos y positivos.");
       return;
     }
 
     try {
-      // Eliminar comas del precio y convertir la coma decimal a punto
-      const precioNumerico = parseFloat(precio.replace(/\./g, '').replace(',', '.'));
-
-      // Enviar los datos al servidor
+      const precioNumerico = parseFloat(precio.replace(/\./g, "").replace(",", "."));
       await axios.post("http://localhost:5000/api/agregar-producto", {
         codigo,
         nombre,
         marca,
         descripcion,
-        cantidad: cantidadNumerica, // Usar el valor numérico
+        cantidad: cantidadNumerica,
         categoria,
         subcategoria,
-        precio: precioNumerico, // Usar el valor numérico
-        descuento: descuentoNumerico, // Usar el valor numérico
+        precio: precioNumerico,
+        descuento: descuentoNumerico,
         imgUrl,
       });
       limpiarCampos();
@@ -190,140 +177,156 @@ const CreateProduct = () => {
   };
 
   const handlePrecioChange = (e) => {
-    // Eliminar todos los caracteres que no sean números o coma (para separar decimales)
-    const inputPrecio = e.target.value.replace(/[^\d,]/g, '');
-
-    // Convertir el valor a formato numérico, eliminando comas y luego colocando comas como separadores de miles
-    let numericPrecio = inputPrecio.replace(',', '.');
-    numericPrecio = numericPrecio.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
+    const inputPrecio = e.target.value.replace(/[^\d,]/g, "");
+    const numericPrecio = inputPrecio.replace(",", ".").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     setPrecio(numericPrecio);
   };
 
   const handleDescuentoChange = (e) => {
-    const inputDescuento = e.target.value;
-    const cleanedDescuento = inputDescuento.replace(/[^\d]/g, "");
-    const numericDescuento = parseFloat(cleanedDescuento.replace(',', '.')); // Convertir a float
-
-    const maxDescuento = 100; 
-    if (numericDescuento > maxDescuento) {
-      setDescuento(maxDescuento.toString());
-      return;
-    }
-
-    setDescuento(cleanedDescuento);
+    const inputDescuento = e.target.value.replace(/[^\d]/g, "");
+    setDescuento(inputDescuento);
   };
 
   return (
-    <div className="admin">
+    <Box sx={{ width: '100%', maxWidth: 800, mx: 'auto', mt: 4 }}>
       <ToastContainer />
-
-      <div className="main-content">
-        <div className="dasboard"></div>
-        <div className="product-form">
-          <h3>Agregar Producto</h3>
-          <span>Código del Producto </span>
-          <input
-            type="text"
-            placeholder="Código"
-            value={codigo}
-            onChange={(e) => setCodigo(e.target.value)}
-          />
-          <span>Nombre del Producto </span>
-          <input
-            type="text"
-            placeholder="Nombre"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
-          />
-          <span>Marca del Producto</span>
-          <input
-            type="text"
-            placeholder="Marca"
-            value={marca}
-            onChange={(e) => setMarca(e.target.value)}
-          />
-          <span>Descripción del Producto </span>
-          <textarea
-            placeholder="Descripción"
-            value={descripcion}
-            onChange={(e) => setDescripcion(e.target.value)}
-          />
-          <span>Cantidad de Productos </span>
-          <input
-            type="number"
-            placeholder="Cantidad"
-            value={cantidad}
-            onChange={(e) => setCantidad(e.target.value)}
-          />
-          <fieldset>
-            <legend>Categoria del Producto</legend>
-            <select
-              value={categoria}
-              onChange={(e) => setCategoria(e.target.value)}
-            >
-              <option value="">Selecciona una categoría</option>
-              {opcionesCategoria.map((opcion, index) => (
-                <option key={index} value={opcion}>
-                  {opcion}
-                </option>
-              ))}
-            </select>
-          </fieldset>
-          <fieldset>
-            <legend>Selecciona una Subcategoría</legend>
-            <select
-              value={subcategoria}
-              onChange={(e) => setSubcategoria(e.target.value)}
-            >
-              <option value="">Selecciona una subcategoría</option>
-              {categoria &&
-                opcionesSubcategoria[categoria] &&
-                opcionesSubcategoria[categoria].map((opcion, index) => (
-                  <option key={index} value={opcion}>
+      <Card>
+        <CardContent>
+          <Typography variant="h5" align="center" gutterBottom>
+            Agregar Producto
+          </Typography>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Código del Producto"
+                variant="outlined"
+                fullWidth
+                value={codigo}
+                onChange={(e) => setCodigo(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Nombre del Producto"
+                variant="outlined"
+                fullWidth
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Marca"
+                variant="outlined"
+                fullWidth
+                value={marca}
+                onChange={(e) => setMarca(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Descripción"
+                variant="outlined"
+                fullWidth
+                multiline
+                rows={4}
+                value={descripcion}
+                onChange={(e) => setDescripcion(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Cantidad"
+                type="number"
+                variant="outlined"
+                fullWidth
+                value={cantidad}
+                onChange={(e) => setCantidad(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                select
+                label="Categoría"
+                variant="outlined"
+                fullWidth
+                value={categoria}
+                onChange={(e) => setCategoria(e.target.value)}
+              >
+                <MenuItem value="">
+                  <em>Selecciona una categoría</em>
+                </MenuItem>
+                {opcionesCategoria.map((opcion, index) => (
+                  <MenuItem key={index} value={opcion}>
                     {opcion}
-                  </option>
+                  </MenuItem>
                 ))}
-            </select>
-          </fieldset>
-          <span>Precio del Producto</span>
-          <div>
-            <input
-              type="text"
-              placeholder="Precio $COP"
-              value={precio}
-              onChange={handlePrecioChange}
-            />
-          </div>
-          <span>Descuento del Producto %</span>
-          <input
-            type="text"
-            placeholder="Descuento (%)"
-            value={descuento}
-            onChange={handleDescuentoChange}
-            className="input-padding"
-          />
-          <span>URL de la Imagen del Producto</span>
-          <input
-            type="text"
-            placeholder="URL de la imagen"
-            value={imgUrl}
-            onChange={(e) => setImgUrl(e.target.value)}
-          />
+              </TextField>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                select
+                label="Subcategoría"
+                variant="outlined"
+                fullWidth
+                value={subcategoria}
+                onChange={(e) => setSubcategoria(e.target.value)}
+              >
+                <MenuItem value="">
+                  <em>Selecciona una subcategoría</em>
+                </MenuItem>
+                {categoria &&
+                  opcionesSubcategoria[categoria]?.map((opcion, index) => (
+                    <MenuItem key={index} value={opcion}>
+                      {opcion}
+                    </MenuItem>
+                  ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Precio"
+                variant="outlined"
+                fullWidth
+                value={precio}
+                onChange={handlePrecioChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Descuento (%)"
+                variant="outlined"
+                fullWidth
+                value={descuento}
+                onChange={handleDescuentoChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="URL de la Imagen"
+                variant="outlined"
+                fullWidth
+                value={imgUrl}
+                onChange={(e) => setImgUrl(e.target.value)}
+              />
+            </Grid>
+          </Grid>
           {imgUrl && (
-            <div className="carrito-img">
-              <img src={imgUrl} alt="Preview" className="preview-image" />
-            </div>
+            <Box sx={{ textAlign: "center", mt: 2 }}>
+              <img src={imgUrl} alt="Preview" style={{ maxWidth: "100%", height: "auto" }} />
+            </Box>
           )}
-          <button className="add-btn" onClick={agregarProducto}>
-            <FontAwesomeIcon icon={faPlus} /> Agregar Producto
-          </button>
-          <button className="clear-btn" onClick={limpiarCampos}>
-            <FontAwesomeIcon icon={faTimes} /> Limpiar Campos
-          </button>
-        </div>
-      </div>
-    </div>
+        </CardContent>
+        <CardActions sx={{ justifyContent: "center" }}>
+          <Button variant="contained" color="primary" onClick={agregarProducto} startIcon={<FontAwesomeIcon icon={faPlus} />}>
+            Agregar Producto
+          </Button>
+          <Button variant="outlined" color="secondary" onClick={limpiarCampos} startIcon={<FontAwesomeIcon icon={faTimes} />}>
+            Limpiar Campos
+          </Button>
+        </CardActions>
+      </Card>
+    </Box>
   );
 };
 

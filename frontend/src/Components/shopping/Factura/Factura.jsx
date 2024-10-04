@@ -3,6 +3,8 @@ import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faScrewdriverWrench, faSearch } from "@fortawesome/free-solid-svg-icons";
 import ProgressBar from './ProgressBar';
+import '../../Admin/Admin.css';
+import { Select, MenuItem, TextField, InputAdornment } from '@mui/material';
 
 function Factura() {
     const [facturas, setFacturas] = useState([]);
@@ -57,20 +59,32 @@ function Factura() {
         <div className='carrito-container'>
             <h1 className='encabezado'>Tus Compras</h1>
             <div className="factura-search">
-                <select value={filter} onChange={handleFilterChange} className='filtro-paginacion'>
-                    <option value="todos">Todos</option>
-                    <option value="esperando">Esperando</option>
-                    <option value="enviando">Enviando</option>
-                    <option value="recibido">Recibido</option>
-                    <option value="entregado">Entregado</option>
-                </select>
-                <input
-                    type="text"
+                <Select
+                    value={filter}
+                    onChange={handleFilterChange}
+                    className='filtro-paginacion'
+                    fullWidth
+                >
+                    <MenuItem value="todos">Todos</MenuItem>
+                    <MenuItem value="esperando">Esperando</MenuItem>
+                    <MenuItem value="enviando">Enviando</MenuItem>
+                    <MenuItem value="recibido">Recibido</MenuItem>
+                    <MenuItem value="entregado">Entregado</MenuItem>
+                </Select>
+                
+                <TextField
                     placeholder="Buscar..."
                     value={searchTerm}
                     onChange={handleSearch}
+                    fullWidth
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <FontAwesomeIcon icon={faSearch} />
+                            </InputAdornment>
+                        ),
+                    }}
                 />
-                <FontAwesomeIcon icon={faSearch} className="search-icon" />
             </div>
             {loading ? (
                 <p>Cargando facturas...</p>

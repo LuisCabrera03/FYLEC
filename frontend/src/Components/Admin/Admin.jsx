@@ -1,151 +1,47 @@
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import "./Admin.css";
-import "react-toastify/dist/ReactToastify.css";
-import "react-confirm-alert/src/react-confirm-alert.css";
-import { confirmAlert } from 'react-confirm-alert';
-import CompradoresChart from './CompradoresChart';
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faBars,
-    faUserGroup,
-    faClock,
-    faBoxesStacked,
-    faSackDollar,
-    faGaugeHigh,
-    faSquarePlus,
-    faCartFlatbed,
-    faUsers,
-    faUserShield
-} from "@fortawesome/free-solid-svg-icons";
-import { UsersRound, ShoppingBasket, DollarSign, } from 'lucide-react';
-
-
-
-import { registerLocale } from "react-datepicker";
-import es from "date-fns/locale/es";
+    Box, Drawer, AppBar, Toolbar, IconButton, Typography, Button, List, ListItem,
+    ListItemIcon, ListItemText, Grid, Card, CardContent, Avatar, ListItemAvatar, Container, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Modal, TextField
+} from "@mui/material";
+import {
+    Menu, Dashboard, People, ShoppingCart, AddBox, ManageAccounts, Logout, Notifications
+} from "@mui/icons-material";
+import { Bar, Line } from 'react-chartjs-2';
+import { Chart, registerables } from 'chart.js';
 import axios from "axios";
 import { formatDistanceToNow } from 'date-fns';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import CreateProduct from "./CreateProduct/CreateProduct";
-registerLocale("es", es);
+import EditProduct from "./EditProduct/EditProduct";
+import Usuarios from "./Usuarios/Usuarios";
+import Ventas from "./Ventas/Ventas";
+import Roles from "./Roles/Roles";
+
+Chart.register(...registerables);
 
 const Admin = () => {
-    const history = useHistory();
-    const [isAdmin, setIsAdmin] = useState(false);
     const [sidebarVisible, setSidebarVisible] = useState(true);
     const [cantidadUsuarios, setCantidadUsuarios] = useState(0);
     const [cantidadProductos, setCantidadProductos] = useState(0);
+    const [productos, setProductos] = useState([]);
     const [cantidadProductosComprados, setCantidadProductosComprados] = useState(0);
     const [notificaciones, setNotificaciones] = useState([]);
-    const [mostrarCRUD, setMostrarCRUD] = useState(false); // Estado para controlar la visibilidad del CRUD
-    const [mostrarInicioState, setMostrarInicio] = useState(false); // Estado para controlar si se muestra la página de inicio
-    const [mostrarBotonesProductos, setMostrarBotonesProductos] = useState(false); // Estado para controlar la visibilidad de los botones "Agregar" y "Administrar"
-    const [botonSeleccionado, setBotonSeleccionado] = useState('Dashboard'); // Estado para almacenar el nombre del botón seleccionado
+    const [mostrarAgregar, setMostrarAgregar] = useState(false);
+    const [mostrarEditar, setMostrarEditar] = useState(false);
+    const [tabSeleccionado, setTabSeleccionado] = useState('Dashboard');
     const [topCompradores, setTopCompradores] = useState([]);
+    const [terminoBusqueda, setTerminoBusqueda] = useState('');
+    const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false);
 
-
-    useEffect(() => {
-        const adminToken = localStorage.getItem('adminToken');
-        const adminRole = localStorage.getItem('adminRole'); // Obtener el rol del almacenamiento local
-        if (!adminToken) {
-            history.push('/login');
-        } else {
-            // Verificar si hay un rol almacenado localmente
-            if (adminRole) {
-                setIsAdmin(adminRole === 'Administrador');
-            } else {
-                // Si no hay un rol almacenado localmente, obtenerlo del servidor
-                obtenerRolAdministrador();
-            }
-        }
-    }, [history]);
-
-    const obtenerRolAdministrador = async () => {
-        try {
-            const adminToken = localStorage.getItem('adminToken');
-            if (!adminToken) {
-                history.push('/login');
-                return;
-            }
-
-            const response = await axios.get('http://localhost:5000/api/rol-admin', {
-                headers: {
-                    'Authorization': `Bearer ${adminToken}`
-                }
-            });
-
-            // Leer el valor del rol de la respuesta
-            const rol = response.data.rol;
-
-            // Almacenar el rol en el almacenamiento local
-            localStorage.setItem('adminRole', rol);
-
-            // Manejar el rol de acuerdo a tus necesidades
-            setIsAdmin(rol === 'Administrador');
-
-        } catch (error) {
-            console.error('Error al obtener el rol del administrador:', error);
-            // Manejar el error adecuadamente (por ejemplo, redirigir a una página de error)
-        }
-    };
-
-    // Función para redirigir al componente de roles si el administrador tiene el rol requerido
-    const gestionarRoles = () => {
-        if (isAdmin) {
-            history.push("/roles");
-        } else {
-            // Mostrar notificación de falta de acceso si el administrador no tiene el rol requerido
-            confirmAlert({
-                title: 'Acceso denegado',
-                message: 'No tienes permiso para acceder a la gestión de roles.',
-                buttons: [
-                    {
-                        label: 'OK',
-                        onClick: () => { }
-                    }
-                ]
-            });
-        }
-    };
     useEffect(() => {
         obtenerCantidadUsuarios();
         obtenerCantidadProductos();
         obtenerDatosCompras();
-
-        // Actualizar notificaciones cada 60 segundos
-        const interval = setInterval(() => {
-            obtenerDatosCompras();
-        }, 60000);
-
-        // Limpiar intervalo al desmontar el componente
+        const interval = setInterval(() => obtenerDatosCompras(), 60000);
         return () => clearInterval(interval);
     }, []);
-
-    const toggleSidebar = () => {
-        setSidebarVisible(!sidebarVisible);
-    };
-
-    const navegarACrud = () => {
-        history.push("/EditProduct");
-    };
-
-    const mostrarAgregarProducto = () => {
-        setMostrarCRUD(true); // Cambiar el estado para mostrar el CRUD
-    };
-
-    const mostrarInicioFunc = () => {
-        setMostrarInicio(true); // Cambiar el estado para mostrar la página de inicio
-        setMostrarCRUD(false); // Ocultar el CRUD
-    };
-
-    const toggleMostrarBotonesProductos = () => {
-        setMostrarBotonesProductos(!mostrarBotonesProductos); // Alternar la visibilidad de los botones "Agregar" y "Administrar"
-    };
-
-    const handleButtonClick = (buttonName) => {
-        setBotonSeleccionado(buttonName); // Actualizar el estado del botón seleccionado
-    };
 
     const obtenerCantidadUsuarios = async () => {
         try {
@@ -160,6 +56,7 @@ const Admin = () => {
         try {
             const response = await axios.get('http://localhost:5000/api/productos');
             setCantidadProductos(response.data.productos.length);
+            setProductos(response.data.productos);
         } catch (error) {
             console.error('Error al obtener la cantidad de productos:', error);
         }
@@ -169,8 +66,8 @@ const Admin = () => {
         try {
             const response = await axios.get('http://localhost:5000/api/comprastotal');
             const compras = response.data.facturas;
-            const ultimasCompras = compras.slice(-5).reverse();
             setCantidadProductosComprados(compras.length);
+            const ultimasCompras = compras.slice(-5).reverse();
             setNotificaciones(ultimasCompras);
 
             const usuariosCompras = {};
@@ -194,23 +91,6 @@ const Admin = () => {
         }
     };
 
-
-    const formatoTiempoTranscurrido = (fecha) => {
-        const segundosTranscurridos = Math.floor((new Date() - new Date(fecha)) / 1000);
-
-        if (segundosTranscurridos < 60) {
-            return 'hace un momento';
-        } else if (segundosTranscurridos < 3600) {
-            const minutosTranscurridos = Math.floor(segundosTranscurridos / 60);
-            return `hace ${minutosTranscurridos} minutos`;
-        } else if (segundosTranscurridos < 86400) {
-            const horasTranscurridas = Math.floor(segundosTranscurridos / 3600);
-            return `hace ${horasTranscurridas} horas`;
-        } else {
-            return formatDistanceToNow(new Date(fecha), { locale: es, addSuffix: true });
-        }
-    };
-
     const cerrarSesion = () => {
         confirmAlert({
             title: 'Confirmación',
@@ -220,108 +100,313 @@ const Admin = () => {
                     label: 'Sí',
                     onClick: () => {
                         localStorage.removeItem('adminToken');
-                        localStorage.removeItem('adminRole'); 
-                        history.push('/login');
+                        window.location.href = '/login';
                     }
                 },
-                {
-                    label: 'No',
-                    onClick: () => { }
-                }
+                { label: 'No', onClick: () => { } }
             ]
         });
     };
 
+    const toggleSidebar = () => {
+        setSidebarVisible(!sidebarVisible);
+    };
+
+    const handleTabChange = (newValue) => {
+        setTabSeleccionado(newValue);
+        setMostrarAgregar(false);
+        setMostrarEditar(false);
+    };
+
+    const handleAgregarProducto = () => {
+        setMostrarAgregar(true);
+        setMostrarEditar(false);
+    };
+
+    const handleEditarProducto = () => {
+        setMostrarAgregar(false);
+        setMostrarEditar(true);
+    };
+
+    const obtenerSaludo = () => {
+        const hora = new Date().getHours();
+        if (hora < 12) return 'días';
+        if (hora < 18) return 'tardes';
+        return 'noches';
+    };
+
+    const dataBarras = {
+        labels: ['Usuarios', 'Productos', 'Ventas'],
+        datasets: [
+            {
+                label: 'Estadísticas',
+                data: [cantidadUsuarios, cantidadProductos, cantidadProductosComprados],
+                backgroundColor: ['#2D9CDB', '#27AE60', '#EB5757'],
+                borderColor: '#FFFFFF',
+                borderWidth: 1,
+            },
+        ],
+    };
+
+    const dataLineas = {
+        labels: topCompradores.map(comp => comp.nombre),
+        datasets: [
+            {
+                label: 'Top Compradores',
+                data: topCompradores.map(comp => comp.compras),
+                borderColor: '#6C63FF',
+                backgroundColor: 'rgba(108,99,255,0.2)',
+                fill: true,
+                tension: 0.4,
+            }
+        ]
+    };
+
+    const handleProductoClick = (producto) => {
+        setProductoSeleccionado(producto);
+        setModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+        setProductoSeleccionado(null);
+    };
+
+    const productosFiltrados = productos.filter(producto =>
+        producto.nombre.toLowerCase().includes(terminoBusqueda.toLowerCase())
+    );
+
     return (
-        <div className="admin">
-            <div className="header">
-                <div className="header-sliderbar">
-                    <FontAwesomeIcon icon={faBars} onClick={toggleSidebar} style={{ color: "#797979", }} />
-                    <h1>Panel de Administración</h1>
-                </div>
-                <button className="logout-btn" onClick={cerrarSesion}>
-                    Cerrar Sesión
-                </button>
-            </div>
-            <div className="content-dash">
-                {sidebarVisible && (
-                    <div className="sidebar-1">
-                        <h2>Bienvenido</h2>
-                        <button className={botonSeleccionado === 'Dashboard' ? 'selected' : ''} onClick={() => { mostrarInicioFunc(); handleButtonClick('Dashboard'); }}>
-                            <FontAwesomeIcon icon={faGaugeHigh} style={{ color: "#ffff", }} /> Dasboard
-                        </button>
-                        <button className={botonSeleccionado === 'Productos' ? 'selected' : ''} onClick={() => { toggleMostrarBotonesProductos(); handleButtonClick('Productos'); }}>
-                            <FontAwesomeIcon icon={faSquarePlus} style={{ color: "#ffffff", }} /> Productos
-                        </button>
-                        {mostrarBotonesProductos && (
-                            <div>
-                                <button className={botonSeleccionado === 'AgregarProducto' ? 'selected' : ''} onClick={() => { mostrarAgregarProducto(); handleButtonClick('AgregarProducto'); }}>
-                                    <FontAwesomeIcon icon={faSquarePlus} style={{ color: "#ffffff", }} /> Agregar un Producto
-                                </button>
-                                <button className={botonSeleccionado === 'AdministrarProductos' ? 'selected' : ''} onClick={() => { navegarACrud(); handleButtonClick('AdministrarProductos'); }}>
-                                    <FontAwesomeIcon icon={faCartFlatbed} style={{ color: "#ffffff", }} /> Administrar Productos
-                                </button>
-                            </div>
+        <Box sx={{ display: 'flex', height: '100vh', backgroundColor: '#F7F9FB', color: '#333' }}>
+            <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: '#1F2937' }}>
+                <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                    {/* Menú lateral y saludo */}
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleSidebar}>
+                            <Menu />
+                        </IconButton>
+                        <Typography variant="h6" sx={{ marginLeft: '16px', fontWeight: 'bold', color: '#FFF' }}>
+                            {`Buenas ${obtenerSaludo()}, Administrador`}
+                        </Typography>
+                    </Box>
+
+                    {/* Cerrar Sesión */}
+                    <Box>
+                        <Button color="inherit" onClick={cerrarSesion} sx={{ textTransform: 'none', fontWeight: 'bold' }}>
+                            <Logout sx={{ marginRight: '8px' }} /> Cerrar Sesión
+                        </Button>
+                    </Box>
+                </Toolbar>
+            </AppBar>
+
+
+            <Drawer variant="permanent" open={sidebarVisible} sx={{
+                width: sidebarVisible ? 240 : 60,
+                flexShrink: 0,
+                transition: "width 0.3s ease",
+                backgroundColor: '#FFFFFF',
+                color: '#333',
+                '& .MuiListItemIcon-root': { color: '#2D9CDB' },
+                '& .MuiListItemText-primary': { color: '#333' }
+            }}>
+                <Toolbar />
+                <Box sx={{ overflow: 'auto' }}>
+                    <List>
+                        <ListItem button onClick={() => handleTabChange('Dashboard')}>
+                            <ListItemIcon><Dashboard /></ListItemIcon>
+                            <ListItemText primary="Dashboard" sx={{ display: sidebarVisible ? 'block' : 'none' }} />
+                        </ListItem>
+                        <ListItem button onClick={() => handleTabChange('Productos')}>
+                            <ListItemIcon><AddBox /></ListItemIcon>
+                            <ListItemText primary="Productos" sx={{ display: sidebarVisible ? 'block' : 'none' }} />
+                        </ListItem>
+                        <ListItem button onClick={() => handleTabChange('Usuarios')}>
+                            <ListItemIcon><People /></ListItemIcon>
+                            <ListItemText primary="Usuarios" sx={{ display: sidebarVisible ? 'block' : 'none' }} />
+                        </ListItem>
+                        <ListItem button onClick={() => handleTabChange('Ventas')}>
+                            <ListItemIcon><ShoppingCart /></ListItemIcon>
+                            <ListItemText primary="Ventas" sx={{ display: sidebarVisible ? 'block' : 'none' }} />
+                        </ListItem>
+                        <ListItem button onClick={() => handleTabChange('Roles')}>
+                            <ListItemIcon><ManageAccounts /></ListItemIcon>
+                            <ListItemText primary="Gestionar Roles" sx={{ display: sidebarVisible ? 'block' : 'none' }} />
+                        </ListItem>
+                    </List>
+                </Box>
+            </Drawer>
+
+            <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8 }}>
+                <Container maxWidth="lg">
+                    <Grid container spacing={3}>
+                        {tabSeleccionado === 'Dashboard' && (
+                            <>
+                                <Grid item xs={12} sm={4}>
+                                    <Card sx={{ backgroundColor: '#2D9CDB', padding: '20px', textAlign: 'center', color: '#FFF' }}>
+                                        <CardContent>
+                                            <Typography variant="h6">Usuarios Registrados</Typography>
+                                            <Typography variant="h4" sx={{ marginTop: '10px' }}>{cantidadUsuarios}</Typography>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                                <Grid item xs={12} sm={4}>
+                                    <Card sx={{ backgroundColor: '#27AE60', padding: '20px', textAlign: 'center', color: '#FFF' }}>
+                                        <CardContent>
+                                            <Typography variant="h6">Productos</Typography>
+                                            <Typography variant="h4" sx={{ marginTop: '10px' }}>{cantidadProductos}</Typography>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                                <Grid item xs={12} sm={4}>
+                                    <Card sx={{ backgroundColor: '#EB5757', padding: '20px', textAlign: 'center', color: '#FFF' }}>
+                                        <CardContent>
+                                            <Typography variant="h6">Ventas Totales</Typography>
+                                            <Typography variant="h4" sx={{ marginTop: '10px' }}>{cantidadProductosComprados}</Typography>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Card sx={{ backgroundColor: '#FFFFFF', padding: '20px', color: '#333' }}>
+                                        <CardContent>
+                                            <Bar data={dataBarras} options={{ responsive: true, maintainAspectRatio: false }} />
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                            </>
                         )}
-                        <button className={botonSeleccionado === 'Usuarios' ? 'selected' : ''} onClick={() => { history.push('/usuarios'); handleButtonClick('Usuarios'); }}>
-                            <FontAwesomeIcon icon={faUsers} style={{ color: "#ffffff", }} /> Usuarios
-                        </button>
-                        <button className={botonSeleccionado === 'Usuarios' ? 'selected' : ''} onClick={() => { history.push('/ventas'); handleButtonClick('Usuarios'); }}>
-                            <FontAwesomeIcon icon={faUsers} style={{ color: "#ffffff", }} /> Ventas
-                        </button>
-                        <button className={botonSeleccionado === 'GestionRoles' ? 'selected' : ''} onClick={gestionarRoles}>
-                            <FontAwesomeIcon icon={faUserShield} style={{ color: "#ffffff", }} /> Gestionar Roles
-                        </button>
-                    </div>
-                )}
-                <div className="container-info">
-                    {!mostrarCRUD && !mostrarInicioState && (
-                        <div>
-                            <div className="usuarios-info">
-                                <p className="estadistica"><UsersRound />
-                                    + {cantidadUsuarios}<small className="user">{cantidadUsuarios} Personas Hacen Parte de FYLEC</small></p>
-                                <p className="estadistica"><ShoppingBasket /> {cantidadProductos} <small>Tienes {cantidadProductos} Productos</small></p>
-                                <p className="estadistica"><DollarSign />{cantidadProductosComprados} <small>Has Vendido {cantidadProductosComprados} Productos </small></p>
-                            </div>
-                            <div className="tarjetas">
-                            <h2>Top Compras</h2>
-                            <CompradoresChart topCompradores={topCompradores} />
-                            
-                            </div>
 
-                        </div>
-                    )}
-                    {mostrarCRUD && <CreateProduct />}
-                    {mostrarInicioState && (
-                        <div>
-                            <div className="usuarios-info">
-                                <p className="estadistica"><FontAwesomeIcon icon={faUserGroup} />
-                                    + {cantidadUsuarios}<small className="user">{cantidadUsuarios} Personas Hacen Parte de FYLEC</small></p>
-                                <p className="estadistica"><FontAwesomeIcon icon={faBoxesStacked} /> {cantidadProductos} <small>Tienes {cantidadProductos} Productos</small></p>
-                                <p className="estadistica"><FontAwesomeIcon icon={faSackDollar} />{cantidadProductosComprados} <small>Has Vendido {cantidadProductosComprados} Productos </small></p>
-                            </div>
+                        {tabSeleccionado === 'Productos' && (
+                            <>
+                                <Grid item xs={12}>
+                                    {!mostrarAgregar && !mostrarEditar && (
+                                        <Box sx={{ textAlign: 'center', marginBottom: 2 }}>
+                                            <Button variant="contained" color="primary" onClick={handleAgregarProducto} sx={{ marginRight: 1 }}>
+                                                Agregar Producto
+                                            </Button>
+                                            <Button variant="contained" color="secondary" onClick={handleEditarProducto}>
+                                                Editar Producto
+                                            </Button>
+                                        </Box>
+                                    )}
+                                    {mostrarAgregar && <CreateProduct />}
+                                    {mostrarEditar && <EditProduct />}
+                                </Grid>
 
-                        </div>
-                    )}
-                </div>
-                <div className="notification">
-                    <h2>NOTIFICACIONES</h2>
-                    <ul>
-                        {notificaciones.map((compra, index) => (
-                            <li key={index}>
-                                <FontAwesomeIcon icon={faClock} className="time" style={{ color: "#74C0FC", }} />
-                                <div>
-                                    <i>{formatoTiempoTranscurrido(compra.fecha_factura)}</i>
-                                    <b>{compra.nombre}</b>
-                                    <p>compró  {compra.producto.nombre}</p>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </div>
-            
-        </div>
+                                <Grid item xs={12} sx={{ marginBottom: 2 }}>
+                                    <TextField
+                                        label="Buscar producto"
+                                        variant="outlined"
+                                        fullWidth
+                                        value={terminoBusqueda}
+                                        onChange={(e) => setTerminoBusqueda(e.target.value)}
+                                    />
+                                </Grid>
+
+                                <Grid item xs={12}>
+                                    <TableContainer component={Paper}>
+                                        <Table aria-label="productos table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell>Código</TableCell>
+                                                    <TableCell>Nombre</TableCell>
+                                                    <TableCell>Marca</TableCell>
+                                                    <TableCell>Cantidad</TableCell>
+                                                    <TableCell>Categoría</TableCell>
+                                                    <TableCell>Precio</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {productosFiltrados.map((producto) => (
+                                                    <TableRow key={producto.id} onClick={() => handleProductoClick(producto)} style={{ cursor: 'pointer' }}>
+                                                        <TableCell>{producto.codigo}</TableCell>
+                                                        <TableCell>{producto.nombre}</TableCell>
+                                                        <TableCell>{producto.marca}</TableCell>
+                                                        <TableCell>{producto.cantidad}</TableCell>
+                                                        <TableCell>{producto.categoria}</TableCell>
+                                                        <TableCell>{producto.precio}</TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                </Grid>
+                            </>
+                        )}
+
+                        {tabSeleccionado === 'Usuarios' && (
+                            <Usuarios />
+                        )}
+                        {
+                            tabSeleccionado === 'Ventas' && (
+                                <Ventas />
+                            )}
+                        {tabSeleccionado === 'Roles' && (
+                            <Roles />
+                        )}
+                        <Modal
+                            open={modalOpen}
+                            onClose={handleCloseModal}
+                            aria-labelledby="modal-product-title"
+                            aria-describedby="modal-product-description"
+                        >
+                            <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+                                {productoSeleccionado && (
+                                    <>
+                                        <Typography id="modal-product-title" variant="h6" component="h2">
+                                            {productoSeleccionado.nombre}
+                                        </Typography>
+                                        <img src={productoSeleccionado.imgUrl} alt={productoSeleccionado.nombre} style={{ width: '100%', marginTop: '10px' }} />
+                                        <Typography id="modal-product-description" sx={{ mt: 2 }}>
+                                            Marca: {productoSeleccionado.marca}
+                                        </Typography>
+                                        <Typography>Categoría: {productoSeleccionado.categoria}</Typography>
+                                        <Typography>Precio: {productoSeleccionado.precio}</Typography>
+                                        <Typography>Descripción: {productoSeleccionado.descripcion}</Typography>
+                                    </>
+                                )}
+                            </Box>
+                        </Modal>
+
+                        {tabSeleccionado === 'Dashboard' && (
+                            <>
+                                <Grid item xs={12}>
+                                    <Card sx={{ backgroundColor: '#FFFFFF', padding: '20px', color: '#333' }}>
+                                        <CardContent>
+                                            <Typography variant="h6">Notificaciones Recientes</Typography>
+                                            <List>
+                                                {notificaciones.map((notificacion, index) => (
+                                                    <ListItem key={index}>
+                                                        <ListItemAvatar>
+                                                            <Avatar sx={{ backgroundColor: '#2D9CDB' }}>
+                                                                <Notifications sx={{ color: '#FFF' }} />
+                                                            </Avatar>
+                                                        </ListItemAvatar>
+                                                        <ListItemText
+                                                            primary={`${notificacion.nombre} compró ${notificacion.producto.nombre}`}
+                                                            secondary={formatDistanceToNow(new Date(notificacion.fecha_factura), { addSuffix: true })}
+                                                            sx={{ color: '#333' }}
+                                                        />
+                                                    </ListItem>
+                                                ))}
+                                            </List>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+
+                                <Grid item xs={12}>
+                                    <Card sx={{ backgroundColor: '#FFFFFF', padding: '20px', color: '#333' }}>
+                                        <CardContent>
+                                            <Line data={dataLineas} options={{ responsive: true, maintainAspectRatio: false }} />
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                            </>
+                        )}
+                    </Grid>
+                </Container>
+            </Box>
+        </Box>
     );
 };
+
 export default Admin;
