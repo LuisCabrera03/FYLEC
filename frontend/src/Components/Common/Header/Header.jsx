@@ -79,7 +79,7 @@ function Header() {
             const token = localStorage.getItem('token');
             if (!token) throw new Error('Token no disponible');
 
-            const response = await fetch('http://localhost:5000/api/profile', {
+            const response = await fetch('http://127.0.0.1:5000/api/profile', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

@@ -27,13 +27,13 @@ function Productos() {
             try {
                 let response;
                 if (categoria) {
-                    response = await axios.get(`http://localhost:5000/api/productos?categoria=${categoria}`);
+                    response = await axios.get(`http://127.0.0.1:5000/api/productos?categoria=${categoria}`);
                 } else if (subcategoria) {
-                    response = await axios.get(`http://localhost:5000/api/productos?subcategoria=${subcategoria}`);
+                    response = await axios.get(`http://127.0.0.1:5000/api/productos?subcategoria=${subcategoria}`);
                 } else if (searchTerm) {
-                    response = await axios.get(`http://localhost:5000/api/productos?search=${searchTerm}`);
+                    response = await axios.get(`http://127.0.0.1:5000/api/productos?search=${searchTerm}`);
                 } else {
-                    response = await axios.get('http://localhost:5000/api/productos');
+                    response = await axios.get('http://127.0.0.1:5000/api/productos');
                 }
                 setProductos(response.data.productos);
                 setTotalPages(Math.ceil(response.data.productos.length / productosPorPagina));
@@ -52,7 +52,7 @@ function Productos() {
             if (subcategoria) {
                 setLoadingRelacionados(true);
                 try {
-                    const response = await axios.get(`http://localhost:5000/api/productos?subcategoria=${subcategoria}`);
+                    const response = await axios.get(`http://127.0.0.1:5000/api/productos?subcategoria=${subcategoria}`);
                     if (response.data.productos.length > 0) {
                         await obtenerProductosRelacionadosPorCategoria(response.data.productos[0].categoria);
                     }
@@ -69,7 +69,7 @@ function Productos() {
 
     const obtenerProductosRelacionadosPorCategoria = async (categoria) => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/productos?categoria=${categoria}`);
+            const response = await axios.get(`http://127.0.0.1:5000/api/productos?categoria=${categoria}`);
             setProductosRelacionados(response.data.productos);
         } catch (error) {
             console.error('Error al obtener productos relacionados:', error);

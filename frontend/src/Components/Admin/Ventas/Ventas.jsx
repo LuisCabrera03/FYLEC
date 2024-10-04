@@ -17,7 +17,7 @@ const Ventas = () => {
     useEffect(() => {
         const obtenerVentas = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/comprastotal');
+                const response = await axios.get('http://127.0.0.1:5000/api/comprastotal');
                 setVentas(response.data.facturas);
             } catch (error) {
                 console.error('Error al obtener los datos de ventas:', error);
@@ -29,7 +29,7 @@ const Ventas = () => {
 
     const handleEstadoChange = async (id, nuevoEstado) => {
         try {
-            await axios.put(`http://localhost:5000/api/comprastotal/${id}`, { estado: nuevoEstado });
+            await axios.put(`http://127.0.0.1:5000/api/comprastotal/${id}`, { estado: nuevoEstado });
             setVentas((ventas) =>
                 ventas.map((venta) =>
                     venta.id === id ? { ...venta, estado: nuevoEstado } : venta

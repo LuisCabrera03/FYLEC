@@ -42,7 +42,7 @@ function Detalle({ match }) {
         try {
             const token = localStorage.getItem("token");
             if (token) {
-                const { data } = await axios.get("http://localhost:5000/api/profile", {
+                const { data } = await axios.get("http://127.0.0.1:5000/api/profile", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setUsuarioId(data.usuario.id);
@@ -72,7 +72,7 @@ function Detalle({ match }) {
         setLoading(true);
         window.scrollTo(0, 0); // Mover la página al principio al cargar el producto
         try {
-            const { data } = await axios.get(`http://localhost:5000/api/productos/${match.params.id}`);
+            const { data } = await axios.get(`http://127.0.0.1:5000/api/productos/${match.params.id}`);
             setProducto(data.producto);
 
             if (data.producto?.subcategoria) {
@@ -87,7 +87,7 @@ function Detalle({ match }) {
 
             if (sesionIniciada) {
                 const token = localStorage.getItem("token");
-                const { data: carritoData } = await axios.get("http://localhost:5000/api/carrito", {
+                const { data: carritoData } = await axios.get("http://127.0.0.1:5000/api/carrito", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 const productosEnCarrito = carritoData.carrito.map(item => item.producto.id);
@@ -108,7 +108,7 @@ function Detalle({ match }) {
 
     const obtenerProductosRelacionados = async (subcategoria) => {
         try {
-            const { data } = await axios.get(`http://localhost:5000/api/productos?subcategoria=${subcategoria}`);
+            const { data } = await axios.get(`http://127.0.0.1:5000/api/productos?subcategoria=${subcategoria}`);
             const productosFiltrados = data.productos.filter(p => p.id !== parseInt(match.params.id));
             setProductosRelacionados(productosFiltrados);
         } catch (error) {
@@ -163,7 +163,7 @@ function Detalle({ match }) {
         }
         try {
             const data = { usuario_id: usuarioId, producto_id: producto.id, cantidad };
-            await axios.post("http://localhost:5000/api/agregar-al-carrito", data);
+            await axios.post("http://127.0.0.1:5000/api/agregar-al-carrito", data);
             setEnCarrito(true);
             mostrarAnimacionTemporal();
         } catch (error) {

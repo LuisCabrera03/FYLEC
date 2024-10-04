@@ -45,7 +45,7 @@ const Admin = () => {
 
     const obtenerCantidadUsuarios = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/usuarios');
+            const response = await axios.get('http://127.0.0.1:5000/api/usuarios');
             setCantidadUsuarios(response.data.usuarios.length);
         } catch (error) {
             console.error('Error al obtener la cantidad de usuarios:', error);
@@ -54,7 +54,7 @@ const Admin = () => {
 
     const obtenerCantidadProductos = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/productos');
+            const response = await axios.get('http://127.0.0.1:5000/api/productos');
             setCantidadProductos(response.data.productos.length);
             setProductos(response.data.productos);
         } catch (error) {
@@ -64,7 +64,7 @@ const Admin = () => {
 
     const obtenerDatosCompras = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/comprastotal');
+            const response = await axios.get('http://127.0.0.1:5000/api/comprastotal');
             const compras = response.data.facturas;
             setCantidadProductosComprados(compras.length);
             const ultimasCompras = compras.slice(-5).reverse();

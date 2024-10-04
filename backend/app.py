@@ -8,8 +8,8 @@ from api import api
 app = Flask(__name__)
 app.config.from_object(Config)
 
-# Configura CORS para permitir el origen del frontend y enviar credenciales
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}}, supports_credentials=True)
+# Configuración de CORS para permitir solicitudes desde fylec.com.co
+CORS(app, resources={r"/*": {"origins": ["https://fylec.com.co", "https://fylec-backend-933c904dabbc.herokuapp.com", "http://localhost:5173"]}}, supports_credentials=True)
 
 # Inicialización de la base de datos y JWT
 db.init_app(app)

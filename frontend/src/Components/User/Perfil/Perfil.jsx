@@ -47,7 +47,7 @@ const Perfil = () => {
       }
 
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/profile', {
+      const response = await fetch('http://127.0.0.1:5000/api/profile', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -154,7 +154,7 @@ const Perfil = () => {
       setError(null);
 
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/actualizar-perfil', {
+      const response = await fetch('http://127.0.0.1:5000/api/actualizar-perfil', {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -188,7 +188,7 @@ const Perfil = () => {
       setError(null);
 
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/cambiar-contrasena', {
+      const response = await fetch('http://127.0.0.1:5000/api/cambiar-contrasena', {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,

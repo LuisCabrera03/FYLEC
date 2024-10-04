@@ -28,7 +28,7 @@ function Categorias() {
 
     const fetchSubcategorias = async (categoria) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/subcategorias?categoria=${encodeURIComponent(categoria)}`);
+            const response = await fetch(`http://127.0.0.1:5000/api/subcategorias?categoria=${encodeURIComponent(categoria)}`);
             const data = await response.json();
             setSubcategorias(data.subcategorias || []);
             const inicialProductosPorSubcategoria = {};
@@ -49,7 +49,7 @@ function Categorias() {
 
         for (const subcategoria of subcategorias) {
             try {
-                const response = await fetch(`http://localhost:5000/api/productos?subcategoria=${encodeURIComponent(subcategoria)}`);
+                const response = await fetch(`http://127.0.0.1:5000/api/productos?subcategoria=${encodeURIComponent(subcategoria)}`);
                 const data = await response.json();
                 productosPorSubcategoria[subcategoria] = data.productos || [];
             } catch (error) {
@@ -62,7 +62,7 @@ function Categorias() {
 
     const fetchProductosPorSubcategoria = async (subcategoria) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/productos?subcategoria=${encodeURIComponent(subcategoria)}`);
+            const response = await fetch(`http://127.0.0.1:5000/api/productos?subcategoria=${encodeURIComponent(subcategoria)}`);
             const data = await response.json();
             setProductosPorSubcategoria(prevState => ({
                 ...prevState,
@@ -75,7 +75,7 @@ function Categorias() {
 
     const fetchAllProducts = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/productos`);
+            const response = await fetch(`http://127.0.0.1:5000/api/productos`);
             const data = await response.json();
             setProductosPorSubcategoria({ "Todos los productos": data.productos || [] });
         } catch (error) {

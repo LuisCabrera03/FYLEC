@@ -22,7 +22,7 @@ const CartasHome = () => {
 
     const obtenerProductosAleatorios = useCallback(async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/productos-aleatorios');
+            const response = await axios.get('http://127.0.0.1:5000/api/productos-aleatorios');
             return response.data.productosAleatorios;
         } catch (error) {
             console.error('Error al obtener productos aleatorios:', error);
@@ -85,7 +85,7 @@ const CartasHome = () => {
 
     const obtenerProductosMinPrecio = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/productos-min-precio');
+            const response = await axios.get('http://127.0.0.1:5000/api/productos-min-precio');
             setProductos(response.data.productosMinPrecio);
         } catch (error) {
             console.error('Error al obtener productos con el precio mínimo:', error);
@@ -94,7 +94,7 @@ const CartasHome = () => {
 
     const obtenerProductosMasDescuento = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/productos-mas-descuento');
+            const response = await axios.get('http://127.0.0.1:5000/api/productos-mas-descuento');
             setProductos(response.data.productosMasDescuento);
         } catch (error) {
             console.error('Error al obtener productos con mayor descuento:', error);
@@ -103,7 +103,7 @@ const CartasHome = () => {
 
     const obtenerProductosMasNuevos = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/productos-mas-nuevos');
+            const response = await axios.get('http://127.0.0.1:5000/api/productos-mas-nuevos');
             setProductos(response.data.productosMasNuevos);
         } catch (error) {
             console.error('Error al obtener productos más nuevos:', error);
@@ -112,7 +112,7 @@ const CartasHome = () => {
 
     const obtenerOfertaRelampago = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/oferta-relampago');
+            const response = await axios.get('http://127.0.0.1:5000/api/oferta-relampago');
             setOfertaRelampago(response.data.oferta);
         } catch (error) {
             console.error('Error al obtener la oferta relámpago:', error);

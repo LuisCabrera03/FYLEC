@@ -32,7 +32,7 @@ function CarritoCompras() {
         try {
             const token = localStorage.getItem('token');
             if (token) {
-                const { data } = await axios.get('http://localhost:5000/api/profile', {
+                const { data } = await axios.get('http://127.0.0.1:5000/api/profile', {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setUsuario(data.usuario);
@@ -62,7 +62,7 @@ function CarritoCompras() {
             const usuarioData = await obtenerPerfilUsuario();
             if (usuarioData) {
                 const token = localStorage.getItem('token');
-                const { data } = await axios.get('http://localhost:5000/api/carrito', {
+                const { data } = await axios.get('http://127.0.0.1:5000/api/carrito', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setCarrito(data.carrito);
@@ -97,7 +97,7 @@ function CarritoCompras() {
     const handleEliminarItem = async (itemId) => {
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`http://localhost:5000/api/carrito/${itemId}`, {
+            await axios.delete(`http://127.0.0.1:5000/api/carrito/${itemId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             const nuevoCarrito = carrito.filter(item => item.id !== itemId);
@@ -111,7 +111,7 @@ function CarritoCompras() {
     const handleVaciarCarrito = async () => {
         try {
             const token = localStorage.getItem('token');
-            await axios.delete('http://localhost:5000/api/carrito/vaciar', {
+            await axios.delete('http://127.0.0.1:5000/api/carrito/vaciar', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setCarrito([]);
@@ -131,7 +131,7 @@ function CarritoCompras() {
     const handleCantidadChange = async (itemId, newCantidad) => {
         try {
             const token = localStorage.getItem('token');
-            await axios.put(`http://localhost:5000/api/carrito/${itemId}`, {
+            await axios.put(`http://127.0.0.1:5000/api/carrito/${itemId}`, {
                 cantidad: newCantidad
             }, {
                 headers: { Authorization: `Bearer ${token}` }

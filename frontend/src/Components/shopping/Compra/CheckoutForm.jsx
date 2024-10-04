@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import React, { useState } from 'react';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { Box, Button, Typography, Paper, RadioGroup, FormControlLabel, Radio, Divider, Grid, useMediaQuery } from '@mui/material';
 import axios from 'axios';
@@ -64,7 +64,7 @@ const CheckoutForm = ({ clientSecret, productos, usuario }) => {
                     };
 
                     const response = await axios.post(
-                        'http://localhost:5000/api/crear-factura',
+                        'http://127.0.0.1:5000/api/crear-factura',
                         facturaData,
                         {
                             headers: {

@@ -23,7 +23,7 @@ const Roles = () => {
 
     const obtenerAdministradores = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/administradores');
+            const response = await axios.get('http://127.0.0.1:5000/api/administradores');
             setAdministradores(response.data.administradores);
         } catch (error) {
             console.error('Error al obtener los administradores:', error);
@@ -32,7 +32,7 @@ const Roles = () => {
 
     const agregarAdministrador = async () => {
         try {
-            const response = await axios.post('http://localhost:5000/api/administradores', {
+            const response = await axios.post('http://127.0.0.1:5000/api/administradores', {
                 nombre: nombre,
                 email: email,
                 contraseña: contraseña,
@@ -58,7 +58,7 @@ const Roles = () => {
 
     const editarAdministrador = async (id) => {
         try {
-            const response = await axios.put(`http://localhost:5000/api/administradores/${id}`, {
+            const response = await axios.put(`http://127.0.0.1:5000/api/administradores/${id}`, {
                 nombre: nombre,
                 email: email,
                 contraseña: contraseña,
@@ -88,7 +88,7 @@ const Roles = () => {
                 cancelButtonText: 'Cancelar'
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    await axios.delete(`http://localhost:5000/api/administradores/${id}`);
+                    await axios.delete(`http://127.0.0.1:5000/api/administradores/${id}`);
                     setAdministradores(administradores.filter(admin => admin.id !== id));
                     Swal.fire('Eliminado', 'El administrador ha sido eliminado.', 'success');
                 }

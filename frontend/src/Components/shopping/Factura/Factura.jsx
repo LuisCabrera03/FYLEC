@@ -20,7 +20,7 @@ function Factura() {
                 if (!token) {
                     throw new Error('No se encontró el token');
                 }
-                const response = await axios.get('http://localhost:5000/api/facturas', {
+                const response = await axios.get('http://127.0.0.1:5000/api/facturas', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

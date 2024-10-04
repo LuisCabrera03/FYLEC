@@ -143,7 +143,7 @@ const CreateProduct = () => {
 
     try {
       const precioNumerico = parseFloat(precio.replace(/\./g, "").replace(",", "."));
-      await axios.post("http://localhost:5000/api/agregar-producto", {
+      await axios.post("http://127.0.0.1:5000/api/agregar-producto", {
         codigo,
         nombre,
         marca,

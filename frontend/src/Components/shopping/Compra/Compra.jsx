@@ -46,7 +46,7 @@ const Compra = ({ match }) => {
                 });
 
                 const productosPromises = itemsArray.map(async (item) => {
-                    const response = await axios.get(`http://localhost:5000/api/productos/${item.id}`);
+                    const response = await axios.get(`http://127.0.0.1:5000/api/productos/${item.id}`);
                     return {
                         ...response.data.producto,
                         cantidad: item.cantidad
@@ -68,7 +68,7 @@ const Compra = ({ match }) => {
         const obtenerUsuario = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get('https://fylec-backend-933c904dabbc.herokuapp.com/api/profile', {
+                const response = await axios.get('http://127.0.0.1:5000/api/profile', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -88,7 +88,7 @@ const Compra = ({ match }) => {
             try {
                 const token = localStorage.getItem('token');
                 const response = await axios.post(
-                    'https://fylec-backend-933c904dabbc.herokuapp.com/api/iniciar-transaccion',
+                    'http://127.0.0.1:5000/api/iniciar-transaccion',
                     {
                         productos: productos.map(producto => ({
                             producto_id: producto.id,

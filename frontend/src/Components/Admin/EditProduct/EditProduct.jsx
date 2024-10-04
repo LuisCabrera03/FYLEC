@@ -52,7 +52,7 @@ const EditProduct = () => {
 
     const obtenerProductos = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/productos');
+            const response = await axios.get('http://127.0.0.1:5000/api/productos');
             setProductos(response.data.productos);
         } catch (error) {
             console.error('Error al obtener productos:', error);
@@ -69,7 +69,7 @@ const EditProduct = () => {
                 return;
             }
 
-            await axios.put(`http://localhost:5000/api/actualizar-producto/${idProductoEditar}`, {
+            await axios.put(`http://127.0.0.1:5000/api/actualizar-producto/${idProductoEditar}`, {
                 codigo,
                 nombre,
                 marca,
@@ -92,7 +92,7 @@ const EditProduct = () => {
 
     const editarProducto = async (id) => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/productos/${id}`);
+            const response = await axios.get(`http://127.0.0.1:5000/api/productos/${id}`);
             const producto = response.data.producto;
             setCodigo(producto.codigo);
             setNombre(producto.nombre);
@@ -126,7 +126,7 @@ const EditProduct = () => {
                     {
                         label: 'Sí',
                         onClick: async () => {
-                            await axios.delete(`http://localhost:5000/api/eliminar-producto/${id}`);
+                            await axios.delete(`http://127.0.0.1:5000/api/eliminar-producto/${id}`);
                             obtenerProductos();
                             toast.success('Producto eliminado exitosamente');
                         }

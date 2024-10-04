@@ -33,7 +33,7 @@ const Usuarios = () => {
 
     const obtenerUsuarios = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/usuarios');
+            const response = await axios.get('http://127.0.0.1:5000/api/usuarios');
             setUsuarios(response.data.usuarios);
             setLoading(false);
         } catch (error) {
